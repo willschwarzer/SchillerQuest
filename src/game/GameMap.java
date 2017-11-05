@@ -16,28 +16,32 @@ public class GameMap implements GameMapInterface {
 		int width = getFileWidth(file);
 
 		if (length == 0) {
-			throw new IllegalArgumentException("Invalid input file - file length is 0");
+			throw new IllegalArgumentException("Invalid input file - length is 0 (file " + file);
 			// TODO figure out how to handle this
 		} else if (width == 0) {
-			throw new IllegalArgumentException("Invalid input file - file width is 0");
+			throw new IllegalArgumentException("Invalid input file - width is 0 (file " + file);
 			// TODO figure out how to handle this
 		} else {
 			map = new char[width][length];
 
 			try {
 				Scanner scanner = new Scanner(file);
-				for (int i = 0; i <= length; i++) {
-					String line = scanner.nextLine();
-					for (int j = 0; j <= width; j++) {
+				for (int y = 0; y < length; y++) {
+					String currentLine = scanner.nextLine();
+					if (currentLine.length() != width) {
+						throw new IllegalArgumentException(
+								"Line " + y + " in file " + file + "has incorrect width (expected " + width + " " +
+								"but was " + currentLine.length() + ")");
+					} else {
+						for (int x = 0; x < currentLine.length(); x++) {
+							map[x][y] = currentLine.charAt(x);
+						}
 					}
-					scanner.nextLine();
 				}
+				return true;
 			} catch (FileNotFoundException e) {
 				throw new IllegalArgumentException("File not found.", e);
 			}
-
-			// TODO FINISH THIS
-
 		}
 	}
 
@@ -47,6 +51,7 @@ public class GameMap implements GameMapInterface {
 			int length = 0;
 			while (scanner.hasNextLine()) {
 				length++;
+				scanner.nextLine();
 			}
 			scanner.close();
 			return length;
@@ -66,10 +71,19 @@ public class GameMap implements GameMapInterface {
 		}
 	}
 
+	public void printMapToConsole() {
+		for (int y = 0; y < map[0].length; y++) {
+			for (int x = 0; x < map.length; x++) {
+				System.out.print(map[x][y]);
+			}
+			System.out.println();
+		}
+	}
+
 	@Override
 	public char[][] getMapAsCharArray() {
-		// TODO implement
-		throw new UnsupportedOperationException("Not yet implemented");
+		// TODO see about whether this can interfere with the original map.
+		return map;
 	}
 
 	@Override
