@@ -5,8 +5,12 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
-public class Game extends JFrame {
+public class Game extends JFrame implements ActionListener {
 
     // Loading levels from files and representing them as 2D arrays
     // has not been implemented yet. This code is pretty gross right now,
@@ -54,6 +58,8 @@ public class Game extends JFrame {
             "##################################################";
     String player = "    @   ";
 
+    ControllerInterface controller = new MainScreenController();
+
     public Game() {
         super();
         setSize(475, 310);
@@ -84,8 +90,14 @@ public class Game extends JFrame {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
         JButton button1 = new JButton("Stats");
         button1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton buttonInv = new JButton("inventory");
+        buttonInv.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonInv.setActionCommand("inventory");
+        buttonInv.addActionListener(this);
         JButton button2 = new JButton("Move");
         button2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button2.setActionCommand("button2");
+        button2.addActionListener(this);
         JButton button3 = new JButton("Attack");
         button3.setAlignmentX(Component.CENTER_ALIGNMENT);
         JButton button4 = new JButton("Defend");
@@ -95,6 +107,7 @@ public class Game extends JFrame {
         buttonPanel.add(button2);
         buttonPanel.add(button3);
         buttonPanel.add(button4);
+        buttonPanel.add(buttonInv);
 
         splitPanel.add(statsPanel);
         splitPanel.add(buttonPanel);
@@ -113,6 +126,14 @@ public class Game extends JFrame {
         tp.setCaretPosition(len);
         tp.setCharacterAttributes(attrSet, false);
         tp.replaceSelection(msg);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("inventory")) {
+            controller.openInventory();
+        } else {
+            System.out.println("Button not yet implemented");
+        }
     }
 
     public static void main(String[] args) {
