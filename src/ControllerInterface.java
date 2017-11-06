@@ -1,5 +1,5 @@
 public interface ControllerInterface {
-    void keyAction(String[] keys);
+    void keyAction(int key);
     void openInventory();
     void openMainScreen();
     void openOptions();

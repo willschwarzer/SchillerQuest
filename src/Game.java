@@ -5,12 +5,11 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+//import java.awt.event.ActionListener;
+//import java.awt.event.KeyListener;
 
-public class Game extends JFrame implements ActionListener {
+public class Game extends JFrame implements ActionListener, KeyListener {
 
     // Loading levels from files and representing them as 2D arrays
     // has not been implemented yet. This code is pretty gross right now,
@@ -67,6 +66,7 @@ public class Game extends JFrame implements ActionListener {
         setTitle("Game Screen");
 
         JTextPane tPane = new JTextPane();
+        tPane.addKeyListener(this);
         tPane.setBackground(Color.BLACK);
         tPane.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         tPane.setForeground(Color.WHITE);
@@ -128,12 +128,28 @@ public class Game extends JFrame implements ActionListener {
         tp.replaceSelection(msg);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("inventory")) {
             controller.openInventory();
         } else {
             System.out.println("Button not yet implemented");
         }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        controller.keyAction(e.getKeyCode());
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        return;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        return;
     }
 
     public static void main(String[] args) {

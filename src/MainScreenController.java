@@ -1,6 +1,6 @@
 public class MainScreenController implements ControllerInterface {
-    public void keyAction(String[] keys) {
-
+    public void keyAction(int key) {
+        System.out.println("You pressed " + key);
     }
 
     public void openInventory() {
