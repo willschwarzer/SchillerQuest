@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class GameMap implements GameMapInterface {
+	/**
+	 * Stores the map tiles in a column-major 2D array.  With (0, 0) at top left, point (x, y) is at map[x][y]
+	 */
 	private char[][] map;
 
 	public GameMap(File file) {
@@ -106,7 +109,14 @@ public class GameMap implements GameMapInterface {
 
 	@Override
 	public char getTileAtLocation(Coordinates coordinates) {
-		// TODO implement
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (coordinates.getX() > map.length) {
+			// TODO figure out how to handle
+			throw new IllegalArgumentException("X coordinate too large");
+		}
+		if (coordinates.getY() > map[0].length) {
+			// TODO figure out how to handle
+			throw new IllegalArgumentException("Y coordinate too large");
+		}
+		return map[coordinates.getX()][coordinates.getY()];
 	}
 }
