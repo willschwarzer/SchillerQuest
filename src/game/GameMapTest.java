@@ -18,20 +18,15 @@ class GameMapTest {
 		GameMap gameMap = new GameMap(file);
 		char[][] output = gameMap.getMapAsCharArray();
 
-		// NOTE that that the graphical representation is flipped diagonally (top right to bottom left, etc.), because
-		// it's stored column-major
-		char[] col0 = {'#', '#', '#', '#', '#', '#', '#'};
-		char[] col1 = {'#', ' ', ' ', ' ', ' ', ' ', '#'};
-		char[] col2 = {'1', '2', '3', '4', '5', '6', '7'};
-		char[] col3 = {'#', ' ', '#', ' ', '#', ' ', '#'};
-		char[] col4 = {'#', ' ', '#', ' ', '#', ' ', '#'};
-		char[] col5 = {'#', ' ', '#', 'x', ' ', ' ', '#'};
-		char[] col6 = {'#', '@', '#', ' ', '#', ' ', '#'};
-		char[] col7 = {'#', ' ', '#', '#', '#', ' ', '#'};
-		char[] col8 = {'#', ' ', ' ', ' ', ' ', ' ', '#'};
-		char[] col9 = {'#', '#', '#', '#', '#', '#', '#'};
+		char[] row0 = {'#', '#', '1', '#', '#', '#', '#', '#', '#', '#'};
+		char[] row1 = {'#', ' ', '2', ' ', ' ', ' ', '@', ' ', ' ', '#'};
+		char[] row2 = {'#', ' ', '3', '#', '#', '#', '#', '#', ' ', '#'};
+		char[] row3 = {'#', ' ', '4', ' ', ' ', 'x', ' ', '#', ' ', '#'};
+		char[] row4 = {'#', ' ', '5', '#', '#', ' ', '#', '#', ' ', '#'};
+		char[] row5 = {'#', ' ', '6', ' ', ' ', ' ', ' ', ' ', ' ', '#'};
+		char[] row6 = {'#', '#', '7', '#', '#', '#', '#', '#', '#', '#'};
 
-		char[][] expected = {col0, col1, col2, col3, col4, col5, col6, col7, col8, col9};
+		char[][] expected = {row0, row1, row2, row3, row4, row5, row6};
 
 		assertArrayEquals(expected, output);
 	}
