@@ -1,39 +1,39 @@
 package game;
 
 public class Controller implements ControllerInterface {
-    public void keyAction(int key) {
-        System.out.println("You pressed " + key);
-    }
+	public void keyAction(int key) {
+		System.out.println("You pressed " + key);
+	}
 
-    public void openInventory() {
-        System.out.println("This is your inventory!");
-    }
+	public void openInventory() {
+		System.out.println("This is your inventory!");
+	}
 
-    public void openMainScreen(){
-        System.out.println("This is the main screen!");
-    }
+	public void openMainScreen() {
+		System.out.println("This is the main screen!");
+	}
 
-    public void openOptions(){
-        System.out.println("These are the options!");
-    }
+	public void openOptions() {
+		System.out.println("These are the options!");
+	}
 
-    public void makeMove(int[] move) {
+	public void makeMove(int[] move) {
 
-    }
+	}
 
-    public void attack(Entity attacker, Entity attackee) {
+	public void attack(Entity attacker, Entity attackee) {
 
-    }
+	}
 
-    public void whatIsTile(Coordinates position) {
+	public void whatIsTile(Coordinates position) {
 
-    }
+	}
 
-    public void pickUp() {
+	public void pickUp() {
 
-    }
+	}
 
-    public void drop(Item item) {
+	public void drop(Item item) {
 
-    }
+	}
 }
