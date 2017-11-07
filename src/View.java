@@ -9,7 +9,7 @@ import java.awt.event.*;
 //import java.awt.event.ActionListener;
 //import java.awt.event.KeyListener;
 
-public class Game extends JFrame implements ActionListener, KeyListener {
+public class View extends JFrame implements ActionListener, KeyListener {
 
     // Loading levels from files and representing them as 2D arrays
     // has not been implemented yet. This code is pretty gross right now,
@@ -57,9 +57,9 @@ public class Game extends JFrame implements ActionListener, KeyListener {
             "##################################################";
     String player = "    @   ";
 
-    ControllerInterface controller = new MainScreenController();
+    ControllerInterface controller = new Controller();
 
-    public Game() {
+    public View() {
         super();
         setSize(475, 310);
         setResizable(false);
@@ -156,7 +156,7 @@ public class Game extends JFrame implements ActionListener, KeyListener {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Game game = new Game();
+                View game = new View();
                 game.setVisible(true);
             }
         });
