@@ -5,70 +5,51 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.io.*;
+import java.util.ArrayList;
 
 public class Game extends JFrame {
 
-    // Loading levels from files and representing them as 2D arrays
-    // has not been implemented yet. This code is pretty gross right now,
-    // but it shows how the elements of the UI are defined.
-
-    String level = "##################################################\n" +
-            "##                     ########\n" +
-            "#####    @   ####                         ####\n" +
-            "###                                       ####\n" +
-            "################            ########     \n" +
-            "###########\n" +
-            "###################     ###########################\n" +
-            "   ####           #    #\n" +
-            "   ####           #    #\n" +
-            "#######       #####    #\n" +
-            "#                 #    #\n" +
-            "#                 #    #\n" +
-            "#                 #    ############\n" +
-            "#                 #               #\n" +
-            "#                 #    ######     #\n" +
-            "#                 #         #     #\n" +
-            "#                 #         #     #\n" +
-            "#\n" +
-            "##################################################";
-
-    String levelA = "##################################################\n" +
-            "##                     ########                  #\n" +
-            "#####";
-    String levelB = "####                         ####   #\n" +
-            "###                                       ####   #\n" +
-            "################            ########             #\n" +
-            "###########                                      #\n" +
-            "###################     ##########################\n" +
-            "   ####           #    #                         #\n" +
-            "   ####           #    #                         #\n" +
-            "#######       #####    #                         #\n" +
-            "#                 #    #                         #\n" +
-            "#                 #    #                         #\n" +
-            "#                 #    ############              #\n" +
-            "#                 #               #              #\n" +
-            "#                 #    ######     #              #\n" +
-            "#                 #         #     #              #\n" +
-            "#                 #         #     #              #\n" +
-            "#                 #         #     #              #\n" +
-            "##################################################";
-    String player = "    @   ";
+    private JTextPane levelTextPane = new JTextPane();
 
     public Game() {
         super();
-        setSize(475, 310);
+
+        // temp implementation of loading levels from file
+        File levelFile = new File("level1.txt");
+        ArrayList<ArrayList<Character>> levelGrid = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(levelFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                ArrayList<Character> chars = new ArrayList<>();
+                for (char c : line.toCharArray()) {
+                    chars.add(c);
+                }
+                levelGrid.add(chars);
+            }
+        } catch (IOException e) {
+            System.out.print(e.getMessage());
+        }
+        // end temp implementation
+
+        setSize(675, 440); // TODO: dynamic resizing
         setResizable(false);
         setTitle("Game Screen");
+        setupTextPane(levelGrid);
+        setupSplitControlPanel();
+        setLocationRelativeTo(null); // center of screen
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
-        JTextPane tPane = new JTextPane();
-        tPane.setBackground(Color.BLACK);
-        tPane.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-        tPane.setForeground(Color.WHITE);
-        appendToPane(tPane, levelA, Color.WHITE);
-        appendToPane(tPane, player, Color.GREEN);
-        appendToPane(tPane, levelB, Color.WHITE);
-        add(tPane);
+    private void setupTextPane(ArrayList<ArrayList<Character>> charGrid) {
+        drawTextOnPane(charGrid);
+        levelTextPane.setBackground(Color.BLACK);
+        levelTextPane.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 18));
+        add(levelTextPane);
+    }
 
+    private void setupSplitControlPanel() {
         JPanel splitPanel = new JPanel();
         splitPanel.setLayout(new GridLayout(0, 1));
         splitPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
@@ -82,26 +63,42 @@ public class Game extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-        JButton button1 = new JButton("Stats");
+        JButton button1 = new JButton("Inventory");
         button1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JButton button2 = new JButton("Move");
+        JButton button2 = new JButton("Ability1");
         button2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JButton button3 = new JButton("Attack");
+        JButton button3 = new JButton("Ability2");
         button3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JButton button4 = new JButton("Defend");
-        button4.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         buttonPanel.add(button1);
         buttonPanel.add(button2);
         buttonPanel.add(button3);
-        buttonPanel.add(button4);
 
         splitPanel.add(statsPanel);
         splitPanel.add(buttonPanel);
         add(splitPanel, BorderLayout.EAST);
+    }
 
-        setLocationRelativeTo(null); // center of screen
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private void drawTextOnPane(ArrayList<ArrayList<Character>> charGrid) {
+        for (ArrayList<Character> row : charGrid) {
+            for (char c : row) {
+                appendToPane(levelTextPane, Character.toString(c), colorForChar(c));
+            }
+            appendToPane(levelTextPane, "\n", Color.white);
+        }
+    }
+
+    private Color colorForChar(char c) {
+        switch (c) {
+            case '@': return Color.green;
+            case 'X': return Color.red;
+            case '*': return Color.cyan;
+            case '$': return Color.yellow;
+            case '%': return Color.magenta;
+            case 'I': return Color.white;
+            case '|': return Color.white;
+            case '_': return Color.white;
+            default: return Color.gray;
+        }
     }
 
     private void appendToPane(JTextPane tp, String msg, Color c)
