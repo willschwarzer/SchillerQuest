@@ -88,26 +88,27 @@ public class View extends JFrame implements ActionListener, KeyListener {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-        JButton button1 = new JButton("Stats");
-        button1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JButton buttonInv = new JButton("inventory");
-        buttonInv.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonInv.setActionCommand("inventory");
-        buttonInv.addActionListener(this);
-        JButton button2 = new JButton("Move");
-        button2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button2.setActionCommand("button2");
-        button2.addActionListener(this);
-        JButton button3 = new JButton("Attack");
-        button3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JButton button4 = new JButton("Defend");
-        button4.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton invButton = new JButton("Inventory");
+        invButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        invButton.setActionCommand("inventory");
+        invButton.addActionListener(this);
+        JButton optionsButton = new JButton("Options");
+        optionsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        optionsButton.setActionCommand("options");
 
-        buttonPanel.add(button1);
-        buttonPanel.add(button2);
-        buttonPanel.add(button3);
-        buttonPanel.add(button4);
-        buttonPanel.add(buttonInv);
+        // To be decided as a group whether we ultimately want these
+        /*JButton buttonDefend = new JButton("Defend");
+        buttonDefend.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonDefend.setActionCommand("defend");
+        buttonDefend.addActionListener(this);
+
+        JButton statsButton = new JButton("Stats");
+        statsButton.setActionCommand("stats");
+        statsButton.addActionListener(this);
+        statsButton.setAlignmentX(Component.CENTER_ALIGNMENT);*/
+
+        buttonPanel.add(invButton);
+        buttonPanel.add(optionsButton);
 
         splitPanel.add(statsPanel);
         splitPanel.add(buttonPanel);

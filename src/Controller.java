@@ -8,11 +8,11 @@ public class Controller implements ControllerInterface {
     }
 
     public void openMainScreen(){
-
+        System.out.println("This is the main screen!");
     }
 
     public void openOptions(){
-
+        System.out.println("These are the options!");
     }
 
     public void makeMove(int[] move) {
