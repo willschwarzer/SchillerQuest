@@ -27,8 +27,7 @@ public class GameMap implements GameMapInterface {
 		} else {
 			map = new char[height][width];
 
-			try {
-				Scanner scanner = new Scanner(file);
+			try (Scanner scanner = new Scanner(file)) {
 				for (int row = 0; row < height; row++) {
 					String currentLine = scanner.nextLine();
 					if (currentLine.length() != width) {
@@ -49,14 +48,12 @@ public class GameMap implements GameMapInterface {
 	}
 
 	private int getFileLength(File file) {
-		try {
-			Scanner scanner = new Scanner(file);
+		try (Scanner scanner = new Scanner(file)) {
 			int length = 0;
 			while (scanner.hasNextLine()) {
 				length++;
 				scanner.nextLine();
 			}
-			scanner.close();
 			return length;
 		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException("File not found.", e);
@@ -64,8 +61,7 @@ public class GameMap implements GameMapInterface {
 	}
 
 	private int getFileWidth(File file) {
-		try {
-			Scanner scanner = new Scanner(file);
+		try (Scanner scanner = new Scanner(file)) {
 			int width = scanner.nextLine().length();
 			scanner.close();
 			return width;
