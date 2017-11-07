@@ -5,9 +5,9 @@ package game;
  */
 public interface GameMapInterface {
 	/**
-	 * Gets the entire map as a 2D array
+	 * Gets the current view of the entire map as a 2D char array
 	 *
-	 * @return the entire map as a 2D array
+	 * @return the current view of the entire map as a 2D char array
 	 */
 	char[][] getMapAsCharArray();
 
@@ -18,7 +18,7 @@ public interface GameMapInterface {
 	 * @param distance    Distance away from the location to include
 	 * @return The specified portion of the map as a 2D array
 	 */
-	char[][] getSquareAreaAroundLocation(Coordinates coordinates, int distance);
+	Tile[][] getSquareAreaAroundLocation(Coordinates coordinates, int distance);
 
 	/**
 	 * Gets the portion of the map in a rectangle around a position.
@@ -28,7 +28,7 @@ public interface GameMapInterface {
 	 * @param height      Distance away from the location in the Y direction to include
 	 * @return The specified portion of the map as a 2D array
 	 */
-	char[][] getRectangularAreaAroundLocation(Coordinates coordinates, int width, int height);
+	Tile[][] getRectangularAreaAroundLocation(Coordinates coordinates, int width, int height);
 
 	/**
 	 * Gets the portion of the map in a circle around a position.
@@ -37,7 +37,7 @@ public interface GameMapInterface {
 	 * @param radius      Radius away from the location to include
 	 * @return The specified portion of the map as a 2D array
 	 */
-	char[][] getCircularAreaAroundLocation(Coordinates coordinates, int radius);
+	Tile[][] getCircularAreaAroundLocation(Coordinates coordinates, int radius);
 
 	/**
 	 * Gets the map at a specified coordinate
@@ -45,5 +45,5 @@ public interface GameMapInterface {
 	 * @param coordinates Location to get the map at
 	 * @return The point of the map
 	 */
-	char getTileAtLocation(Coordinates coordinates);
+	Tile getTileAtLocation(Coordinates coordinates);
 }
