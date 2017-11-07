@@ -12,7 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class GameMapTest {
 	/**
-	 * Tests whether a map can be created properly from a good input file and then output properly as a 2D char array.
+	 * Tests whether a GameMap can be created properly from a proper input file and then output correctly as a 2D char
+	 * array.
 	 */
 	@Test
 	void testCreateMapFromFileAndGetAsCharArray() {

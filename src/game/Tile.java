@@ -24,8 +24,8 @@ public class Tile implements MapViewable {
 		this.entities = new LinkedList<>(entities);
 	}
 
-	public boolean isPassable() {
-		throw new UnsupportedOperationException("isPassable not yet implemented for Tile");
+	public boolean isOccupiable() {
+		throw new UnsupportedOperationException("isOccupiable() not yet implemented for Tile");
 		// TODO figure out how to handle this - allow being on top of certain terrain, items, but not other terrain &
 		// other creatures
 	}
@@ -44,11 +44,11 @@ public class Tile implements MapViewable {
 
 	@Override
 	public char getMapGraphic() {
-		if (!entities.isEmpty()) {
+		if (entities.isEmpty()) {
+			return terrain.getMapGraphic();
+		} else {
 			Entity top = entities.getFirst();
 			return top.getMapGraphic();
-		} else {
-			return terrain.getMapGraphic();
 		}
 	}
 }
