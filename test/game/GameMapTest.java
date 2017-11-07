@@ -11,8 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * JUnit 5 test class for GameMap
  */
 class GameMapTest {
+	/**
+	 * Tests whether a map can be created properly from a good input file and then output properly as a 2D char array.
+	 */
 	@Test
-	void testGetMapAsCharArray() {
+	void testCreateMapFromFileAndGetAsCharArray() {
 		// TODO have this check more generally (randomized each time?)
 		File file = new File("test/resources/map.txt");
 		GameMap gameMap = new GameMap(file);
@@ -31,24 +34,24 @@ class GameMapTest {
 		assertArrayEquals(expected, output);
 	}
 
-	@Disabled("Not yet implemented")
+	@Disabled("testGetSquareAreaAroundLocation() not yet implemented")
 	@Test
-	void getSquareAreaAroundLocation() {
+	void testGetSquareAreaAroundLocation() {
 	}
 
-	@Disabled("Not yet implemented")
+	@Disabled("testGetRectangularAreaAroundLocation() not yet implemented")
 	@Test
-	void getRectangularAreaAroundLocation() {
+	void testGetRectangularAreaAroundLocation() {
 	}
 
-	@Disabled("Not yet implemented")
+	@Disabled("testGetCircularAreaAroundLocation() not yet implemented")
 	@Test
-	void getCircularAreaAroundLocation() {
+	void testGetCircularAreaAroundLocation() {
 	}
 
-	@Disabled("Not yet implemented")
+	@Disabled("testGetTileAtLocation() not yet implemented")
 	@Test
-	void getTileAtLocation() {
+	void testGetTileAtLocation() {
 	}
 
 }

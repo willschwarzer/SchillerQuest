@@ -6,14 +6,26 @@ import java.util.Scanner;
 
 public class GameMap implements GameMapInterface {
 	/**
-	 * Stores the map tiles in a row-major 2D array.  With (0, 0) at top left, point (col x, row y) is at map[row y][col x]
+	 * Stores the map tiles in a row-major 2D array.  With (0, 0) at top left, point (col x, row y) is at
+	 * map[row y][col x]
 	 */
 	private char[][] map;
 
+	/**
+	 * Creates a GameMap from a given file.  The file must have lines of uniform length.
+	 *
+	 * @param file The file to build the map from
+	 */
 	public GameMap(File file) {
 		buildMapFromFile(file);
 	}
 
+	/**
+	 * Builds the map from the given file.  The file must have lines of uniform length.
+	 *
+	 * @param file File to build the map from
+	 * @return
+	 */
 	private boolean buildMapFromFile(File file) {
 		int height = getFileLength(file);
 		int width = getFileWidth(file);
@@ -47,6 +59,12 @@ public class GameMap implements GameMapInterface {
 		}
 	}
 
+	/**
+	 * Gets the height of the given file.
+	 *
+	 * @param file File to get the height of
+	 * @return Height of the given file
+	 */
 	private int getFileLength(File file) {
 		try (Scanner scanner = new Scanner(file)) {
 			int length = 0;
@@ -60,6 +78,12 @@ public class GameMap implements GameMapInterface {
 		}
 	}
 
+	/**
+	 * Gets the width of the first line of the given file
+	 *
+	 * @param file File to get the width of
+	 * @return Width of the given file
+	 */
 	private int getFileWidth(File file) {
 		try (Scanner scanner = new Scanner(file)) {
 			int width = scanner.nextLine().length();
@@ -70,6 +94,9 @@ public class GameMap implements GameMapInterface {
 		}
 	}
 
+	/**
+	 * Prints out the map to the console.
+	 */
 	public void printMapToConsole() {
 		for (int row = 0; row < map.length; row++) {
 			for (int col = 0; col < map[0].length; col++) {
@@ -80,7 +107,9 @@ public class GameMap implements GameMapInterface {
 	}
 
 	/**
-	 * Get the GameMap as a row-major 2D char array.  With (0, 0) at top left, point (col x, row y) is at map[row y][col x]
+	 * Get the GameMap as a row-major 2D char array.  With (0, 0) at top left, point (col x, row y) is at
+	 * map[row y][col x]
+	 *
 	 * @return the GameMap as a row-major 2D char array
 	 */
 	@Override
