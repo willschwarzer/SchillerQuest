@@ -1,3 +1,5 @@
+package game;
+
 public class Controller implements ControllerInterface {
     public void keyAction(int key) {
         System.out.println("You pressed " + key);

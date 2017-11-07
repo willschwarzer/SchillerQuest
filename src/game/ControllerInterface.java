@@ -1,3 +1,5 @@
+package game;
+
 public interface ControllerInterface {
     void keyAction(int key);
     void openInventory();
