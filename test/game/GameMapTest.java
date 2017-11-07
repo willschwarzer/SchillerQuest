@@ -14,7 +14,7 @@ class GameMapTest {
 	@Test
 	void testGetMapAsCharArray() {
 		// TODO have this check more generally (randomized each time?)
-		File file = new File("src/game/map.txt");
+		File file = new File("test/resources/map.txt");
 		GameMap gameMap = new GameMap(file);
 		char[][] output = gameMap.getMapAsCharArray();
 
