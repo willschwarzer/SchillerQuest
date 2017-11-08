@@ -1,12 +1,16 @@
 package game;
 
-public class Game {
-    public void main(String[] args) {
-        ControllerInterface controller = new Controller();
-        View view = new View();
-        GameMap map = new GameMap("level1.txt");
+import java.io.File;
 
-        controller.setView(view);
-        controller.setGameMap(map);
-    }
+public class Game {
+	public static void main(String[] args) {
+		ControllerInterface controller = new Controller();
+		LevelView view = new LevelView();
+		GameMap map = new GameMap(new File("level1.txt"));
+
+		// TODO get all of this initialization finished
+		controller.setView(view);
+		controller.setGameMap(map);
+		view.setVisible(true);
+	}
 }

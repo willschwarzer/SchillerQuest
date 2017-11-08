@@ -19,7 +19,7 @@ public interface ControllerInterface {
 
 	void drop(Item item);
 
-	void setView(View view);
+	void setView(LevelView view);
 
 	void setGameMap(GameMap map);
 }

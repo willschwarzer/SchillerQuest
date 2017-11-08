@@ -1,7 +1,7 @@
 package game;
 
 public class Controller implements ControllerInterface {
-	private View view;
+	private LevelView view;
 	private GameMap map;
 
 	public void keyAction(int key) {
@@ -40,7 +40,7 @@ public class Controller implements ControllerInterface {
 
 	}
 
-	public void setView(View view) {
+	public void setView(LevelView view) {
 		this.view = view;
 	}
 
