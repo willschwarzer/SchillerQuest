@@ -1,6 +1,9 @@
 package game;
 
 public class Controller implements ControllerInterface {
+	private View view;
+	private GameMap map;
+
 	public void keyAction(int key) {
 		System.out.println("You pressed " + key);
 	}
@@ -35,5 +38,13 @@ public class Controller implements ControllerInterface {
 
 	public void drop(Item item) {
 
+	}
+
+	public void setView(View view) {
+		this.view = view;
+	}
+
+	public void setGameMap(GameMap map) {
+		this.map = map;
 	}
 }

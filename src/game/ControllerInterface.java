@@ -18,4 +18,8 @@ public interface ControllerInterface {
 	void pickUp();
 
 	void drop(Item item);
+
+	void setView(View view);
+
+	void setGameMap(GameMap map);
 }
