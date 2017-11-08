@@ -102,7 +102,7 @@ public class GameMap implements GameMapInterface {
 	public void printMapToConsole() {
 		for (int row = 0; row < map.length; row++) {
 			for (int col = 0; col < map[0].length; col++) {
-				System.out.print(map[row][col]);
+				System.out.print(map[row][col].getMapGraphic());
 			}
 			System.out.println();
 		}
