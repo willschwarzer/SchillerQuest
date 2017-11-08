@@ -14,12 +14,12 @@ import java.awt.event.KeyListener;
 import java.io.*;
 import java.util.ArrayList;
 
-public class View extends JFrame implements ActionListener, KeyListener {
+public class LevelView extends JFrame implements ActionListener, KeyListener {
 
 	private JTextPane levelTextPane = new JTextPane();
 	ControllerInterface controller = new Controller();
 
-	public View() {
+	public LevelView() {
 		super();
 
 		// temp implementation of loading levels from file
@@ -148,7 +148,7 @@ public class View extends JFrame implements ActionListener, KeyListener {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				View game = new View();
+				LevelView game = new LevelView();
 				game.setVisible(true);
 			}
 		});
