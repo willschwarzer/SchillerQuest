@@ -24,10 +24,6 @@ public class Controller implements ControllerInterface {
 
 	}
 
-	public void attack(Entity attacker, Entity attackee) {
-
-	}
-
 	public void whatIsTile(Coordinates position) {
 
 	}
@@ -37,6 +33,14 @@ public class Controller implements ControllerInterface {
 	}
 
 	public void drop(Item item) {
+
+	}
+
+	public void equip(Item item) {
+
+	}
+
+	public void unequip(Item item) {
 
 	}
 
