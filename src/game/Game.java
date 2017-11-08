@@ -7,10 +7,15 @@ public class Game {
 		ControllerInterface controller = new Controller();
 		LevelView view = new LevelView();
 		GameMap map = new GameMap(new File("level1.txt"));
+		GameModel model = new GameModel();
 
 		// TODO get all of this initialization finished
 		controller.setView(view);
-		controller.setGameMap(map);
+		controller.setGameModel(model);
+
+		view.setController(controller);
 		view.setVisible(true);
+
+		model.setGameMap(map);
 	}
 }

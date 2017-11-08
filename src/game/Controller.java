@@ -2,7 +2,7 @@ package game;
 
 public class Controller implements ControllerInterface {
 	private LevelView view;
-	private GameMap map;
+	private GameModel model;
 
 	public void keyAction(int key) {
 		System.out.println("You pressed " + key);
@@ -44,7 +44,7 @@ public class Controller implements ControllerInterface {
 		this.view = view;
 	}
 
-	public void setGameMap(GameMap map) {
-		this.map = map;
+	public void setGameModel(GameModel model) {
+		this.model = model;
 	}
 }

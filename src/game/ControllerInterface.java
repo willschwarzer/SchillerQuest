@@ -21,5 +21,5 @@ public interface ControllerInterface {
 
 	void setView(LevelView view);
 
-	void setGameMap(GameMap map);
+	void setGameModel(GameModel model);
 }

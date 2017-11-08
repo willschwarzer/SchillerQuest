@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class LevelView extends JFrame implements ActionListener, KeyListener {
 
 	private JTextPane levelTextPane = new JTextPane();
-	ControllerInterface controller = new Controller();
+	private ControllerInterface controller;
 
 	public LevelView() {
 		super();
@@ -151,17 +151,10 @@ public class LevelView extends JFrame implements ActionListener, KeyListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		return;
+	public void keyTyped(KeyEvent e) { return; }
+
+	public void setController(ControllerInterface controller) {
+		this.controller = controller;
 	}
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				LevelView game = new LevelView();
-				game.setVisible(true);
-			}
-		});
-	}
 }
