@@ -44,6 +44,7 @@ public class Game extends JFrame {
 
     private void setupTextPane(ArrayList<ArrayList<Character>> charGrid) {
         drawTextOnPane(charGrid);
+        levelTextPane.setEditable(false);
         levelTextPane.setBackground(Color.BLACK);
         levelTextPane.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 18));
         add(levelTextPane);
