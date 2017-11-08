@@ -1,8 +1,6 @@
 package game;
 
-import java.util.Observable;
-
-public class GameModel extends Observable {
+public class GameModel {
     GameMap map;
 
     public void moveCreature(Creature creature, int[] move) {
