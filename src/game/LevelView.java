@@ -100,20 +100,28 @@ public class LevelView extends JFrame implements ActionListener, KeyListener {
 
 	private Color colorForChar(char c) {
 		switch (c) {
-			case '@': return Color.green;
-			case 'X': return Color.red;
-			case '*': return Color.cyan;
-			case '$': return Color.yellow;
-			case '%': return Color.magenta;
-			case 'I': return Color.white;
-			case '|': return Color.white;
-			case '_': return Color.white;
-			default: return Color.gray;
+			case '@':
+				return Color.green;
+			case 'X':
+				return Color.red;
+			case '*':
+				return Color.cyan;
+			case '$':
+				return Color.yellow;
+			case '%':
+				return Color.magenta;
+			case 'I':
+				return Color.white;
+			case '|':
+				return Color.white;
+			case '_':
+				return Color.white;
+			default:
+				return Color.gray;
 		}
 	}
 
-	private void appendToPane(JTextPane tp, String msg, Color c)
-	{
+	private void appendToPane(JTextPane tp, String msg, Color c) {
 		StyleContext sc = StyleContext.getDefaultStyleContext();
 		AttributeSet attrSet = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 
