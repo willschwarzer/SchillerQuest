@@ -77,6 +77,9 @@ public class LevelView extends JFrame implements ActionListener, KeyListener {
 		button2.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JButton button3 = new JButton("Ability2");
 		button3.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button1.addActionListener(this);
+		button2.addActionListener(this);
+		button3.addActionListener(this);
 		buttonPanel.add(button1);
 		buttonPanel.add(button2);
 		buttonPanel.add(button3);
