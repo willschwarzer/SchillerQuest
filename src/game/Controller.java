@@ -5,7 +5,21 @@ public class Controller implements ControllerInterface {
 	private GameModel model;
 
 	public void keyAction(int key) {
-		System.out.println("You pressed " + key);
+		if (key >= 37 && key <= 40) {
+			int[] direction = new int[2];
+			if (key == 37) {
+				direction = new int[] {-1, 0};
+			} else if (key == 38) {
+				direction = new int[] {0, -1};
+			} else if (key == 39) {
+				direction = new int[] {1, 0};
+			} else {
+				direction = new int[] {0, 1};
+			}
+			makeMove(direction);
+		} else {
+			System.out.println("Key not yet implemented.");
+		}
 	}
 
 	public void openInventory() {
