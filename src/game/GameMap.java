@@ -26,6 +26,8 @@ public class GameMap implements GameMapInterface {
 	 * @param file File to build the map from
 	 * @return
 	 */
+	Player player;
+
 	private boolean buildMapFromFile(File file) {
 		int height = getFileLength(file);
 		int width = getFileWidth(file);
