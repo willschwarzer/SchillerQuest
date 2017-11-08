@@ -6,7 +6,7 @@ public class Game {
 	public static void main(String[] args) {
 		ControllerInterface controller = new Controller();
 		LevelView view = new LevelView();
-		GameMap map = new GameMap(new File("level1.txt"));
+		GameMap map = new GameMap(new File("src/resources/level1.txt"));
 		GameModel model = new GameModel();
 
 		// TODO get all of this initialization finished

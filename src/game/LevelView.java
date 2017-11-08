@@ -23,7 +23,7 @@ public class LevelView extends JFrame implements ActionListener, KeyListener {
 		super();
 
 		// temp implementation of loading levels from file
-		File levelFile = new File("level1.txt");
+		File levelFile = new File("src/resources/level1.txt");
 		ArrayList<ArrayList<Character>> levelGrid = new ArrayList<>();
 
 		try (BufferedReader br = new BufferedReader(new FileReader(levelFile))) {
