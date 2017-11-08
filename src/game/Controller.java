@@ -35,7 +35,8 @@ public class Controller implements ControllerInterface {
 	}
 
 	public void makeMove(int[] move) {
-
+		Player player = model.getPlayer();
+		model.moveCreature(player, move);
 	}
 
 	public void whatIsTile(Coordinates position) {
