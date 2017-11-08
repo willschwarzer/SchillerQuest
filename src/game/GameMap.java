@@ -6,10 +6,10 @@ import java.util.Scanner;
 
 public class GameMap implements GameMapInterface {
 	/**
-	 * Stores the map tiles in a row-major 2D array.  With (0, 0) at top left, point (col x, row y) is at
+	 * Stores the map tiles in a row-major 2D Tile array.  With (0, 0) at top left, point (col x, row y) is at
 	 * map[row y][col x]
 	 */
-	private char[][] map;
+	private Tile[][] map;
 
 	/**
 	 * Creates a GameMap from a given file.  The file must have lines of uniform length.
@@ -37,7 +37,7 @@ public class GameMap implements GameMapInterface {
 			throw new IllegalArgumentException("Invalid input file - width is 0 (file " + file);
 			// TODO figure out how to handle this
 		} else {
-			map = new char[height][width];
+			map = new Tile[height][width];
 
 			try (Scanner scanner = new Scanner(file)) {
 				for (int row = 0; row < height; row++) {
@@ -48,7 +48,9 @@ public class GameMap implements GameMapInterface {
 								"but was " + currentLine.length() + ")");
 					} else {
 						for (int col = 0; col < currentLine.length(); col++) {
-							map[row][col] = currentLine.charAt(col);
+							Terrain terrain = new Terrain(currentLine.charAt(col));
+							Tile tile = new Tile(terrain);
+							map[row][col] = tile;
 						}
 					}
 				}
@@ -100,44 +102,51 @@ public class GameMap implements GameMapInterface {
 	public void printMapToConsole() {
 		for (int row = 0; row < map.length; row++) {
 			for (int col = 0; col < map[0].length; col++) {
-				System.out.print(map[row][col]);
+				System.out.print(map[row][col].getMapGraphic());
 			}
 			System.out.println();
 		}
 	}
 
 	/**
-	 * Get the GameMap as a row-major 2D char array.  With (0, 0) at top left, point (col x, row y) is at
-	 * map[row y][col x]
+	 * Returns the current view of the GameMap as a row-major 2D char array.  With (0, 0) at top left, point (col x,
+	 * row y) is at map[row y][col x].  This only displays the 'top' of each Tile.
 	 *
-	 * @return the GameMap as a row-major 2D char array
+	 * @return the current view of the GameMap as a row-major 2D char array
 	 */
 	@Override
 	public char[][] getMapAsCharArray() {
-		// TODO see about whether this can interfere with the original map.
-		return map;
+		char[][] array = new char[map.length][map[0].length];
+
+		for (int row = 0; row < map.length; row++) {
+			for (int col = 0; col < map[0].length; col++) {
+				array[row][col] = map[row][col].getMapGraphic();
+			}
+		}
+
+		return array;
 	}
 
 	@Override
-	public char[][] getSquareAreaAroundLocation(Coordinates coordinates, int distance) {
+	public Tile[][] getSquareAreaAroundLocation(Coordinates coordinates, int distance) {
 		// TODO implement
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	@Override
-	public char[][] getRectangularAreaAroundLocation(Coordinates coordinates, int width, int height) {
+	public Tile[][] getRectangularAreaAroundLocation(Coordinates coordinates, int width, int height) {
 		// TODO implement
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	@Override
-	public char[][] getCircularAreaAroundLocation(Coordinates coordinates, int radius) {
+	public Tile[][] getCircularAreaAroundLocation(Coordinates coordinates, int radius) {
 		// TODO implement
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	@Override
-	public char getTileAtLocation(Coordinates coordinates) {
+	public Tile getTileAtLocation(Coordinates coordinates) {
 		if (coordinates.getX() > map[0].length) {
 			// TODO figure out how to handle
 			throw new IllegalArgumentException("X coordinate too large");
