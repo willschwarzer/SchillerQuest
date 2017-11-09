@@ -1,28 +1,25 @@
 package game;
 
 public abstract class Entity implements MapViewable {
-    Coordinates coordinates;
-    boolean occupyable;
-    char graphic;
+	Coordinates coordinates;
+	boolean occupiable;
+	char graphic;
 
-    abstract public String getInfo();
+	abstract public String getInfo();
 
-    public Coordinates getCoordinates() {
-        return coordinates;
-    }
+	public Coordinates getCoordinates() {
+		return coordinates;
+	}
 
-   public char getMapGraphic() {
-        return graphic;
-    }
+	public char getMapGraphic() {
+		return graphic;
+	}
 
-   public void setCoordinates(Coordinates coor) {
+	public void setCoordinates(Coordinates coordinates) {
+		this.coordinates = coordinates;
+	}
 
-        coordinates = coor;
-   }
-
-   public boolean isOccupyable() {
-        return occupyable;
-    }
-
-
+	public boolean isOccupiable() {
+		return occupiable;
+	}
 }
