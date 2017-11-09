@@ -11,7 +11,7 @@ import java.awt.event.*;
 //import java.awt.event.ActionListener;
 //import java.awt.event.KeyListener;
 
-public class View extends JFrame implements ActionListener, KeyListener {
+public class View extends JFrame implements ActionListener, KeyListener, Observer {
 
 	// Loading levels from files and representing them as 2D arrays
 	// has not been implemented yet. This code is pretty gross right now,
@@ -164,5 +164,9 @@ public class View extends JFrame implements ActionListener, KeyListener {
 				game.setVisible(true);
 			}
 		});
+	}
+
+	public void update(char[][] newMap) {
+		throw new UnsupportedOperationException("update() not yet supported for View");
 	}
 }

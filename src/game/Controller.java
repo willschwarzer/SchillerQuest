@@ -1,6 +1,34 @@
 package game;
 
-public class Controller implements ControllerInterface {
+import java.util.ArrayList;
+
+public class Controller implements ControllerInterface, Subject, Observer {
+	private ArrayList observers;
+	private char[][] temp;
+
+	public void addObserver(Observer o){
+
+		observers.add(o);
+	}
+
+	public void removeObserver(Observer o){
+		int i = observers.indexOf(o);
+		if (i >= 0) {
+			observers.remove(i);
+		}
+	}
+
+	public void notifyObservers() {
+		for (int i = 0; i < observers.size(); i++){
+			Observer obs = (Observer)observers.get(i);
+			obs.update(temp);
+		}
+	}
+
+	public void update(char[][] map) {
+		this.temp = map;
+	}
+
 	public void keyAction(int key) {
 		System.out.println("You pressed " + key);
 	}

@@ -1,4 +1,6 @@
 package game;
 
-public abstract class Item extends Entity implements MapViewable {
+public abstract class Item extends Entity {
+
+
 }
