@@ -151,7 +151,9 @@ public class LevelView extends JFrame implements ActionListener, KeyListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) { return; }
+	public void keyTyped(KeyEvent e) {
+		return;
+	}
 
 	public void setController(ControllerInterface controller) {
 		this.controller = controller;

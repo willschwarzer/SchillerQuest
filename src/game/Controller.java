@@ -8,13 +8,13 @@ public class Controller implements ControllerInterface {
 		if (key >= 37 && key <= 40) {
 			int[] direction = new int[2];
 			if (key == 37) {
-				direction = new int[] {-1, 0};
+				direction = new int[]{-1, 0};
 			} else if (key == 38) {
-				direction = new int[] {0, -1};
+				direction = new int[]{0, -1};
 			} else if (key == 39) {
-				direction = new int[] {1, 0};
+				direction = new int[]{1, 0};
 			} else {
-				direction = new int[] {0, 1};
+				direction = new int[]{0, 1};
 			}
 			makeMove(direction);
 		} else {

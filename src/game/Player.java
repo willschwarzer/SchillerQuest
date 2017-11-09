@@ -8,5 +8,6 @@ public class Player extends Creature {
 
 	@Override
 	public char getMapGraphic() {
-		throw new UnsupportedOperationException("getMapGraphic() not yet supported for Player");	}
+		throw new UnsupportedOperationException("getMapGraphic() not yet supported for Player");
+	}
 }
