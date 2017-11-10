@@ -1,9 +1,9 @@
 package game;
 
 public interface Subject {
-	void addObserver(Observer o);
+	boolean addObserver(Observer o);
 
-	void removeObserver(Observer o);
+	boolean removeObserver(Observer o);
 
 	void notifyObservers();
 }

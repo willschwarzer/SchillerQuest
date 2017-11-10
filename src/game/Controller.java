@@ -1,29 +1,29 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Controller implements ControllerInterface, Subject, Observer {
-	private ArrayList observers;
+	private List<Observer> observers;
 	private char[][] temp;
 	private LevelView view;
 	private GameModel model;
 
-	public void addObserver(Observer o){
-
-		observers.add(o);
+	public Controller() {
+		observers = new ArrayList<>();
 	}
 
-	public void removeObserver(Observer o){
-		int i = observers.indexOf(o);
-		if (i >= 0) {
-			observers.remove(i);
-		}
+	public boolean addObserver(Observer o) {
+		return observers.add(o);
+	}
+
+	public boolean removeObserver(Observer o) {
+		return observers.remove(o);
 	}
 
 	public void notifyObservers() {
-		for (int i = 0; i < observers.size(); i++){
-			Observer obs = (Observer)observers.get(i);
-			obs.update(temp);
+		for (Observer observer : observers) {
+			observer.update(temp);
 		}
 	}
 
@@ -33,7 +33,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 	public void keyAction(int key) {
 		if (key >= 37 && key <= 40) {
-			int[] direction = new int[2];
+			int[] direction;
 			if (key == 37) {
 				direction = new int[]{-1, 0};
 			} else if (key == 38) {
