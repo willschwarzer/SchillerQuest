@@ -9,8 +9,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * An implementation of Java's JFrame with a purpose of displaying a window that we can put elements.
- * It is able to handle key input and the top level of our view.
+ * An implementation of Java's JFrame with a purpose of displaying a window we can put elements in.
+ * It is able to handle key input and is the top level of our view.
  *
  */
 public class GameFrame extends JFrame implements ActionListener, KeyListener {
@@ -65,7 +65,7 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	/**
 	 * This closes the display of inventory
 	 */
-	public void closeInventory() {
+	public void openMainScreen() {
 		remove(invPane);
 		add(lvlTextPane);
 		inventoryButton.setText("Inventory");
@@ -115,19 +115,22 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	}
 
 	/**
-	 *
+	 * Parses JButton input.
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Inventory")) {
 			controller.openInventory();
 		} else if (e.getActionCommand().equals("Return")){
-			controller.closeInventory();
+			controller.openMainScreen();
 		} else {
 			System.out.println("Button not yet implemented");
 		}
 	}
 
+	/*
+	Standard KeyListener functions (only keyPressed is actually used at the moment.)
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		controller.keyAction(e.getKeyCode());

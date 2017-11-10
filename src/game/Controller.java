@@ -14,7 +14,10 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public Controller() {
 		observers = new ArrayList<>();
 	}
-
+	//TODO add observer pattern functionality
+	/*
+	The next four functions are not yet used (see updateViewGrid()).
+	 */
 	public boolean addObserver(Observer o) {
 		return observers.add(o);
 	}
@@ -33,6 +36,11 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		this.temp = map;
 	}
 
+	/**
+	 * Handles keyboard commands passed in from the view.
+	 * Currently only arrow keys are implemented.
+	 * @param key
+	 */
 	public void keyAction(int key) {
 		if (key == KeyEvent.VK_LEFT ||
 				key == KeyEvent.VK_DOWN ||
@@ -55,31 +63,49 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		}
 	}
 
+	/**
+	 * Opens the view's inventory pane.
+	 */
 	public void openInventory() {
 		view.displayInventory();
 	}
 
-	public void closeInventory() {
-		view.closeInventory();
-	}
-
+	/**
+	 * Returns to the view's level view.
+	 */
 	public void openMainScreen() {
-		System.out.println("This is the main screen!");
+		view.openMainScreen();
 	}
 
+	/**
+	 * Opens the view's options pane.
+	 * Not yet implemented.
+	 */
 	public void openOptions() {
-		System.out.println("These are the options!");
+		System.out.println("Not yet implemented.");
 	}
 
+	/**
+	 * When a movement key has been pressed, parses the movement
+	 * and makes the corresponding player move in the model.
+	 * @param move
+	 */
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
 		model.moveCreature(player, move);
 	}
 
+	/**
+	 *
+	 * @param newGrid
+	 */
 	public void updateViewGrid(char[][] newGrid) {
-		this.view.updateTextPane(newGrid);
+		view.updateTextPane(newGrid);
 	}
 
+	/*
+	The next five functions are not yet implemented.
+	 */
 	public void whatIsTile(Coordinates position) {
 
 	}
@@ -100,10 +126,18 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 	}
 
+	/**
+	 * Sets the controller's view object.
+	 * @param view
+	 */
 	public void setView(GameFrame view) {
 		this.view = view;
 	}
 
+	/**
+	 * Sets the controller's model object.
+	 * @param model
+	 */
 	public void setGameModel(GameModel model) {
 		this.model = model;
 	}
