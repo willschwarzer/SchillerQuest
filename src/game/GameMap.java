@@ -95,10 +95,44 @@ public class GameMap implements GameMapInterface {
 		return array;
 	}
 
+	/**
+	 * Returns the square area around the given location as a row-major 2D Tile array.  Distance is how many blocks away
+	 * from the coordinates to include.  ' ' is inserted for any Tiles that are outside the GameMap.
+	 *
+	 * @param coordinates Location to get the map around
+	 * @param distance    Distance away from the location to include
+	 * @return A row-major 2D Tile array centered at the given location.
+	 */
 	@Override
 	public Tile[][] getSquareAreaAroundLocation(Coordinates coordinates, int distance) {
-		// TODO implement
-		throw new UnsupportedOperationException("Not yet implemented");
+		Tile[][] results = new Tile[2 * distance + 1][2 * distance + 1];
+
+		int mapRow = coordinates.getY() - distance;
+		for (int resultsRow = 0; resultsRow < 2 * distance + 1; resultsRow++) {
+			int mapCol = coordinates.getX() - distance;
+			for (int resultsCol = 0; resultsCol < 2 * distance + 1; resultsCol++) {
+				try {
+					results[resultsRow][resultsCol] = map[mapRow][mapCol];
+				} catch (ArrayIndexOutOfBoundsException e) {
+					results[resultsRow][resultsCol] = null;
+				}
+				mapCol++;
+			}
+			mapRow++;
+		}
+
+		return results;
+	}
+
+	/**
+	 * Returns the square area around the given location as a row-major 2D char array, with what should be visible at each Tile.
+	 *
+	 * @param coordinates Location to get the map around
+	 * @param distance    Distance away from the location to include
+	 * @return A row-major 2D char array centered at the given location.
+	 */
+	public char[][] getSquareAreaAroundLocationAsCharArray(Coordinates coordinates, int distance) {
+		return convertTileArrayToCharArray(getSquareAreaAroundLocation(coordinates, distance));
 	}
 
 	@Override
@@ -129,6 +163,29 @@ public class GameMap implements GameMapInterface {
 	public Player getPlayer() {
 		return player;
 	}
+
+	/**
+	 * Converts a given 2D Tile array to it's character equivalent.  Replaces null Tiles (out of world) with ' '.
+	 *
+	 * @param array 2D Tile array to convert to 2D char array
+	 * @return 2D char array version of the given 2D Tile array
+	 */
+	public static char[][] convertTileArrayToCharArray(Tile[][] array) {
+		char[][] output = new char[array.length][array[0].length];
+
+		for (int i = 0; i < array.length; i++) {
+			for (int j = 0; j < array[0].length; j++) {
+				try {
+					output[i][j] = array[i][j].getMapGraphic();
+				} catch (NullPointerException e) {
+					output[i][j] = 'N';
+				}
+			}
+		}
+
+		return output;
+	}
+
 	/**
 	 * Gets the height of the given file.
 	 *
