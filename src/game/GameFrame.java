@@ -9,18 +9,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class GameFrame extends JFrame implements ActionListener, KeyListener {
-
 	private LevelTextPane lvlTextPane = new LevelTextPane();
 	private InventoryPane invPane = new InventoryPane();
+	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
 	private ControllerInterface controller;
 
-
 	public GameFrame() {
 		super();
-		setSize(675, 440);
+		setSize(875, 460);
 		setResizable(false);
-		setTitle("GameFrame");
+		setTitle("Schiller Quest");
 
 		setupTextPane();
 		addUIElementsToFrame();
@@ -35,19 +34,30 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		repaint();
 	}
 
+	public void displayTitle() {
+		remove(lvlTextPane);
+		add(titlePane);
+		inventoryButton.setText("Start");
+		revalidate();
+		repaint();
+	}
+
 	public void displayInventory() {
 		remove(lvlTextPane);
 		add(invPane);
 		inventoryButton.setText("Return");
-		validate();
+		revalidate();
 		repaint();
 	}
 
-	public void closeInventory() {
+	public void displayLevelScreen() {
+		// Either could be present, so remove both
 		remove(invPane);
+		remove(titlePane);
+
 		add(lvlTextPane);
 		inventoryButton.setText("Inventory");
-		validate();
+		revalidate();
 		repaint();
 	}
 
@@ -96,8 +106,10 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Inventory")) {
 			controller.openInventory();
-		} else if (e.getActionCommand().equals("Return")){
-			controller.closeInventory();
+		} else if (e.getActionCommand().equals("Return")) {
+			controller.openMainScreen();
+		} else if (e.getActionCommand().equals("Start")) {
+			controller.openMainScreen();
 		} else {
 			System.out.println("Button not yet implemented");
 		}

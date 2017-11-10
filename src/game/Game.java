@@ -6,6 +6,7 @@ public class Game {
 	public static void main(String[] args) {
 		ControllerInterface controller = new Controller();
 		GameMap map = new GameMap(new File("src/resources/level1.txt"));
+
 		GameFrame view = new GameFrame();
 		GameModel model = new GameModel();
 		Coordinates startCoordinates = new Coordinates(10, 3);
@@ -21,5 +22,8 @@ public class Game {
 
 		view.setController(controller);
 		view.setVisible(true);
+
+		// The GameFrame displays the title screen
+		view.displayTitle();
 	}
 }

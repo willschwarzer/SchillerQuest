@@ -54,12 +54,10 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		view.displayInventory();
 	}
 
-	public void closeInventory() {
-		view.closeInventory();
-	}
-
 	public void openMainScreen() {
 		System.out.println("This is the main screen!");
+		view.displayLevelScreen();
+//		view.closeInventory();
 	}
 
 	public void openOptions() {
