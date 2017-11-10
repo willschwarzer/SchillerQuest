@@ -10,7 +10,7 @@ public abstract class Entity implements MapViewable {
 	abstract public String getInfo();
 
 	/**
-	 * Creates a entity at given coordinates
+	 * Creates an entity at given coordinates
 	 *
 	 * @param coordinates Coordinates the entity will be created at
 	 */
@@ -19,7 +19,7 @@ public abstract class Entity implements MapViewable {
 	}
 
 	/**
-	 * Creates a entity at given coordinates
+	 * Creates an entity at given coordinates
 	 *
 	 * @return Give location of the entity in coordinates
 	 */

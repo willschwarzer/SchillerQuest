@@ -1,6 +1,7 @@
 package game;
 
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,10 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public Controller() {
 		observers = new ArrayList<>();
 	}
-
+	//TODO add observer pattern functionality
+	/*
+	The next four functions are not yet used (see updateViewGrid()).
+	 */
 	public boolean addObserver(Observer o) {
 		return observers.add(o);
 	}
@@ -32,47 +36,77 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		this.temp = map;
 	}
 
+	/**
+	 * Handles keyboard commands passed in from the view.
+	 * Currently only arrow keys are implemented.
+	 * @param key
+	 */
 	public void keyAction(int key) {
-		if (key >= 37 && key <= 40) {
+		if (key == KeyEvent.VK_LEFT ||
+				key == KeyEvent.VK_DOWN ||
+				key == KeyEvent.VK_RIGHT ||
+				key == KeyEvent.VK_UP) {
 			int[] direction;
-			if (key == 37) {
+			if (key == KeyEvent.VK_LEFT) {
 				direction = new int[]{-1, 0};
-			} else if (key == 38) {
-				direction = new int[]{0, -1};
-			} else if (key == 39) {
+			} else if (key == KeyEvent.VK_DOWN) {
+				direction = new int[]{0, 1};
+			} else if (key == KeyEvent.VK_RIGHT) {
 				direction = new int[]{1, 0};
 			} else {
-				direction = new int[]{0, 1};
+				direction = new int[]{0, -1};
 			}
 			makeMove(direction);
 		} else {
-			System.out.println("Key not yet implemented.");
+			//TODO add more keys as needed
+			return;
 		}
 	}
 
+	/**
+	 * Opens the view's inventory pane.
+	 */
 	public void openInventory() {
 		view.displayInventory();
 	}
-
+  
+  /**
+   * Opens the view's level pane.
+   */
 	public void openMainScreen() {
-		System.out.println("This is the main screen!");
 		view.displayLevelScreen();
-//		view.closeInventory();
+
 	}
 
+	/**
+	 * Opens the view's options pane.
+	 * Not yet implemented.
+	 */
 	public void openOptions() {
-		System.out.println("These are the options!");
+		System.out.println("Not yet implemented.");
 	}
 
+	/**
+	 * When a movement key has been pressed, parses the movement
+	 * and makes the corresponding player move in the model.
+	 * @param move
+	 */
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
 		model.moveCreature(player, move);
 	}
 
+	/**
+	 *
+	 * @param newGrid
+	 */
 	public void updateViewGrid(char[][] newGrid) {
-		this.view.updateTextPane(newGrid);
+		view.updateTextPane(newGrid);
 	}
 
+	/*
+	The next five functions are not yet implemented.
+	 */
 	public void whatIsTile(Coordinates position) {
 
 	}
@@ -93,10 +127,18 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 	}
 
+	/**
+	 * Sets the controller's view object.
+	 * @param view
+	 */
 	public void setView(GameFrame view) {
 		this.view = view;
 	}
 
+	/**
+	 * Sets the controller's model object.
+	 * @param model
+	 */
 	public void setGameModel(GameModel model) {
 		this.model = model;
 	}

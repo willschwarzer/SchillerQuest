@@ -8,6 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * An implementation of Java's JFrame with a purpose of displaying a window we can put elements in.
+ * It is able to handle key input and is the top level of our view.
+ *
+ */
 public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	private LevelTextPane lvlTextPane = new LevelTextPane();
 	private InventoryPane invPane = new InventoryPane();
@@ -15,6 +20,10 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	private JButton inventoryButton;
 	private ControllerInterface controller;
 
+	/**
+	 * Creates a GameFrame object of fixed size
+	 * It is able to handle key input and the top level of our view.
+	 */
 	public GameFrame() {
 		super();
 		setSize(875, 460);
@@ -26,14 +35,25 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// We eventually want to switch keyboard control to the JFrame instead
+		// of the text pane, but this is currently not working
 		lvlTextPane.addKeyListener(this);
+
 	}
 
+	/**
+	 * This updates the current pane with a new 2nd character array.
+	 *
+	 * @param newGrid The new map to be displayed
+	 */
 	public void updateTextPane(char[][] newGrid) {
 		lvlTextPane.updateCharacterGrid(newGrid);
 		repaint();
 	}
 
+  /**
+   * This displays the title screen of the game
+   */
 	public void displayTitle() {
 		remove(lvlTextPane);
 		add(titlePane);
@@ -42,6 +62,9 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		repaint();
 	}
 
+	/**
+	 * This displays the current inventory of the player
+	 */
 	public void displayInventory() {
 		remove(lvlTextPane);
 		add(invPane);
@@ -50,10 +73,13 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		repaint();
 	}
 
-	public void displayLevelScreen() {
-		// Either could be present, so remove both
+	/**
+	 * This displays the current level
+	 */
+  public void displayLevelScreen() {
 		remove(invPane);
 		remove(titlePane);
+    // Either inventory or title screen could be present, so we remove both
 
 		add(lvlTextPane);
 		inventoryButton.setText("Inventory");
@@ -102,6 +128,9 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		return buttonPanel;
 	}
 
+	/**
+	 * Parses JButton input.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Inventory")) {
@@ -115,9 +144,11 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		}
 	}
 
+	/*
+	Standard KeyListener functions (only keyPressed is actually used at the moment.)
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("You pressed " + e.getKeyCode());
 		controller.keyAction(e.getKeyCode());
 	}
 

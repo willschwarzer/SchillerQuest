@@ -1,7 +1,5 @@
 package game;
 
-import javax.swing.*;
-
 public interface ControllerInterface {
 	void keyAction(int key);
 
