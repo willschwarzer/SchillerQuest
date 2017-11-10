@@ -12,6 +12,7 @@ public class Game {
 
 		ControllerInterface controller = new Controller();
 		GameMap map = new GameMap(new File("src/resources/level1.txt"));
+
 		GameFrame view = new GameFrame();
 		GameModel model = new GameModel();
 		// Player spawning eventually should happen in the model instead
@@ -28,5 +29,8 @@ public class Game {
 
 		view.setController(controller);
 		view.setVisible(true);
+
+		// The GameFrame displays the title screen
+		view.displayTitle();
 	}
 }

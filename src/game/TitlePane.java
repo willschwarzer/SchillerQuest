@@ -11,9 +11,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class InventoryPane extends JTextPane {
-	public InventoryPane() {
-    super();
+public class TitlePane extends JTextPane {
+	private String sourceFilePath = "src/resources/title.txt";
+
+	public TitlePane() {
 		drawPane();
 
 		setBackground(Color.black);
@@ -25,8 +26,9 @@ public class InventoryPane extends JTextPane {
 		setEditable(true);
 		setText("");
 
-		// temp implementation of loading dummy inventory from file
-		File levelFile = new File("src/resources/inventory.txt");
+		// Load static menu screen from file
+		//TODO: decide on a standard way of loading files across the application
+		File levelFile = new File(sourceFilePath);
 
 		try (BufferedReader br = new BufferedReader(new FileReader(levelFile))) {
 			String line;
@@ -72,3 +74,4 @@ public class InventoryPane extends JTextPane {
 		}
 	}
 }
+

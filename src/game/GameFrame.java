@@ -15,6 +15,7 @@ import java.awt.event.KeyListener;
 public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	private LevelTextPane lvlTextPane = new LevelTextPane();
 	private InventoryPane invPane = new InventoryPane();
+	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
 	private ControllerInterface controller;
 
@@ -24,9 +25,9 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	 */
 	public GameFrame() {
 		super();
-		setSize(675, 440);
+		setSize(875, 460);
 		setResizable(false);
-		setTitle("GameFrame");
+		setTitle("Schiller Quest");
 
 		setupTextPane();
 		addUIElementsToFrame();
@@ -49,6 +50,17 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		repaint();
 	}
 
+  /**
+   * This displays the title screen of the game
+   */
+	public void displayTitle() {
+		remove(lvlTextPane);
+		add(titlePane);
+		inventoryButton.setText("Start");
+		revalidate();
+		repaint();
+	}
+
 	/**
 	 * This displays the current inventory of the player
 	 */
@@ -56,18 +68,21 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		remove(lvlTextPane);
 		add(invPane);
 		inventoryButton.setText("Return");
-		validate();
+		revalidate();
 		repaint();
 	}
 
 	/**
-	 * This closes the display of inventory
+	 * This displays the current level
 	 */
-	public void openMainScreen() {
+  public void displayLevelScreen() {
 		remove(invPane);
+		remove(titlePane);
+    // Either inventory or title screen could be present, so we remove both
+
 		add(lvlTextPane);
 		inventoryButton.setText("Inventory");
-		validate();
+		revalidate();
 		repaint();
 	}
 
@@ -120,6 +135,8 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		if (e.getActionCommand().equals("Inventory")) {
 			controller.openInventory();
 		} else if (e.getActionCommand().equals("Return")) {
+			controller.openMainScreen();
+		} else if (e.getActionCommand().equals("Start")) {
 			controller.openMainScreen();
 		} else {
 			System.out.println("Button not yet implemented");

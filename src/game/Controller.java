@@ -67,12 +67,13 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void openInventory() {
 		view.displayInventory();
 	}
-
-	/**
-	 * Returns to the view's level view.
-	 */
+  
+  /**
+   * Opens the view's level pane.
+   */
 	public void openMainScreen() {
-		view.openMainScreen();
+		view.displayLevelScreen();
+
 	}
 
 	/**
