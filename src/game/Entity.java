@@ -7,6 +7,10 @@ public abstract class Entity implements MapViewable {
 
 	abstract public String getInfo();
 
+	public Entity(Coordinates coordinates) {
+		this.coordinates = coordinates;
+	}
+
 	public Coordinates getCoordinates() {
 		return coordinates;
 	}

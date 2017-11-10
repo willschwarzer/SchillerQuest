@@ -26,9 +26,12 @@ public class Tile implements MapViewable {
 	}
 
 	public boolean isOccupiable() {
-		throw new UnsupportedOperationException("isOccupiable() not yet implemented for Tile");
-		// TODO figure out how to handle this - allow being on top of certain terrain, items, but not other terrain &
-		// other creatures
+		// TODO ANders - come back to?
+		if (creature == null && (entities == null || entities.isEmpty()) && terrain.isOccupiable()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public Deque<Entity> getEntities() {

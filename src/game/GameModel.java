@@ -39,6 +39,11 @@ public class GameModel {
 	}
 
 	public void takeTurn() {
+		map.printMapToConsole();
+	}
 
+	public void spawnPlayer(Coordinates coordinates) {
+		Player player = new Player(coordinates);
+		map.setPlayer(player);
 	}
 }
