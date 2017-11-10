@@ -61,4 +61,9 @@ public class LevelTextPane extends JTextPane {
 				return Color.gray;
 		}
 	}
+
+	public void updateCharacterGrid(ArrayList<ArrayList<Character>> newGrid) {
+		characterGrid = newGrid;
+		drawCharGridInPane();
+	}
 }

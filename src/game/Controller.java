@@ -1,12 +1,11 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Controller implements ControllerInterface, Subject, Observer {
 	private List<Observer> observers;
 	private char[][] temp;
-	private LevelView view;
+	private GameFrame view;
+
 	private GameModel model;
 
 	public Controller() {
@@ -63,7 +62,11 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
-		model.moveCreature(player, move);
+		model.moveCreature(player, move);;
+	}
+
+	public void updateViewGrid(ArrayList<ArrayList<Character>> newGrid) {
+		this.view.updateTextPane(newGrid);
 	}
 
 	public void whatIsTile(Coordinates position) {
@@ -86,7 +89,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 	}
 
-	public void setView(LevelView view) {
+	public void setView(GameFrame view) {
 		this.view = view;
 	}
 

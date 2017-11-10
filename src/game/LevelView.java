@@ -162,7 +162,9 @@ public class LevelView extends JFrame implements ActionListener, KeyListener, Ob
 		this.controller = controller;
 	}
 
+
 	public void update(char[][] newMap) {
 		throw new UnsupportedOperationException("update() not yet supported for LevelView");
 	}
+
 }
