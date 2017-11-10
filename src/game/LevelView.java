@@ -47,6 +47,8 @@ public class LevelView extends JFrame implements ActionListener, KeyListener, Ob
 		setupSplitControlPanel();
 		setLocationRelativeTo(null); // center of screen
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		addKeyListener(this);
+		levelTextPane.addKeyListener(this);
 	}
 
 	private void setupTextPane(ArrayList<ArrayList<Character>> charGrid) {
@@ -71,18 +73,16 @@ public class LevelView extends JFrame implements ActionListener, KeyListener, Ob
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-		JButton button1 = new JButton("Inventory");
-		button1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		JButton button2 = new JButton("Ability1");
-		button2.setAlignmentX(Component.CENTER_ALIGNMENT);
-		JButton button3 = new JButton("Ability2");
-		button3.setAlignmentX(Component.CENTER_ALIGNMENT);
-		button1.addActionListener(this);
-		button2.addActionListener(this);
-		button3.addActionListener(this);
-		buttonPanel.add(button1);
-		buttonPanel.add(button2);
-		buttonPanel.add(button3);
+		JButton invButton = new JButton("Inventory");
+		invButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		invButton.setActionCommand("inventory");
+		JButton menuButton = new JButton("Options");
+		menuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		menuButton.setActionCommand("options");
+		buttonPanel.add(invButton);
+		buttonPanel.add(menuButton);
+		invButton.addActionListener(this);
+		menuButton.addActionListener(this);
 
 		splitPanel.add(statsPanel);
 		splitPanel.add(buttonPanel);
@@ -135,6 +135,8 @@ public class LevelView extends JFrame implements ActionListener, KeyListener, Ob
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("inventory")) {
 			controller.openInventory();
+		} else if (e.getActionCommand().equals("options")){
+			controller.openOptions();
 		} else {
 			System.out.println("Button not yet implemented");
 		}
@@ -142,6 +144,7 @@ public class LevelView extends JFrame implements ActionListener, KeyListener, Ob
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println("You pressed " + e.getKeyCode());
 		controller.keyAction(e.getKeyCode());
 	}
 

@@ -163,4 +163,12 @@ public class GameMap implements GameMapInterface {
 	public Player getPlayer() {
 		return player;
 	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+
+		Tile location = map[player.getCoordinates().getY()][player.getCoordinates().getX()];
+		location.addEntity(player);
+
+	}
 }

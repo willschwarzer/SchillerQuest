@@ -5,6 +5,10 @@ public abstract class Creature extends Entity {
 
 	abstract public String getInfo();
 
+	public Creature(Coordinates coordinates) {
+		super(coordinates);
+	}
+
 	public Stats getStats() {
 		return stats;
 	}

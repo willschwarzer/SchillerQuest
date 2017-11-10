@@ -8,14 +8,17 @@ public class Game {
 		LevelView view = new LevelView();
 		GameMap map = new GameMap(new File("src/resources/level1.txt"));
 		GameModel model = new GameModel();
+		Coordinates startCoordinates = new Coordinates(10, 3);
 
 		// TODO get all of this initialization finished
+		model.setGameMap(map);
+		model.spawnPlayer(startCoordinates);
+
 		controller.setView(view);
 		controller.setGameModel(model);
 
 		view.setController(controller);
 		view.setVisible(true);
 
-		model.setGameMap(map);
 	}
 }

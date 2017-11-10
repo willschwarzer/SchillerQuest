@@ -10,8 +10,8 @@ public class GameModel {
 		int y = currentCoordinates.getY();
 		x += move[0];
 		y += move[1];
-		Coordinates newCoordinates = new Coordinates(x, y);
-		Tile newTile = map.getTileAtLocation(newCoordinates);
+		Coordinates destinationCoordinates = new Coordinates(x, y);
+		Tile newTile = map.getTileAtLocation(destinationCoordinates);
 
 		if (newTile.getCreature() != null) {
 			attack(creature, newTile.getCreature());
@@ -19,7 +19,7 @@ public class GameModel {
 		} else if (newTile.isOccupiable()) {
 			oldTile.removeEntity(creature);
 			newTile.addEntity(creature);
-			creature.setCoordinates(newCoordinates);
+			creature.setCoordinates(destinationCoordinates);
 			takeTurn();
 		} else {
 			return;
@@ -39,6 +39,11 @@ public class GameModel {
 	}
 
 	public void takeTurn() {
+		map.printMapToConsole();
+	}
 
+	public void spawnPlayer(Coordinates coordinates) {
+		Player player = new Player(coordinates);
+		map.setPlayer(player);
 	}
 }
