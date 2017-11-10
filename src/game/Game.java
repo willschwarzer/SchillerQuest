@@ -3,7 +3,13 @@ package game;
 import java.io.File;
 
 public class Game {
+
+	/**
+	 * Instantiate Controller, Model and View and sets connections up
+	 * Then displays a view of the game.
+	 */
 	public static void main(String[] args) {
+
 		ControllerInterface controller = new Controller();
 		GameMap map = new GameMap(new File("src/resources/level1.txt"));
 		GameFrame view = new GameFrame();
