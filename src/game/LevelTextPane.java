@@ -6,16 +6,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class LevelTextPane extends JTextPane {
 	private char[][] characterGrid;
-
-	public LevelTextPane() {
-		super();
-//		this.characterGrid = charGrid;
-//		drawCharGridInPane();
-	}
 
 	private void drawCharGridInPane() {
 		setEditable(true);
@@ -55,14 +48,10 @@ public class LevelTextPane extends JTextPane {
 				return Color.yellow;
 			case '%':
 				return Color.magenta;
-			case 'I':
-				return Color.white;
-			case '|':
-				return Color.white;
-			case '_':
-				return Color.white;
-			default:
+			case '#':
 				return Color.gray;
+			default:
+				return Color.white;
 		}
 	}
 

@@ -1,7 +1,5 @@
 package game;
 
-import java.util.ArrayList;
-
 public class GameModel {
 	GameMap map;
 	private ControllerInterface controller;
