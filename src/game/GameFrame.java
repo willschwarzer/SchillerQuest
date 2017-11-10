@@ -28,6 +28,7 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		lvlTextPane.addKeyListener(this);
+
 	}
 
 	public void updateTextPane(char[][] newGrid) {
@@ -105,7 +106,6 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("You pressed " + e.getKeyCode());
 		controller.keyAction(e.getKeyCode());
 	}
 
