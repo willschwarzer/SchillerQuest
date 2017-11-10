@@ -7,6 +7,8 @@ public interface ControllerInterface {
 
 	void openInventory();
 
+	void closeInventory();
+
 	void openMainScreen();
 
 	void openOptions();

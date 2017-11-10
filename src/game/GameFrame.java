@@ -10,14 +10,17 @@ import java.awt.event.KeyListener;
 
 public class GameFrame extends JFrame implements ActionListener, KeyListener {
 
-	private LevelTextPane lvlTextPane;
+	private LevelTextPane lvlTextPane = new LevelTextPane();
+	private InventoryPane invPane = new InventoryPane();
+	private JButton inventoryButton;
 	private ControllerInterface controller;
+
 
 	public GameFrame() {
 		super();
 		setSize(675, 440);
 		setResizable(false);
-		setTitle("Game Screen Sample Text");
+		setTitle("GameFrame");
 
 		setupTextPane();
 		addUIElementsToFrame();
@@ -27,20 +30,35 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		lvlTextPane.addKeyListener(this);
 	}
 
+	public void updateTextPane(char[][] newGrid) {
+		lvlTextPane.updateCharacterGrid(newGrid);
+		repaint();
+	}
+
+	public void displayInventory() {
+		remove(lvlTextPane);
+		add(invPane);
+		inventoryButton.setText("Return");
+		validate();
+		repaint();
+	}
+
+	public void closeInventory() {
+		remove(invPane);
+		add(lvlTextPane);
+		inventoryButton.setText("Inventory");
+		validate();
+		repaint();
+	}
+
 	private void addUIElementsToFrame() {
 		setupTextPane();
 		setupSplitControlPanel();
 	}
 
 	private void setupTextPane() {
-//		ArrayList<ArrayList<Character>> level = readFromFile();
-
 		lvlTextPane = new LevelTextPane();
 		add(lvlTextPane);
-	}
-
-	public void updateTextPane(char[][] newGrid) {
-		lvlTextPane.updateCharacterGrid(newGrid);
 	}
 
 	private void setupSplitControlPanel() {
@@ -67,19 +85,19 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	private JPanel buildButtonPanel() {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-		JButton button1 = new JButton("Inventory");
-		button1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		button1.addActionListener(this);
-		buttonPanel.add(button1);
+		inventoryButton = new JButton("Inventory");
+		inventoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		inventoryButton.addActionListener(this);
+		buttonPanel.add(inventoryButton);
 		return buttonPanel;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("inventory")) {
+		if (e.getActionCommand().equals("Inventory")) {
 			controller.openInventory();
-		} else if (e.getActionCommand().equals("options")){
-			controller.openOptions();
+		} else if (e.getActionCommand().equals("Return")){
+			controller.closeInventory();
 		} else {
 			System.out.println("Button not yet implemented");
 		}
