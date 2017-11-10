@@ -16,7 +16,6 @@ public abstract class Entity implements MapViewable {
 	}
 
 	public void setCoordinates(Coordinates coor) {
-
 		coordinates = coor;
 	}
 
