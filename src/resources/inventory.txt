@@ -5,11 +5,11 @@
 ##      | |\ | \  / |_ |\ |  |  | | |_| \ /     ##
 ##      | | \|  \/  |_ | \|  |  |_| | \  |      ##
 ##                                              ##
-##        Backpack:           Equipped:         ##
-##        ========+           =========         ##
-##       Cool Sword           Cooler Sword      ##
-##    >> Rusty Spoon   <==>   Modest Loins <<   ##
-##       Freedom Key          Justice Amulet    ##
+##       Backpack:             Equipped:        ##
+##       =========             =========        ##
+##      Cool Sword            Cooler Sword      ##
+##   >> Rusty Spoon    <==>   Modest Loins <<   ##
+##      Freedom Key           Justice Amulet    ##
 ##                                              ##
 ##                                              ##
 ##                                              ##
