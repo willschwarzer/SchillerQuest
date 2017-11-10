@@ -5,7 +5,8 @@ import java.io.File;
 public class Game {
 	public static void main(String[] args) {
 		ControllerInterface controller = new Controller();
-		LevelView view = new LevelView();
+//		LevelView view = new LevelView();
+		GameFrame view = new GameFrame();
 		GameMap map = new GameMap(new File("src/resources/level1.txt"));
 		GameModel model = new GameModel();
 		Coordinates startCoordinates = new Coordinates(10, 3);

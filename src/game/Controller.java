@@ -1,7 +1,12 @@
 package game;
 
+import oracle.jvm.hotspot.jfr.JFR;
+
+import javax.swing.*;
+import java.util.ArrayList;
+
 public class Controller implements ControllerInterface {
-	private LevelView view;
+	private GameFrame view;
 	private GameModel model;
 
 	public void keyAction(int key) {
@@ -36,7 +41,11 @@ public class Controller implements ControllerInterface {
 
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
-		model.moveCreature(player, move);
+		model.moveCreature(player, move);;
+	}
+
+	public void updateViewGrid(ArrayList<ArrayList<Character>> newGrid) {
+		this.view.updateTextPane(newGrid);
 	}
 
 	public void whatIsTile(Coordinates position) {
@@ -59,7 +68,7 @@ public class Controller implements ControllerInterface {
 
 	}
 
-	public void setView(LevelView view) {
+	public void setView(GameFrame view) {
 		this.view = view;
 	}
 

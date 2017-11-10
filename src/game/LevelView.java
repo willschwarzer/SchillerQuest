@@ -161,5 +161,4 @@ public class LevelView extends JFrame implements ActionListener, KeyListener {
 	public void setController(ControllerInterface controller) {
 		this.controller = controller;
 	}
-
 }

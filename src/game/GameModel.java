@@ -1,5 +1,7 @@
 package game;
 
+import java.util.ArrayList;
+
 public class GameModel {
 	GameMap map;
 
@@ -40,6 +42,8 @@ public class GameModel {
 
 	public void takeTurn() {
 		map.printMapToConsole();
+		//TODO: David make this work
+		controller.updateViewGrid(map.getMapAsCharArray());
 	}
 
 	public void spawnPlayer(Coordinates coordinates) {

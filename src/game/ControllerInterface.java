@@ -1,5 +1,7 @@
 package game;
 
+import javax.swing.*;
+
 public interface ControllerInterface {
 	void keyAction(int key);
 
@@ -21,7 +23,7 @@ public interface ControllerInterface {
 
 	void unequip(Item item);
 
-	void setView(LevelView view);
+	void setView(GameFrame view);
 
 	void setGameModel(GameModel model);
 }

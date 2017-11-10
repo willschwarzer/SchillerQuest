@@ -16,6 +16,8 @@ import java.util.ArrayList;
 public class GameFrame extends JFrame implements ActionListener, KeyListener {
 
 	private LevelTextPane lvlTextPane;
+	private ControllerInterface controller;
+
 
 	public GameFrame() {
 		super();
@@ -28,6 +30,7 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		lvlTextPane.addKeyListener(this);
 	}
 
 	private void addUIElementsToFrame() {
@@ -39,6 +42,10 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		ArrayList<ArrayList<Character>> level = readFromFile();
 		lvlTextPane = new LevelTextPane(level);
 		add(lvlTextPane);
+	}
+
+	public void updateTextPane(ArrayList<ArrayList<Character>> newGrid) {
+		lvlTextPane.updateCharacterGrid(newGrid);
 	}
 
 	private void setupSplitControlPanel() {
@@ -75,9 +82,10 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 
 	private ArrayList<ArrayList<Character>> readFromFile() {
 		// temp implementation of loading levels from file
-		File levelFile = new File("level1.txt");
+		File levelFile = new File("src/resources/level1.txt");
 		ArrayList<ArrayList<Character>> levelGrid = new ArrayList<>();
 
+		//TODO: error handling lol
 		try (BufferedReader br = new BufferedReader(new FileReader(levelFile))) {
 			String line;
 			while ((line = br.readLine()) != null) {
@@ -96,12 +104,19 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Button not yet implemented");
+		if (e.getActionCommand().equals("inventory")) {
+			controller.openInventory();
+		} else if (e.getActionCommand().equals("options")){
+			controller.openOptions();
+		} else {
+			System.out.println("Button not yet implemented");
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		return;
+		System.out.println("You pressed " + e.getKeyCode());
+		controller.keyAction(e.getKeyCode());
 	}
 
 	@Override
@@ -114,13 +129,7 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		return;
 	}
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				GameFrame game = new GameFrame();
-				game.setVisible(true);
-			}
-		});
+	public void setController(ControllerInterface controller) {
+		this.controller = controller;
 	}
 }
