@@ -1,6 +1,5 @@
 package game;
 
-
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +13,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public Controller() {
 		observers = new ArrayList<>();
 	}
+
 	//TODO add observer pattern functionality
 	/*
 	The next four functions are not yet used (see updateViewGrid()).
@@ -39,13 +39,11 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	/**
 	 * Handles keyboard commands passed in from the view.
 	 * Currently only arrow keys are implemented.
+	 *
 	 * @param key
 	 */
 	public void keyAction(int key) {
-		if (key == KeyEvent.VK_LEFT ||
-				key == KeyEvent.VK_DOWN ||
-				key == KeyEvent.VK_RIGHT ||
-				key == KeyEvent.VK_UP) {
+		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_DOWN || key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_UP) {
 			int[] direction;
 			if (key == KeyEvent.VK_LEFT) {
 				direction = new int[]{-1, 0};
@@ -88,6 +86,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	/**
 	 * When a movement key has been pressed, parses the movement
 	 * and makes the corresponding player move in the model.
+	 *
 	 * @param move
 	 */
 	public void makeMove(int[] move) {
@@ -95,10 +94,6 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		model.moveCreature(player, move);
 	}
 
-	/**
-	 *
-	 * @param newGrid
-	 */
 	public void updateViewGrid(char[][] newGrid) {
 		view.updateTextPane(newGrid);
 	}
@@ -107,27 +102,23 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	The next five functions are not yet implemented.
 	 */
 	public void whatIsTile(Coordinates position) {
-
 	}
 
 	public void pickUp() {
-
 	}
 
 	public void drop(Item item) {
-
 	}
 
 	public void equip(Item item) {
-
 	}
 
 	public void unequip(Item item) {
-
 	}
 
 	/**
 	 * Sets the controller's view object.
+	 *
 	 * @param view
 	 */
 	public void setView(GameFrame view) {
@@ -136,6 +127,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 	/**
 	 * Sets the controller's model object.
+	 *
 	 * @param model
 	 */
 	public void setGameModel(GameModel model) {

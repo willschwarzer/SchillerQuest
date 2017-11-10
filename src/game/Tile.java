@@ -9,24 +9,38 @@ public class Tile implements MapViewable {
 	private Deque<Entity> entities;
 	private Creature creature;
 
+	/**
+	 * Creates a Tile with the given Terrain.
+	 * @param terrain Terrain to have for the Tile
+	 */
 	public Tile(Terrain terrain) {
 		this.terrain = terrain;
 		this.entities = new LinkedList<>();
 	}
 
+	/**
+	 * Creates a Tile with the given Terrain and Entity occupying the tile.
+	 * @param terrain Terrain to have for the Tile
+	 * @param entity Entity to initialize the Tile with
+	 */
 	public Tile(Terrain terrain, Entity entity) {
 		this.terrain = terrain;
 		this.entities = new LinkedList<>();
 		this.entities.addFirst(entity);
 	}
 
+	/**
+	 * Creates a Tile with the given Terrain and Collection of Entitys
+	 * @param terrain Terrain to have for the Tile
+	 * @param entities Collection of type Entity to add to the Tile
+	 */
 	public Tile(Terrain terrain, Collection<Entity> entities) {
 		this.terrain = terrain;
 		this.entities = new LinkedList<>(entities);
 	}
 
 	public boolean isOccupiable() {
-		// TODO ANders - come back to?
+		// TODO Anders - come back to?
 		if (creature == null && (entities == null || entities.isEmpty()) && terrain.isOccupiable()) {
 			return true;
 		} else {

@@ -11,10 +11,8 @@ import java.awt.event.KeyListener;
 /**
  * An implementation of Java's JFrame with a purpose of displaying a window we can put elements in.
  * It is able to handle key input and is the top level of our view.
- *
  */
 public class GameFrame extends JFrame implements ActionListener, KeyListener {
-
 	private LevelTextPane lvlTextPane = new LevelTextPane();
 	private InventoryPane invPane = new InventoryPane();
 	private JButton inventoryButton;
@@ -121,7 +119,7 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Inventory")) {
 			controller.openInventory();
-		} else if (e.getActionCommand().equals("Return")){
+		} else if (e.getActionCommand().equals("Return")) {
 			controller.openMainScreen();
 		} else {
 			System.out.println("Button not yet implemented");

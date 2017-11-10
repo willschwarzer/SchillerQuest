@@ -4,12 +4,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * Class to store the information about the current map - including the terrain, items, and creatures present.
+ */
 public class GameMap implements GameMapInterface {
 	/**
 	 * Stores the map tiles in a row-major 2D Tile array.  With (0, 0) at top left, point (col x, row y) is at
 	 * map[row y][col x]
 	 */
 	private Tile[][] map;
+
+	private Player player;
 
 	/**
 	 * Creates a GameMap from a given file.  The file must have lines of uniform length.
@@ -26,8 +31,6 @@ public class GameMap implements GameMapInterface {
 	 * @param file File to build the map from
 	 * @return
 	 */
-	Player player;
-
 	private boolean buildMapFromFile(File file) {
 		int height = getFileLength(file);
 		int width = getFileWidth(file);
@@ -69,7 +72,7 @@ public class GameMap implements GameMapInterface {
 	 * @param file File to get the height of
 	 * @return Height of the given file
 	 */
-	private int getFileLength(File file) {
+	static private int getFileLength(File file) {
 		try (Scanner scanner = new Scanner(file)) {
 			int length = 0;
 			while (scanner.hasNextLine()) {
@@ -88,7 +91,7 @@ public class GameMap implements GameMapInterface {
 	 * @param file File to get the width of
 	 * @return Width of the given file
 	 */
-	private int getFileWidth(File file) {
+	static private int getFileWidth(File file) {
 		try (Scanner scanner = new Scanner(file)) {
 			int width = scanner.nextLine().length();
 			scanner.close();
@@ -169,6 +172,5 @@ public class GameMap implements GameMapInterface {
 
 		Tile location = map[player.getCoordinates().getY()][player.getCoordinates().getX()];
 		location.addEntity(player);
-
 	}
 }

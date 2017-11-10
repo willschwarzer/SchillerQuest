@@ -14,7 +14,6 @@ import java.io.IOException;
 public class InventoryPane extends JTextPane {
 
 	public InventoryPane() {
-
 		drawPane();
 
 		setBackground(Color.black);
