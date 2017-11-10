@@ -18,7 +18,6 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	private LevelTextPane lvlTextPane;
 	private ControllerInterface controller;
 
-
 	public GameFrame() {
 		super();
 		setSize(675, 440);
@@ -39,12 +38,13 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	}
 
 	private void setupTextPane() {
-		ArrayList<ArrayList<Character>> level = readFromFile();
-		lvlTextPane = new LevelTextPane(level);
+//		ArrayList<ArrayList<Character>> level = readFromFile();
+
+		lvlTextPane = new LevelTextPane();
 		add(lvlTextPane);
 	}
 
-	public void updateTextPane(ArrayList<ArrayList<Character>> newGrid) {
+	public void updateTextPane(char[][] newGrid) {
 		lvlTextPane.updateCharacterGrid(newGrid);
 	}
 

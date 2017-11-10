@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class GameModel {
 	GameMap map;
+	private ControllerInterface controller;
 
 	public void moveCreature(Creature creature, int[] move) {
 		Coordinates currentCoordinates = creature.getCoordinates();
@@ -28,6 +29,10 @@ public class GameModel {
 		}
 	}
 
+	public void setController(ControllerInterface controller) {
+		this.controller = controller;
+	}
+
 	public void setGameMap(GameMap map) {
 		this.map = map;
 	}
@@ -41,8 +46,8 @@ public class GameModel {
 	}
 
 	public void takeTurn() {
-		map.printMapToConsole();
-		//TODO: David make this work
+//		map.printMapToConsole();
+		System.out.println(map.getMapAsCharArray());
 		controller.updateViewGrid(map.getMapAsCharArray());
 	}
 

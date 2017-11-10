@@ -9,16 +9,19 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class LevelTextPane extends JTextPane {
-	private ArrayList<ArrayList<Character>> characterGrid;
+	private char[][] characterGrid;
 
-	public LevelTextPane(ArrayList<ArrayList<Character>> charGrid) {
+	public LevelTextPane() {
 		super();
-		this.characterGrid = charGrid;
-		drawCharGridInPane();
+//		this.characterGrid = charGrid;
+//		drawCharGridInPane();
 	}
 
 	private void drawCharGridInPane() {
-		for (ArrayList<Character> row : characterGrid) {
+		setEditable(true);
+		setText("");
+
+		for (char[] row : characterGrid) {
 			for (char c : row) {
 				appendText(Character.toString(c), colorForChar(c));
 			}
@@ -27,6 +30,7 @@ public class LevelTextPane extends JTextPane {
 		setEditable(false);
 		setBackground(Color.black);
 		setFont(new Font(Font.MONOSPACED, Font.PLAIN, 18));
+		setEditable(false);
 	}
 
 	private void appendText(String text, Color c) {
@@ -62,7 +66,7 @@ public class LevelTextPane extends JTextPane {
 		}
 	}
 
-	public void updateCharacterGrid(ArrayList<ArrayList<Character>> newGrid) {
+	public void updateCharacterGrid(char[][] newGrid) {
 		characterGrid = newGrid;
 		drawCharGridInPane();
 	}

@@ -1,11 +1,13 @@
 package game;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Controller implements ControllerInterface, Subject, Observer {
 	private List<Observer> observers;
 	private char[][] temp;
 	private GameFrame view;
-
 	private GameModel model;
 
 	public Controller() {
@@ -62,10 +64,10 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
-		model.moveCreature(player, move);;
+		model.moveCreature(player, move);
 	}
 
-	public void updateViewGrid(ArrayList<ArrayList<Character>> newGrid) {
+	public void updateViewGrid(char[][] newGrid) {
 		this.view.updateTextPane(newGrid);
 	}
 
