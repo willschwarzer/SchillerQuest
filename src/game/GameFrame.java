@@ -38,6 +38,7 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		// We eventually want to switch keyboard control to the JFrame instead
 		// of the text pane, but this is currently not working
 		lvlTextPane.addKeyListener(this);
+
 	}
 
 	/**
@@ -129,7 +130,6 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("You pressed " + e.getKeyCode());
 		controller.keyAction(e.getKeyCode());
 	}
 

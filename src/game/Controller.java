@@ -1,6 +1,7 @@
 package game;
 
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,20 +34,24 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	}
 
 	public void keyAction(int key) {
-		if (key >= 37 && key <= 40) {
+		if (key == KeyEvent.VK_LEFT ||
+				key == KeyEvent.VK_DOWN ||
+				key == KeyEvent.VK_RIGHT ||
+				key == KeyEvent.VK_UP) {
 			int[] direction;
-			if (key == 37) {
+			if (key == KeyEvent.VK_LEFT) {
 				direction = new int[]{-1, 0};
-			} else if (key == 38) {
-				direction = new int[]{0, -1};
-			} else if (key == 39) {
+			} else if (key == KeyEvent.VK_DOWN) {
+				direction = new int[]{0, 1};
+			} else if (key == KeyEvent.VK_RIGHT) {
 				direction = new int[]{1, 0};
 			} else {
-				direction = new int[]{0, 1};
+				direction = new int[]{0, -1};
 			}
 			makeMove(direction);
 		} else {
-			System.out.println("Key not yet implemented.");
+			//TODO add more keys as needed
+			return;
 		}
 	}
 
