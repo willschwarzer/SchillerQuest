@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Controller implements ControllerInterface, Subject, Observer {
 	private ArrayList observers;
 	private char[][] temp;
+	private LevelView view;
+	private GameModel model;
 
 	public void addObserver(Observer o){
 
@@ -30,7 +32,21 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	}
 
 	public void keyAction(int key) {
-		System.out.println("You pressed " + key);
+		if (key >= 37 && key <= 40) {
+			int[] direction = new int[2];
+			if (key == 37) {
+				direction = new int[]{-1, 0};
+			} else if (key == 38) {
+				direction = new int[]{0, -1};
+			} else if (key == 39) {
+				direction = new int[]{1, 0};
+			} else {
+				direction = new int[]{0, 1};
+			}
+			makeMove(direction);
+		} else {
+			System.out.println("Key not yet implemented.");
+		}
 	}
 
 	public void openInventory() {
@@ -46,11 +62,8 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	}
 
 	public void makeMove(int[] move) {
-
-	}
-
-	public void attack(Entity attacker, Entity attackee) {
-
+		Player player = model.getPlayer();
+		model.moveCreature(player, move);
 	}
 
 	public void whatIsTile(Coordinates position) {
@@ -63,5 +76,21 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 	public void drop(Item item) {
 
+	}
+
+	public void equip(Item item) {
+
+	}
+
+	public void unequip(Item item) {
+
+	}
+
+	public void setView(LevelView view) {
+		this.view = view;
+	}
+
+	public void setGameModel(GameModel model) {
+		this.model = model;
 	}
 }

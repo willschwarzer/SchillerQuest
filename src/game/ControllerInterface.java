@@ -11,11 +11,17 @@ public interface ControllerInterface {
 
 	void makeMove(int[] move);
 
-	void attack(Entity attacker, Entity attackee);
-
 	void whatIsTile(Coordinates position);
 
 	void pickUp();
 
 	void drop(Item item);
+
+	void equip(Item item);
+
+	void unequip(Item item);
+
+	void setView(LevelView view);
+
+	void setGameModel(GameModel model);
 }

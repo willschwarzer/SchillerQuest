@@ -159,4 +159,8 @@ public class GameMap implements GameMapInterface {
 		}
 		return map[coordinates.getY()][coordinates.getX()];
 	}
+
+	public Player getPlayer() {
+		return player;
+	}
 }

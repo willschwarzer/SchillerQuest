@@ -2,7 +2,7 @@ package game;
 
 public abstract class Entity implements MapViewable {
 	Coordinates coordinates;
-	boolean occupiable;
+	boolean isOccupiable;
 	char graphic;
 
 	abstract public String getInfo();
@@ -20,6 +20,6 @@ public abstract class Entity implements MapViewable {
 	}
 
 	public boolean isOccupiable() {
-		return occupiable;
+		return isOccupiable;
 	}
 }
