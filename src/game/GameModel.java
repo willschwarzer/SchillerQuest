@@ -1,13 +1,14 @@
 package game;
 
 public class GameModel {
-	GameMap map;
+	private GameMap map;
 	private ControllerInterface controller;
+
 	/**
 	 * Moves a given creatures location with given move
 	 *
-	 * @param creature         The creature being moved
-	 * @param move The changes in the creatures location
+	 * @param creature The creature being moved
+	 * @param move     The changes in the creatures location
 	 */
 	public void moveCreature(Creature creature, int[] move) {
 		Coordinates currentCoordinates = creature.getCoordinates();
@@ -45,7 +46,6 @@ public class GameModel {
 	}
 
 	public void attack(Creature attacker, Creature attackee) {
-
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class GameModel {
 	/**
 	 * Creates a Player at given coordinate location
 	 *
-	 * @param coordinates  The coordinate the player will be spawned at
+	 * @param coordinates The coordinate the player will be spawned at
 	 */
 	public void spawnPlayer(Coordinates coordinates) {
 		Player player = new Player(coordinates);

@@ -1,16 +1,17 @@
 package game;
+
 /**
  * Interface for entities that will exist in the game
  */
 public abstract class Entity implements MapViewable {
-	Coordinates coordinates;
-	boolean isOccupiable;
-	char graphic;
+	private Coordinates coordinates;
+	private boolean isOccupiable;
+	private char graphic;
 
 	abstract public String getInfo();
 
 	/**
-	 * Creates an entity at given coordinates
+	 * Creates an Entity at given coordinates
 	 *
 	 * @param coordinates Coordinates the entity will be created at
 	 */
@@ -19,18 +20,18 @@ public abstract class Entity implements MapViewable {
 	}
 
 	/**
-	 * Creates an entity at given coordinates
+	 * Gets the Coordinates of the Entity
 	 *
-	 * @return Give location of the entity in coordinates
+	 * @return The Coordinates of the Entity
 	 */
 	public Coordinates getCoordinates() {
 		return coordinates;
 	}
 
 	/**
-	 * Give the char value that represents this entity
+	 * Give the char value that represents this entity graphically
 	 *
-	 * @return Returns the char that represents this entity
+	 * @return Returns the char that represents this entity graphically
 	 */
 	public char getMapGraphic() {
 		return graphic;
@@ -46,9 +47,9 @@ public abstract class Entity implements MapViewable {
 	}
 
 	/**
-	 * Returns if the another entity can occupy the same space as this entity
+	 * Check whether another Entity can occupy the same space as this Entity
 	 *
-	 * @return Returns boolean if this entity allows another entity to exist in the same location
+	 * @return Returns if this Entity allows another Entity to exist in the same location
 	 */
 	public boolean isOccupiable() {
 		return isOccupiable;

@@ -1,8 +1,13 @@
 package game;
 
 public abstract class Creature extends Entity {
-	Stats stats;
+	private Stats stats;
 
+	/**
+	 * Get an informative message about the Creature.
+	 *
+	 * @return An informative message about the Creature.
+	 */
 	abstract public String getInfo();
 
 	/**

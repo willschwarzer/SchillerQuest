@@ -11,7 +11,6 @@ import java.awt.event.KeyListener;
 /**
  * An implementation of Java's JFrame with a purpose of displaying a window we can put elements in.
  * It is able to handle key input and is the top level of our view.
- *
  */
 public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	private LevelTextPane lvlTextPane = new LevelTextPane();
