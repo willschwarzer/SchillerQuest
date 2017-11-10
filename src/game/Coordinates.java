@@ -16,6 +16,13 @@ public class Coordinates {
 	public Coordinates(int x, int y) {
 		this.x = x;
 		this.y = y;
+
+		if (x < 0) {
+			System.err.println("Warning, x coordinate is below 0: " + x);
+		}
+		if (y < 0) {
+			System.err.println("Warning, y coordinate is below 0: " + y);
+		}
 	}
 
 	/**
