@@ -7,11 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class GameFrame extends JFrame implements ActionListener, KeyListener {
 
@@ -77,29 +72,6 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		button1.addActionListener(this);
 		buttonPanel.add(button1);
 		return buttonPanel;
-	}
-
-
-	private ArrayList<ArrayList<Character>> readFromFile() {
-		// temp implementation of loading levels from file
-		File levelFile = new File("src/resources/level1.txt");
-		ArrayList<ArrayList<Character>> levelGrid = new ArrayList<>();
-
-		//TODO: error handling lol
-		try (BufferedReader br = new BufferedReader(new FileReader(levelFile))) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				ArrayList<Character> chars = new ArrayList<>();
-				for (char c : line.toCharArray()) {
-					chars.add(c);
-				}
-				levelGrid.add(chars);
-			}
-		} catch (IOException e) {
-			System.out.print(e.getMessage());
-		}
-		return levelGrid;
-		// end temp implementation
 	}
 
 	@Override
