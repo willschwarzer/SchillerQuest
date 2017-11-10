@@ -3,7 +3,12 @@ package game;
 public class GameModel {
 	GameMap map;
 	private ControllerInterface controller;
-
+	/**
+	 * Moves a given creatures location with given move
+	 *
+	 * @param creature         The creature being moved
+	 * @param move The changes in the creatures location
+	 */
 	public void moveCreature(Creature creature, int[] move) {
 		Coordinates currentCoordinates = creature.getCoordinates();
 		Tile oldTile = map.getTileAtLocation(currentCoordinates);
@@ -43,12 +48,20 @@ public class GameModel {
 
 	}
 
+	/**
+	 * Will allow all of the other active entities to take a turn
+	 */
 	public void takeTurn() {
 //		map.printMapToConsole();
 		System.out.println(map.getMapAsCharArray());
 		controller.updateViewGrid(map.getMapAsCharArray());
 	}
 
+	/**
+	 * Creates a Player at given coordinate location
+	 *
+	 * @param coordinates  The coordinate the player will be spawned at
+	 */
 	public void spawnPlayer(Coordinates coordinates) {
 		Player player = new Player(coordinates);
 		map.setPlayer(player);
