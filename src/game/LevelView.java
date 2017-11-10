@@ -14,7 +14,7 @@ import java.awt.event.KeyListener;
 import java.io.*;
 import java.util.ArrayList;
 
-public class LevelView extends JFrame implements ActionListener, KeyListener {
+public class LevelView extends JFrame implements ActionListener, KeyListener, Observer {
 
 	private JTextPane levelTextPane = new JTextPane();
 	private ControllerInterface controller;
@@ -161,4 +161,10 @@ public class LevelView extends JFrame implements ActionListener, KeyListener {
 	public void setController(ControllerInterface controller) {
 		this.controller = controller;
 	}
+
+
+	public void update(char[][] newMap) {
+		throw new UnsupportedOperationException("update() not yet supported for LevelView");
+	}
+
 }

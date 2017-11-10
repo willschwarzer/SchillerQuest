@@ -1,17 +1,38 @@
 package game;
 
-import oracle.jvm.hotspot.jfr.JFR;
 
-import javax.swing.*;
-import java.util.ArrayList;
-
-public class Controller implements ControllerInterface {
+public class Controller implements ControllerInterface, Subject, Observer {
+	private List<Observer> observers;
+	private char[][] temp;
 	private GameFrame view;
+
 	private GameModel model;
+
+	public Controller() {
+		observers = new ArrayList<>();
+	}
+
+	public boolean addObserver(Observer o) {
+		return observers.add(o);
+	}
+
+	public boolean removeObserver(Observer o) {
+		return observers.remove(o);
+	}
+
+	public void notifyObservers() {
+		for (Observer observer : observers) {
+			observer.update(temp);
+		}
+	}
+
+	public void update(char[][] map) {
+		this.temp = map;
+	}
 
 	public void keyAction(int key) {
 		if (key >= 37 && key <= 40) {
-			int[] direction = new int[2];
+			int[] direction;
 			if (key == 37) {
 				direction = new int[]{-1, 0};
 			} else if (key == 38) {

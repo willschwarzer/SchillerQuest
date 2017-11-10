@@ -15,9 +15,10 @@ public abstract class Entity implements MapViewable {
 		return coordinates;
 	}
 
-	public char getGraphic() {
+	public char getMapGraphic() {
 		return graphic;
 	}
+
 
 	public void setCoordinates(Coordinates coor) {
 		coordinates = coor;

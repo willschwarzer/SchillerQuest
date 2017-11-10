@@ -52,6 +52,4 @@ public class Stats {
 		health -= hit;
 		return health;
 	}
-
-
 }
