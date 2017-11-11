@@ -26,4 +26,6 @@ public interface ControllerInterface {
 	void setView(GameFrame view);
 
 	void setGameModel(GameModel model);
+
+	void quitGame();
 }

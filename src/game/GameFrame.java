@@ -123,6 +123,12 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		inventoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		inventoryButton.addActionListener(this);
 		buttonPanel.add(inventoryButton);
+
+		JButton quitButton = new JButton("Quit");
+		quitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		quitButton.addActionListener(this);
+		buttonPanel.add(quitButton);
+
 		return buttonPanel;
 	}
 
@@ -133,17 +139,17 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Inventory")) {
 			controller.openInventory();
-		} else if (e.getActionCommand().equals("Return")) {
+		} else if (e.getActionCommand().equals("Start") || e.getActionCommand().equals("Return")) {
 			controller.openMainScreen();
-		} else if (e.getActionCommand().equals("Start")) {
-			controller.openMainScreen();
+		} else if (e.getActionCommand().equals("Quit")) {
+			controller.quitGame();
 		} else {
 			System.out.println("Button not yet implemented");
 		}
 	}
 
 	/*
-	Standard KeyListener functions (only keyPressed is actually used at the moment.)
+	Standard KeyListener functions (only keyPressed is actually used at the moment)
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {

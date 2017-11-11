@@ -11,4 +11,4 @@ Schiller's Quest is a turn-based and text-based RPG. The player moves their char
 * Click on the black text area on the left to enable user input
 * Use the left, right, up, and down arrow keys to move the character
 * You can open the inventory screen by clicking 'Inventory' and close it by clicking 'Return'
-* Exit the game by closing the window
+* Exit the game by closing the window or clicking Quit

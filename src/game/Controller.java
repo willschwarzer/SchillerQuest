@@ -134,4 +134,12 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void setGameModel(GameModel model) {
 		this.model = model;
 	}
+
+	 /**
+	 * it quits the game
+	 */
+	public void quitGame() {
+		System.exit(0);
+	}
+
 }
