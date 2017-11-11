@@ -35,9 +35,8 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// We eventually want to switch keyboard control to the JFrame instead
-		// of the text pane, but this is currently not working
+		// of the text pane, but this is currently not working. ¯\_(ツ)_/¯
 		lvlTextPane.addKeyListener(this);
-
 	}
 
 	/**
@@ -73,12 +72,12 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	}
 
 	/**
-	 * This displays the current level
-	 */
-  public void displayLevelScreen() {
+	* This displays the current level
+	*/
+	public void displayLevelScreen() {
 		remove(invPane);
 		remove(titlePane);
-    // Either inventory or title screen could be present, so we remove both
+		// Either inventory or title screen could be present, so we remove both
 
 		add(lvlTextPane);
 		inventoryButton.setText("Inventory");

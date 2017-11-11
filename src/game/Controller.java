@@ -16,7 +16,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 	//TODO add observer pattern functionality
 	/*
-	The next four functions are not yet used (see updateViewGrid()).
+	 * The next four functions are not yet used (see updateViewGrid()).
 	 */
 	public boolean addObserver(Observer o) {
 		return observers.add(o);

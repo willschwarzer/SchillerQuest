@@ -52,8 +52,6 @@ public class GameModel {
 	 * Will allow all of the other active entities to take a turn
 	 */
 	public void takeTurn() {
-//		map.printMapToConsole();
-		System.out.println(map.getMapAsCharArray());
 		controller.updateViewGrid(map.getMapAsCharArray());
 	}
 
