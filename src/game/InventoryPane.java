@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class InventoryPane extends JTextPane {
 	public InventoryPane() {
-    super();
+    	super();
 		drawPane();
 
 		setBackground(Color.black);

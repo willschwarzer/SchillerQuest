@@ -7,6 +7,10 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
 
+/**
+ * LevelTextPane displays text in a window the ability to specify colors
+ * for different characters. In the view hierarchy, it exists below GameFrame.
+ */
 public class LevelTextPane extends JTextPane {
 	private char[][] characterGrid;
 
@@ -24,6 +28,16 @@ public class LevelTextPane extends JTextPane {
 		setBackground(Color.black);
 		setFont(new Font(Font.MONOSPACED, Font.PLAIN, 18));
 		setEditable(false);
+	}
+
+	/**
+	 * updateCharacterGrid is public so the controller
+	 * can notify the LevelTextPane that a move has occurred
+	 * and it's time to update the game window
+	 */
+	public void updateCharacterGrid(char[][] newGrid) {
+		characterGrid = newGrid;
+		drawCharGridInPane();
 	}
 
 	private void appendText(String text, Color c) {
@@ -53,10 +67,5 @@ public class LevelTextPane extends JTextPane {
 			default:
 				return Color.white;
 		}
-	}
-
-	public void updateCharacterGrid(char[][] newGrid) {
-		characterGrid = newGrid;
-		drawCharGridInPane();
 	}
 }
