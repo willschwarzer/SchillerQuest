@@ -35,24 +35,5 @@ class GameMapTest {
 		assertArrayEquals(expected, output);
 	}
 
-	@Disabled("testGetSquareAreaAroundLocation() not yet implemented")
-	@Test
-	void testGetSquareAreaAroundLocation() {
-	}
-
-	@Disabled("testGetRectangularAreaAroundLocation() not yet implemented")
-	@Test
-	void testGetRectangularAreaAroundLocation() {
-	}
-
-	@Disabled("testGetCircularAreaAroundLocation() not yet implemented")
-	@Test
-	void testGetCircularAreaAroundLocation() {
-	}
-
-	@Disabled("testGetTileAtLocation() not yet implemented")
-	@Test
-	void testGetTileAtLocation() {
-	}
-
+	// TODO write more tests
 }
