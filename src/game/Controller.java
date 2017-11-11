@@ -1,69 +1,145 @@
 package game;
 
-public class Controller implements ControllerInterface {
-	private LevelView view;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Controller implements ControllerInterface, Subject, Observer {
+	private List<Observer> observers;
+	private char[][] temp;
+	private GameFrame view;
 	private GameModel model;
 
-	public void keyAction(int key) {
-		if (key >= 37 && key <= 40) {
-			int[] direction = new int[2];
-			if (key == 37) {
-				direction = new int[]{-1, 0};
-			} else if (key == 38) {
-				direction = new int[]{0, -1};
-			} else if (key == 39) {
-				direction = new int[]{1, 0};
-			} else {
-				direction = new int[]{0, 1};
-			}
-			makeMove(direction);
-		} else {
-			System.out.println("Key not yet implemented.");
+	public Controller() {
+		observers = new ArrayList<>();
+	}
+
+	//TODO add observer pattern functionality
+	/*
+	 * The next four functions are not yet used (see updateViewGrid()).
+	 */
+	public boolean addObserver(Observer o) {
+		return observers.add(o);
+	}
+
+	public boolean removeObserver(Observer o) {
+		return observers.remove(o);
+	}
+
+	public void notifyObservers() {
+		for (Observer observer : observers) {
+			observer.update(temp);
 		}
 	}
 
+	public void update(char[][] map) {
+		this.temp = map;
+	}
+
+	/**
+	 * Handles keyboard commands passed in from the view.
+	 * Currently only arrow keys are implemented.
+	 *
+	 * @param key
+	 */
+	public void keyAction(int key) {
+		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_DOWN || key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_UP) {
+			int[] direction;
+			if (key == KeyEvent.VK_LEFT) {
+				direction = new int[]{-1, 0};
+			} else if (key == KeyEvent.VK_DOWN) {
+				direction = new int[]{0, 1};
+			} else if (key == KeyEvent.VK_RIGHT) {
+				direction = new int[]{1, 0};
+			} else {
+				direction = new int[]{0, -1};
+			}
+			makeMove(direction);
+		} else {
+			//TODO add more keys as needed
+			return;
+		}
+	}
+
+	/**
+	 * Opens the view's inventory pane.
+	 */
 	public void openInventory() {
-		System.out.println("This is your inventory!");
+		view.displayInventory();
 	}
-
+  
+  /**
+   * Opens the view's level pane.
+   */
 	public void openMainScreen() {
-		System.out.println("This is the main screen!");
+		view.displayLevelScreen();
+
 	}
 
+	/**
+	 * Opens the view's options pane.
+	 * Not yet implemented.
+	 */
 	public void openOptions() {
-		System.out.println("These are the options!");
+		System.out.println("Not yet implemented.");
 	}
 
+	/**
+	 * When a movement key has been pressed, parses the movement
+	 * and makes the corresponding player move in the model.
+	 *
+	 * @param move
+	 */
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
 		model.moveCreature(player, move);
 	}
 
-	public void whatIsTile(Coordinates position) {
+	public void updateViewGrid(char[][] newGrid) {
+		view.updateTextPane(newGrid);
+	}
 
+	/*
+	The next five functions are not yet implemented.
+	 */
+	public void whatIsTile(Coordinates position) {
 	}
 
 	public void pickUp() {
-
 	}
 
 	public void drop(Item item) {
-
 	}
 
 	public void equip(Item item) {
-
 	}
 
 	public void unequip(Item item) {
-
 	}
 
-	public void setView(LevelView view) {
+	/**
+	 * Sets the controller's view object.
+	 *
+	 * @param view
+	 */
+	public void setView(GameFrame view) {
 		this.view = view;
 	}
 
+	/**
+	 * Sets the controller's model object.
+	 *
+	 * @param model
+	 */
 	public void setGameModel(GameModel model) {
 		this.model = model;
 	}
+
+	 /**
+	 * it quits the game
+	 */
+	public void quitGame() {
+		System.exit(0);
+	}
+
 }

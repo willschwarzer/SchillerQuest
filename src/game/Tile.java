@@ -9,17 +9,34 @@ public class Tile implements MapViewable {
 	private Deque<Item> items;
 	private Creature creature;
 
+	/**
+	 * Creates a Tile with the given Terrain.
+	 *
+	 * @param terrain Terrain to have for the Tile
+	 */
 	public Tile(Terrain terrain) {
 		this.terrain = terrain;
 		this.items = new LinkedList<>();
 	}
 
+	/**
+	 * Creates a Tile with the given Terrain and Entity occupying the tile.
+	 *
+	 * @param terrain Terrain to have for the Tile
+	 * @param entity  Entity to initialize the Tile with
+	 */
 	public Tile(Terrain terrain, Entity entity) {
 		this.terrain = terrain;
 		this.items = new LinkedList<>();
 		addEntity(entity);
 	}
 
+	/**
+	 * Creates a Tile with the given Terrain and Collection of Entitys
+	 *
+	 * @param terrain  Terrain to have for the Tile
+	 * @param entities Collection of type Entity to add to the Tile
+	 */
 	public Tile(Terrain terrain, Collection<Entity> entities) {
 		this.terrain = terrain;
 		this.items = new LinkedList<>();
@@ -29,9 +46,12 @@ public class Tile implements MapViewable {
 	}
 
 	public boolean isOccupiable() {
-		throw new UnsupportedOperationException("isOccupiable() not yet implemented for Tile");
-		// TODO figure out how to handle this - allow being on top of certain terrain, items, but not other terrain &
-		// other creatures
+		// TODO Anders - come back to?
+		if (creature == null && (items == null || items.isEmpty()) && terrain.isOccupiable()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public Deque<Item> getItems() {

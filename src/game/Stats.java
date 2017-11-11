@@ -1,7 +1,7 @@
 package game;
 
 /**
- * Stats class that handles all of the values for creatures
+ * Stats class that handles all of the values for Creatures
  */
 public class Stats {
 	private int health;
@@ -9,7 +9,6 @@ public class Stats {
 	private int speed;
 	private int defense;
 	private int vision;
-
 
 	/**
 	 * Creates a Stats from the given values.
@@ -52,6 +51,4 @@ public class Stats {
 		health -= hit;
 		return health;
 	}
-
-
 }

@@ -2,6 +2,9 @@ package game;
 
 import java.io.*;
 
+/**
+ * Class to store the information about the current map - including the terrain, items, and creatures present.
+ */
 public class GameMap implements GameMapInterface {
 	/**
 	 * Stores the map tiles in a row-major 2D Tile array.  With (0, 0) at top left, point (col x, row y) is at
@@ -46,7 +49,7 @@ public class GameMap implements GameMapInterface {
 					if (currentLine.length() != width) {
 						throw new IllegalArgumentException(
 								"Line " + row + " in file " + file + "has incorrect width (expected " + width + " " +
-										"but was " + currentLine.length() + ")");
+								"but was " + currentLine.length() + ")");
 					} else {
 						for (int col = 0; col < currentLine.length(); col++) {
 							Terrain terrain = new Terrain(currentLine.charAt(col));
@@ -162,6 +165,13 @@ public class GameMap implements GameMapInterface {
 
 	public Player getPlayer() {
 		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+
+		Tile location = map[player.getCoordinates().getY()][player.getCoordinates().getX()];
+		location.addEntity(player);
 	}
 
 	/**
