@@ -1,8 +1,6 @@
 package game;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.*;
 
 /**
  * Class to store the information about the current map - including the terrain, items, and creatures present.
@@ -13,40 +11,41 @@ public class GameMap implements GameMapInterface {
 	 * map[row y][col x]
 	 */
 	private Tile[][] map;
-
 	private Player player;
 
 	/**
-	 * Creates a GameMap from a given file.  The file must have lines of uniform length.
+	 * Creates a GameMap from a given File.  The file must have lines of uniform length.
 	 *
-	 * @param file The file to build the map from
+	 * @param file The File to build the map from
 	 */
 	public GameMap(File file) {
 		buildMapFromFile(file);
 	}
 
 	/**
-	 * Builds the map from the given file.  The file must have lines of uniform length.
+	 * Builds the map from the given File.  The file must have lines of uniform length.
 	 *
-	 * @param file File to build the map from
-	 * @return
+	 * @param file The File to build the map from
+	 * @return Whether the GameMap was built from the File successfully
 	 */
 	private boolean buildMapFromFile(File file) {
+		if (map != null) {
+			throw new IllegalStateException("Cannot build GameMap from a file when the map already exists.");
+		}
+
 		int height = getFileLength(file);
 		int width = getFileWidth(file);
 
 		if (height == 0) {
 			throw new IllegalArgumentException("Invalid input file - height is 0 (file " + file);
-			// TODO figure out how to handle this
 		} else if (width == 0) {
 			throw new IllegalArgumentException("Invalid input file - width is 0 (file " + file);
-			// TODO figure out how to handle this
 		} else {
 			map = new Tile[height][width];
 
-			try (Scanner scanner = new Scanner(file)) {
+			try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 				for (int row = 0; row < height; row++) {
-					String currentLine = scanner.nextLine();
+					String currentLine = reader.readLine();
 					if (currentLine.length() != width) {
 						throw new IllegalArgumentException(
 								"Line " + row + " in file " + file + "has incorrect width (expected " + width + " " +
@@ -61,43 +60,10 @@ public class GameMap implements GameMapInterface {
 				}
 				return true;
 			} catch (FileNotFoundException e) {
-				throw new IllegalArgumentException("File not found.", e);
+				throw new IllegalArgumentException("File not found", e);
+			} catch (IOException e) {
+				throw new IllegalArgumentException("IOException", e);
 			}
-		}
-	}
-
-	/**
-	 * Gets the height of the given file.
-	 *
-	 * @param file File to get the height of
-	 * @return Height of the given file
-	 */
-	static private int getFileLength(File file) {
-		try (Scanner scanner = new Scanner(file)) {
-			int length = 0;
-			while (scanner.hasNextLine()) {
-				length++;
-				scanner.nextLine();
-			}
-			return length;
-		} catch (FileNotFoundException e) {
-			throw new IllegalArgumentException("File not found.", e);
-		}
-	}
-
-	/**
-	 * Gets the width of the first line of the given file
-	 *
-	 * @param file File to get the width of
-	 * @return Width of the given file
-	 */
-	static private int getFileWidth(File file) {
-		try (Scanner scanner = new Scanner(file)) {
-			int width = scanner.nextLine().length();
-			scanner.close();
-			return width;
-		} catch (FileNotFoundException e) {
-			throw new IllegalArgumentException("File not found.", e);
 		}
 	}
 
@@ -172,5 +138,39 @@ public class GameMap implements GameMapInterface {
 
 		Tile location = map[player.getCoordinates().getY()][player.getCoordinates().getX()];
 		location.addEntity(player);
+	}
+
+	/**
+	 * Gets the height of the given file.
+	 *
+	 * @param file File to get the height of
+	 * @return Height of the given file
+	 */
+	private int getFileLength(File file) {
+		try (LineNumberReader reader = new LineNumberReader(new FileReader(file))) {
+			while (reader.readLine() != null) {
+			}
+			return reader.getLineNumber();
+		} catch (FileNotFoundException e) {
+			throw new IllegalArgumentException("File not found.", e);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Gets the width of the first line of the given file
+	 *
+	 * @param file File to get the width of
+	 * @return Width of the given file
+	 */
+	private int getFileWidth(File file) {
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			return br.readLine().length();
+		} catch (FileNotFoundException e) {
+			throw new IllegalArgumentException("File not found.", e);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
