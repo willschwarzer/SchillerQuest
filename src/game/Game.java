@@ -10,7 +10,9 @@ public class Game {
 	 */
 	public static void main(String[] args) {
 
-		ControllerInterface controller = new Controller();
+		// TODO find a way to make this an interface again
+		// (how do we access methods from both Subject and ControllerInterface???
+		Controller controller = new Controller();
 		GameMap map = new GameMap(new File("src/resources/level1.txt"));
 
 		GameFrame view = new GameFrame();
@@ -22,10 +24,13 @@ public class Game {
 		model.setGameMap(map);
 		model.spawnPlayer(startCoordinates);
 		model.setController(controller);
+		model.addObserver(controller);
 
 		controller.setView(view);
 		controller.setGameModel(model);
-		controller.updateViewGrid(map.getMapAsCharArray());
+		controller.setCharMap(map.getMapAsCharArray());
+		controller.addObserver(view);
+		controller.notifyObservers();
 
 		view.setController(controller);
 		view.setVisible(true);
