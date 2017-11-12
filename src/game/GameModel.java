@@ -1,8 +1,12 @@
 package game;
 
-public class GameModel {
+import java.util.List;
+import java.util.ArrayList;
+
+public class GameModel implements Subject {
 	private GameMap map;
 	private ControllerInterface controller;
+	private List<Observer> observers;
 
 	/**
 	 * Moves a given creatures location with given move
@@ -10,6 +14,10 @@ public class GameModel {
 	 * @param creature The creature being moved
 	 * @param move     The changes in the creatures location
 	 */
+
+	public GameModel() {
+		observers = new ArrayList<>();
+	}
 	public void moveCreature(Creature creature, int[] move) {
 		Coordinates currentCoordinates = creature.getCoordinates();
 		Tile oldTile = map.getTileAtLocation(currentCoordinates);
@@ -52,7 +60,7 @@ public class GameModel {
 	 * Will allow all of the other active entities to take a turn
 	 */
 	public void takeTurn() {
-		controller.updateViewGrid(map.getMapAsCharArray());
+		notifyObservers();
 	}
 
 	/**
@@ -64,4 +72,19 @@ public class GameModel {
 		Player player = new Player(coordinates);
 		map.setPlayer(player);
 	}
+
+	public boolean addObserver(Observer observer) {
+		return observers.add(observer);
+	}
+
+	public boolean removeObserver(Observer o) {
+		return observers.remove(o);
+	}
+
+	public void notifyObservers() {
+		for (Observer observer : observers) {
+			observer.update(map.getMapAsCharArray());
+		}
+	}
+
 }

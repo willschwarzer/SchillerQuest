@@ -6,9 +6,9 @@ import java.util.List;
 
 public class Controller implements ControllerInterface, Subject, Observer {
 	private List<Observer> observers;
-	private char[][] temp;
 	private GameFrame view;
 	private GameModel model;
+	private char[][] charMap;
 
 	public Controller() {
 		observers = new ArrayList<>();
@@ -28,12 +28,13 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(temp);
+			observer.update(charMap);
 		}
 	}
 
 	public void update(char[][] map) {
-		this.temp = map;
+		setCharMap(map);
+		notifyObservers();
 	}
 
 	/**
@@ -95,10 +96,6 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		model.moveCreature(player, move);
 	}
 
-	public void updateViewGrid(char[][] newGrid) {
-		view.updateTextPane(newGrid);
-	}
-
 	/*
 	The next five functions are not yet implemented.
 	 */
@@ -142,4 +139,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		System.exit(0);
 	}
 
+	public void setCharMap(char[][] map) {
+		this.charMap = map;
+	}
 }
