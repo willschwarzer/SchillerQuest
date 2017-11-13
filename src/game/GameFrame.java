@@ -35,8 +35,6 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// We eventually want to switch keyboard control to the JFrame instead
-		// of the text pane, but this is currently not working. ¯\_(ツ)_/¯
 	}
 
 	/**
