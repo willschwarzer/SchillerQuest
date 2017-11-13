@@ -12,7 +12,7 @@ import java.awt.event.KeyListener;
  * An implementation of Java's JFrame with a purpose of displaying a window we can put elements in.
  * It is able to handle key input and is the top level of our view.
  */
-public class GameFrame extends JFrame implements ActionListener, Observer {
+public class GameFrame extends JFrame implements Observer, ActionListener {
 	private LevelTextPane lvlTextPane = new LevelTextPane();
 	private InventoryPane invPane = new InventoryPane();
 	private TitlePane titlePane = new TitlePane();
@@ -31,6 +31,7 @@ public class GameFrame extends JFrame implements ActionListener, Observer {
 
 		setupTextPane();
 		addUIElementsToFrame();
+		addBindings();
 
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,6 +130,53 @@ public class GameFrame extends JFrame implements ActionListener, Observer {
 		buttonPanel.add(quitButton);
 
 		return buttonPanel;
+	}
+
+	/**
+	 * Adds key bindings to the level text pane.
+	 */
+	private void addBindings() {
+		InputMap iMap = lvlTextPane.getInputMap(JComponent.WHEN_FOCUSED);
+		InputMap iMapWindow = lvlTextPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+
+		iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "left");
+		iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "down");
+		iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "right");
+		iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "up");
+
+		iMapWindow.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "left");
+		iMapWindow.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "down");
+		iMapWindow.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "right");
+		iMapWindow.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "up");
+
+		ActionMap aMap = lvlTextPane.getActionMap();
+
+		aMap.put("left", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.makeMove(new int[] {-1, 0});
+			}
+		});
+		aMap.put("down", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.makeMove(new int[] {0, 1});
+			}
+		});
+		aMap.put("right", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.makeMove(new int[] {1, 0});
+			}
+		});
+		aMap.put("up", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.makeMove(new int[] {0, -1});
+			}
+		});
+
+		System.out.println(lvlTextPane.getActionMap().allKeys());
 	}
 
 	/**

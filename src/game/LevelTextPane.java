@@ -14,11 +14,6 @@ import java.awt.event.ActionEvent;
  */
 public class LevelTextPane extends JTextPane {
 	private char[][] characterGrid;
-	private ControllerInterface controller;
-
-	public LevelTextPane() {
-		addBindings();
-	}
 
 	private void drawCharGridInPane() {
 		setEditable(true);
@@ -41,40 +36,6 @@ public class LevelTextPane extends JTextPane {
 	 * can notify the LevelTextPane that a move has occurred
 	 * and it's time to update the game window
 	 */
-
-	public void addBindings() {
-		InputMap iMap = this.getInputMap(WHEN_IN_FOCUSED_WINDOW);
-
-		iMap.put(KeyStroke.getKeyStroke("LEFT"), "left");
-		iMap.put(KeyStroke.getKeyStroke("DOWN"), "down");
-		iMap.put(KeyStroke.getKeyStroke("RIGHT"), "right");
-		iMap.put(KeyStroke.getKeyStroke("UP"), "up");
-
-		ActionMap aMap = this.getActionMap();
-
-		aMap.put("left", new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				controller.makeMove(new int[] {-1, 0});
-				System.out.println("Hello");
-			}
-		});
-		aMap.put("down", new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				controller.makeMove(new int[] {0, 1});
-			}
-		});
-		aMap.put("right", new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				controller.makeMove(new int[] {1, 0});
-			}
-		});
-		aMap.put("up", new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				controller.makeMove(new int[] {0, -1});
-			}
-		});
-	}
-
 	public void updateCharacterGrid(char[][] newGrid) {
 		characterGrid = newGrid;
 		drawCharGridInPane();
@@ -107,9 +68,5 @@ public class LevelTextPane extends JTextPane {
 			default:
 				return Color.white;
 		}
-	}
-
-	public void setController(Controller controller) {
-		this.controller = controller;
 	}
 }
