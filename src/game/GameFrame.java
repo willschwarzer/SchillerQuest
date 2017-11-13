@@ -136,47 +136,29 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 * Adds key bindings to the level text pane.
 	 */
 	private void addBindings() {
-		InputMap iMap = lvlTextPane.getInputMap(JComponent.WHEN_FOCUSED);
-		InputMap iMapWindow = lvlTextPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		addKeyBinding(lvlTextPane, KeyEvent.VK_LEFT, "left",
+				(action) -> controller.makeMove(new int[] {-1, 0}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_DOWN, "down",
+				(action) -> controller.makeMove(new int[] {0, 1}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_RIGHT, "right",
+				(action) -> controller.makeMove(new int[] {1, 0}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up",
+				(action) -> controller.makeMove(new int[] {0, -1}));
+	}
 
-		iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "left");
-		iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "down");
-		iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "right");
-		iMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "up");
+	private void addKeyBinding(JComponent component, int key, String id, ActionListener action) {
+		InputMap iMap = component.getInputMap(JComponent.WHEN_FOCUSED);
+		InputMap iMapWindow = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		ActionMap aMap = component.getActionMap();
 
-		iMapWindow.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "left");
-		iMapWindow.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "down");
-		iMapWindow.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "right");
-		iMapWindow.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "up");
-
-		ActionMap aMap = lvlTextPane.getActionMap();
-
-		aMap.put("left", new AbstractAction() {
+		iMap.put(KeyStroke.getKeyStroke(key, 0, false), id);
+		iMapWindow.put(KeyStroke.getKeyStroke(key, 0, false), id);
+		aMap.put(id, new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.makeMove(new int[] {-1, 0});
+				action.actionPerformed(e);
 			}
 		});
-		aMap.put("down", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				controller.makeMove(new int[] {0, 1});
-			}
-		});
-		aMap.put("right", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				controller.makeMove(new int[] {1, 0});
-			}
-		});
-		aMap.put("up", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				controller.makeMove(new int[] {0, -1});
-			}
-		});
-
-		System.out.println(lvlTextPane.getActionMap().allKeys());
 	}
 
 	/**
