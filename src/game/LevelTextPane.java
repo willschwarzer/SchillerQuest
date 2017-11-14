@@ -6,7 +6,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 /**
  * LevelTextPane displays text in a window the ability to specify colors
