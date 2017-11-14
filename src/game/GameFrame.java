@@ -17,6 +17,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
 	private ControllerInterface controller;
+	private boolean IS_WINDOWS;
 
 	/**
 	 * Creates a GameFrame object of fixed size
@@ -24,7 +25,13 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 */
 	public GameFrame() {
 		super();
-		setSize(875, 460);
+		IS_WINDOWS = (System.getProperty("os.name").contains("Windows"));
+		System.out.println(IS_WINDOWS);
+		if (IS_WINDOWS) {
+			setSize(1400, 520);
+		} else {
+			setSize(875, 460);
+		}
 		setResizable(false);
 		setTitle("Schiller Quest");
 
