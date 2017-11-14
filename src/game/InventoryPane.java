@@ -82,10 +82,6 @@ public class InventoryPane extends JTextPane implements KeyListener {
 		int index = i + n;
 		// Add selection indicators if applicable
 		if (selected) {
-
-			//todo if backpack available, display left indicator
-			//todo if equipped available, display right indicator
-
 			if (curr < backpack.size()) {
 				appendText(LEFT_INDICATOR, Color.green);
 				index += LEFT_INDICATOR.length();
