@@ -24,12 +24,13 @@ public class InventoryPane extends JTextPane implements KeyListener {
 
 	private ArrayList<String> backpack = new ArrayList<>();
 	private ArrayList<String> equipped = new ArrayList<>();
-	private int currSelectionIndex = 0;
+	private int curr = 0;
 
 	public InventoryPane() {
     	super();
 
 		//**
+		//TODO: all of this happens in model
 		backpack.add("Cool Sword");
 		backpack.add("Rusty Spoon");
 		backpack.add("Freedom Key");
@@ -85,20 +86,25 @@ public class InventoryPane extends JTextPane implements KeyListener {
 			//todo if backpack available, display left indicator
 			//todo if equipped available, display right indicator
 
-			appendText(LEFT_INDICATOR, Color.green);
-			index += LEFT_INDICATOR.length();
+			if (curr < backpack.size()) {
+				appendText(LEFT_INDICATOR, Color.green);
+				index += LEFT_INDICATOR.length();
+			}
 
-			while (index < EQUIPPED_ALIGNMENT - 3) {
+			if (curr < equipped.size()) {
+				while (index < EQUIPPED_ALIGNMENT - 3) {
+					appendText(" ", Color.white);
+					index++;
+				}
+				appendText(RIGHT_INDICATOR, Color.green);
+				index += RIGHT_INDICATOR.length();
+			}
+		} else {
+			// Move cursor to position for equipped item
+			while (index < EQUIPPED_ALIGNMENT) {
 				appendText(" ", Color.white);
 				index++;
 			}
-			appendText(RIGHT_INDICATOR, Color.green);
-			index += RIGHT_INDICATOR.length();
-		}
-		// Move cursor to position for equipped item
-		while (index < EQUIPPED_ALIGNMENT) {
-			appendText(" ", Color.white);
-			index++;
 		}
 		// Display name of equipped item at this position
 		for (char c : eqChars) {
@@ -120,7 +126,7 @@ public class InventoryPane extends JTextPane implements KeyListener {
 		int i = 0;
 		while (i < backpack.size() || i < equipped.size()) {
 			boolean isSelected = false;
-			if (i == currSelectionIndex) {
+			if (i == curr) {
 				isSelected = true;
 			}
 
@@ -161,40 +167,37 @@ public class InventoryPane extends JTextPane implements KeyListener {
 	}
 
 	private void selectUp() {
-		if (currSelectionIndex > 0) {
-			currSelectionIndex--;
+		if (curr > 0) {
+			curr--;
 		}
 	}
 
 	private void selectDown() {
-		if (currSelectionIndex < backpack.size() - 1 || currSelectionIndex < equipped.size() - 1) {
-			currSelectionIndex++;
+		if (curr < backpack.size() - 1 || curr < equipped.size() - 1) {
+			curr++;
 		}
 	}
 
+	//TODO: move this to model?
 	private void moveToBackpack() {
-		if (equipped.size() >= currSelectionIndex) { // valid change?
-			backpack.add(equipped.get(currSelectionIndex));
-			equipped.remove(currSelectionIndex);
-			if (currSelectionIndex >= equipped.size()) {
-				currSelectionIndex = equipped.size() - 1;
-			}
-
-			if (currSelectionIndex < 0)
-				currSelectionIndex = 0;
+		if (equipped.size() >= curr) { // valid change?
+			backpack.add(equipped.get(curr));
+			equipped.remove(curr);
+			if (curr >= backpack.size() && curr >= equipped.size())
+				curr = equipped.size() - 1;
+			if (curr < 0)
+				curr = 0;
 		}
 	}
 
 	private void moveToEquipped() {
-		if (backpack.size() >= currSelectionIndex) { // valid change?
-			equipped.add(backpack.get(currSelectionIndex));
-			backpack.remove(currSelectionIndex);
-			if (currSelectionIndex >= backpack.size()) {
-				currSelectionIndex = backpack.size() - 1;
-			}
-
-			if (currSelectionIndex < 0)
-				currSelectionIndex = 0;
+		if (backpack.size() >= curr) { // valid change?
+			equipped.add(backpack.get(curr));
+			backpack.remove(curr);
+			if (curr >= backpack.size() && curr >= equipped.size())
+				curr = backpack.size() - 1;
+			if (curr < 0)
+				curr = 0;
 		}
 	}
 
