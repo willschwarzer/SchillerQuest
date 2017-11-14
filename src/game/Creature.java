@@ -20,6 +20,12 @@ public abstract class Creature extends Entity {
 	}
 
 	/**
+	 * Creates a creature at given coordinates with specified GameMap.
+	 * @param coordinates
+	 * @param map
+	 */
+	public Creature(Coordinates coordinates, GameMap map) {super(coordinates, map);}
+	/**
 	 * Creates a entity at given coordinates
 	 *
 	 * @return Gives the stats object of this creature

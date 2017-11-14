@@ -1,7 +1,13 @@
 package game;
 
 public abstract class Monster extends Creature {
-	public Monster(Coordinates coordinates) {
-		super(coordinates);
+	private MonsterAI ai;
+
+	public Monster(Coordinates coordinates, GameMap map) {
+		super(coordinates, map);
+	}
+
+	public int[] getMove() {
+		return ai.getMove();
 	}
 }
