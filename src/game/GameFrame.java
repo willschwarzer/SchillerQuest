@@ -96,7 +96,6 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		JPanel splitPanel = new JPanel();
 		splitPanel.setLayout(new GridLayout(0, 1));
 		splitPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
-
 		splitPanel.add(buildStatsPanel());
 		splitPanel.add(buildButtonPanel());
 		add(splitPanel, BorderLayout.EAST);
@@ -125,7 +124,6 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		quitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		quitButton.addActionListener(this);
 		buttonPanel.add(quitButton);
-
 		return buttonPanel;
 	}
 
