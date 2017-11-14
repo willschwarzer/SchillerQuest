@@ -66,4 +66,8 @@ public abstract class Entity implements MapViewable {
 	public boolean isOccupiable() {
 		return isOccupiable;
 	}
+
+	public GameMap getGameMap() {
+		return map;
+	}
 }
