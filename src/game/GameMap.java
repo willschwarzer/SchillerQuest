@@ -99,8 +99,8 @@ public class GameMap implements GameMapInterface {
 	}
 
 	/**
-	 * Returns the square area around the given location as a row-major 2D Tile array.  Distance is how many blocks away
-	 * from the coordinates to include.  ' ' is inserted for any Tiles that are outside the GameMap.
+	 * Returns the square area around the given location as a row-major 2D Tile array.  Distance is how many blocks
+	 * away from the coordinates to include.  Tiles outside the GameMap are added as null
 	 *
 	 * @param coordinates Location to get the map around
 	 * @param distance    Distance away from the location to include
@@ -110,25 +110,24 @@ public class GameMap implements GameMapInterface {
 	public Tile[][] getSquareAreaAroundLocation(Coordinates coordinates, int distance) {
 		Tile[][] results = new Tile[2 * distance + 1][2 * distance + 1];
 
-		int mapRow = coordinates.getY() - distance;
-		for (int resultsRow = 0; resultsRow < 2 * distance + 1; resultsRow++) {
-			int mapCol = coordinates.getX() - distance;
-			for (int resultsCol = 0; resultsCol < 2 * distance + 1; resultsCol++) {
+		// TODO - figure out the weird issues, flipping getX & getY make different tests work.
+		for (int resultsRow = 0, mapRow = coordinates.getY() - distance; resultsRow < 2 * distance + 1; resultsRow++,
+				mapRow++) {
+			for (int resultsCol = 0, mapCol = coordinates.getX() - distance; resultsCol < 2 * distance + 1;
+				 resultsCol++, mapCol++) {
 				try {
 					results[resultsRow][resultsCol] = map[mapRow][mapCol];
 				} catch (ArrayIndexOutOfBoundsException e) {
 					results[resultsRow][resultsCol] = null;
 				}
-				mapCol++;
 			}
-			mapRow++;
 		}
-
 		return results;
 	}
 
 	/**
-	 * Returns the square area around the given location as a row-major 2D char array, with what should be visible at each Tile.
+	 * Returns the square area around the given location as a row-major 2D char array, with what should be visible at
+	 * each Tile.
 	 *
 	 * @param coordinates Location to get the map around
 	 * @param distance    Distance away from the location to include
@@ -175,7 +174,7 @@ public class GameMap implements GameMapInterface {
 	}
 
 	/**
-	 * Converts a given 2D Tile array to it's character equivalent.  Replaces null Tiles (out of world) with ' '.
+	 * Converts a given 2D Tile array to it's character equivalent.  Replaces null Tiles (out of world) with '␀'.
 	 *
 	 * @param array 2D Tile array to convert to 2D char array
 	 * @return 2D char array version of the given 2D Tile array
@@ -183,16 +182,15 @@ public class GameMap implements GameMapInterface {
 	public static char[][] convertTileArrayToCharArray(Tile[][] array) {
 		char[][] output = new char[array.length][array[0].length];
 
-		for (int i = 0; i < array.length; i++) {
-			for (int j = 0; j < array[0].length; j++) {
+		for (int row = 0; row < array.length; row++) {
+			for (int col = 0; col < array[0].length; col++) {
 				try {
-					output[i][j] = array[i][j].getMapGraphic();
+					output[row][col] = array[row][col].getMapGraphic();
 				} catch (NullPointerException e) {
-					output[i][j] = 'N';
+					output[row][col] = '␀';
 				}
 			}
 		}
-
 		return output;
 	}
 
@@ -215,7 +213,7 @@ public class GameMap implements GameMapInterface {
 	}
 
 	/**
-	 * Gets the width of the first line of the given file
+	 * Gets the width of the first line of the given file.
 	 *
 	 * @param file File to get the width of
 	 * @return Width of the given file
