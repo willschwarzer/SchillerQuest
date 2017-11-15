@@ -108,11 +108,14 @@ public class GameMap implements GameMapInterface {
 	 */
 	@Override
 	public Tile[][] getSquareAreaAroundLocation(Coordinates coordinates, int distance) {
+		if (distance < 0) {
+			throw new IllegalArgumentException("Cannot get square area with distance < 0");
+		}
+
 		Tile[][] results = new Tile[2 * distance + 1][2 * distance + 1];
 
-		// TODO - figure out the weird issues, flipping getX & getY make different tests work.
-		for (int resultsRow = 0, mapRow = coordinates.getY() - distance; resultsRow < 2 * distance + 1; resultsRow++,
-				mapRow++) {
+		for (int resultsRow = 0, mapRow = coordinates.getY() - distance; resultsRow < 2 * distance + 1;
+			 resultsRow++, mapRow++) {
 			for (int resultsCol = 0, mapCol = coordinates.getX() - distance; resultsCol < 2 * distance + 1;
 				 resultsCol++, mapCol++) {
 				try {
@@ -122,6 +125,7 @@ public class GameMap implements GameMapInterface {
 				}
 			}
 		}
+
 		return results;
 	}
 
