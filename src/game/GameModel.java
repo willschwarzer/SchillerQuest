@@ -83,7 +83,7 @@ public class GameModel implements Subject {
 
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(map.getMapAsCharArray());
+			observer.update(map.getSquareAreaAroundLocationAsCharArray(getPlayer().getCoordinates(), 10));
 		}
 	}
 
