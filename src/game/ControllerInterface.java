@@ -21,11 +21,11 @@ public interface ControllerInterface {
 
 	void unequip(Item item);
 
-	void updateViewGrid(char[][] newGrid);
-
 	void setView(GameFrame view);
 
 	void setGameModel(GameModel model);
+
+	void setCharMap(char[][] map);
 
 	void quitGame();
 }
