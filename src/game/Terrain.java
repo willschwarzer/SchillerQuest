@@ -63,4 +63,8 @@ public class Terrain implements MapViewable {
 			return false;
 		}
 	}
+
+	public static char getOutOfWorldTerrainGraphic() {
+		return '␀';
+	}
 }

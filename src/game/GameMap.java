@@ -178,7 +178,8 @@ public class GameMap implements GameMapInterface {
 	}
 
 	/**
-	 * Converts a given 2D Tile array to it's character equivalent.  Replaces null Tiles (out of world) with '␀'.
+	 * Converts a given 2D Tile array to it's character equivalent.  Replaces null Tiles (out of world) with the value
+	 * of Terrain.getOutOfWorldTerrainGraphic()
 	 *
 	 * @param array 2D Tile array to convert to 2D char array
 	 * @return 2D char array version of the given 2D Tile array
@@ -191,10 +192,11 @@ public class GameMap implements GameMapInterface {
 				try {
 					output[row][col] = array[row][col].getMapGraphic();
 				} catch (NullPointerException e) {
-					output[row][col] = '␀';
+					output[row][col] = Terrain.getOutOfWorldTerrainGraphic();
 				}
 			}
 		}
+
 		return output;
 	}
 
