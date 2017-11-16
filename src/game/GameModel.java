@@ -18,6 +18,7 @@ public class GameModel implements Subject {
 	public GameModel() {
 		observers = new ArrayList<>();
 	}
+
 	public void moveCreature(Creature creature, int[] move) {
 		Coordinates currentCoordinates = creature.getCoordinates();
 		Tile oldTile = map.getTileAtLocation(currentCoordinates);
@@ -83,7 +84,7 @@ public class GameModel implements Subject {
 
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(map.getSquareAreaAroundLocationAsCharArray(getPlayer().getCoordinates(), 10));
+			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), 5));
 		}
 	}
 

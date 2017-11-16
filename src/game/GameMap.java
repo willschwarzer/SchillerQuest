@@ -248,6 +248,23 @@ public class GameMap implements GameMapInterface {
 		return convertTileArrayToCharArray(getCircularAreaAroundLocation(coordinates, radius));
 	}
 
+	public char[][] getVisionAsCharArray(Coordinates coordinates, int visionRadius) {
+		final int windowHeight = 10;
+		final int windowWidth = 30;
+
+		Tile.markTileVisiblity(map, false);
+
+		Tile[][] center = getCircularAreaAroundLocation(coordinates, visionRadius);
+		Tile.markTileSeen(center, true);
+		Tile.markTileVisiblity(center, true);
+
+		Tile[][] background = getRectangularAreaAroundLocation(coordinates, windowWidth, windowHeight);
+
+		char[][] output = convertTileArrayToCharArray(background);
+
+		return output;
+	}
+
 	@Override
 	public Tile getTileAtLocation(Coordinates coordinates) {
 		if (coordinates.getX() > map[0].length) {
