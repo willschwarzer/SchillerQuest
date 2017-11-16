@@ -97,8 +97,7 @@ public class GameModel implements Subject {
 
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), 5));
+			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision()));
 		}
 	}
-
 }

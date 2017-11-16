@@ -5,6 +5,10 @@ public class Player extends Creature {
 		super(coordinates);
 	}
 
+	public Player(Coordinates coordinates, Stats stats) {
+		super(coordinates, stats);
+	}
+
 	@Override
 	public String getInfo() {
 		throw new UnsupportedOperationException("getInfo() not yet supported for Player");

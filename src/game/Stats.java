@@ -11,6 +11,20 @@ public class Stats {
 	private int vision;
 
 	/**
+	 * Default Stats constructor, sets all stats to 5.  Avoid using - only included to make general coding easier and
+	 * will log usages to System.err
+	 */
+	public Stats() {
+		health = 5;
+		attack = 5;
+		speed = 5;
+		defense = 5;
+		vision = 5;
+
+		System.err.println("Warning, used parameter-less Stats constructor, try to avoid.");
+	}
+
+	/**
 	 * Creates a Stats from the given values.
 	 *
 	 * @param health  Health value for the Stats
@@ -31,20 +45,40 @@ public class Stats {
 		return health;
 	}
 
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
 	public int getAttack() {
 		return attack;
+	}
+
+	public void setAttack(int attack) {
+		this.attack = attack;
 	}
 
 	public int getSpeed() {
 		return speed;
 	}
 
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
 	public int getDefense() {
 		return defense;
 	}
 
+	public void setDefense(int defense) {
+		this.defense = defense;
+	}
+
 	public int getVision() {
 		return vision;
+	}
+
+	public void setVision(int vision) {
+		this.vision = vision;
 	}
 
 	public int recieveAttack(int hit) {
