@@ -1,5 +1,6 @@
 package game;
 
+import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -8,16 +9,28 @@ public class GameModel implements Subject {
 	private ControllerInterface controller;
 	private List<Observer> observers;
 
+	public GameModel(Controller controller) {
+		observers = new ArrayList<>();
+		this.controller = controller;
+		addObserver(controller);
+
+		Coordinates startCoordinates = new Coordinates(10, 3);
+		loadNewLevel("src/resources/level1.txt", startCoordinates);
+
+		notifyObservers();
+	}
+
+	private void loadNewLevel(String fileName, Coordinates startCoordinates) {
+		map = new GameMap(new File(fileName));
+		spawnPlayer(startCoordinates);
+	}
+
 	/**
 	 * Moves a given creatures location with given move
 	 *
 	 * @param creature The creature being moved
 	 * @param move     The changes in the creatures location
 	 */
-
-	public GameModel() {
-		observers = new ArrayList<>();
-	}
 
 	public void moveCreature(Creature creature, int[] move) {
 		Coordinates currentCoordinates = creature.getCoordinates();

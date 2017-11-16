@@ -22,8 +22,11 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 * Creates a GameFrame object of fixed size
 	 * It is able to handle key input and the top level of our view.
 	 */
-	public GameFrame() {
+	public GameFrame(Controller controller) {
 		super();
+		this.controller = controller;
+		controller.addObserver(this);
+
 		setSize(875, 460);
 		setResizable(false);
 		setTitle("Schiller Quest");
