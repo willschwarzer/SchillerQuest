@@ -31,6 +31,7 @@ public class GameModel implements Subject {
 	 * @param creature The creature being moved
 	 * @param move     The changes in the creatures location
 	 */
+
 	public void moveCreature(Creature creature, int[] move) {
 		Coordinates currentCoordinates = creature.getCoordinates();
 		Tile oldTile = map.getTileAtLocation(currentCoordinates);
@@ -96,7 +97,7 @@ public class GameModel implements Subject {
 
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(map.getMapAsCharArray());
+			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), 5));
 		}
 	}
 

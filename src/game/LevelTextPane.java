@@ -64,6 +64,8 @@ public class LevelTextPane extends JTextPane {
 				return Color.magenta;
 			case '#':
 				return Color.gray;
+			case '•':
+				return Color.DARK_GRAY;
 			default:
 				return Color.white;
 		}
