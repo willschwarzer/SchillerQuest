@@ -6,13 +6,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 /**
  * An implementation of Java's JFrame with a purpose of displaying a window we can put elements in.
  * It is able to handle key input and is the top level of our view.
  */
-public class GameFrame extends JFrame implements ActionListener, KeyListener, Observer {
+public class GameFrame extends JFrame implements Observer, ActionListener {
 	private LevelTextPane lvlTextPane = new LevelTextPane();
 	private InventoryPane invPane = new InventoryPane();
 	private TitlePane titlePane = new TitlePane();
@@ -31,12 +30,10 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener, Ob
 
 		setupTextPane();
 		addUIElementsToFrame();
+		addBindings();
 
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// We eventually want to switch keyboard control to the JFrame instead
-		// of the text pane, but this is currently not working. ¯\_(ツ)_/¯
-		lvlTextPane.addKeyListener(this);
 	}
 
 	/**
@@ -131,6 +128,35 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener, Ob
 	}
 
 	/**
+	 * Adds key bindings to the level text pane.
+	 */
+	private void addBindings() {
+		addKeyBinding(lvlTextPane, KeyEvent.VK_LEFT, "left",
+				(action) -> controller.makeMove(new int[] {-1, 0}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_DOWN, "down",
+				(action) -> controller.makeMove(new int[] {0, 1}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_RIGHT, "right",
+				(action) -> controller.makeMove(new int[] {1, 0}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up",
+				(action) -> controller.makeMove(new int[] {0, -1}));
+	}
+
+	private void addKeyBinding(JComponent component, int key, String id, ActionListener action) {
+		InputMap iMap = component.getInputMap(JComponent.WHEN_FOCUSED);
+		InputMap iMapWindow = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		ActionMap aMap = component.getActionMap();
+
+		iMap.put(KeyStroke.getKeyStroke(key, 0, false), id);
+		iMapWindow.put(KeyStroke.getKeyStroke(key, 0, false), id);
+		aMap.put(id, new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				action.actionPerformed(e);
+			}
+		});
+	}
+
+	/**
 	 * Parses JButton input.
 	 */
 	@Override
@@ -149,20 +175,6 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener, Ob
 	/*
 	Standard KeyListener functions (only keyPressed is actually used at the moment)
 	 */
-	@Override
-	public void keyPressed(KeyEvent e) {
-		controller.keyAction(e.getKeyCode());
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		return;
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		return;
-	}
 
 	public void setController(ControllerInterface controller) {
 		this.controller = controller;
