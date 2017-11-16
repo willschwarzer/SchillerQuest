@@ -45,16 +45,6 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	}
 
 	/**
-	 * Handles keyboard commands passed in from the view.
-	 * Currently only arrow keys are implemented.
-	 *
-	 * @param key
-	 */
-	public void keyAction(int key) {
-		// Obsolete; to be deleted?
-	}
-
-	/**
 	 * Opens the view's inventory pane.
 	 */
 	public void openInventory() {
