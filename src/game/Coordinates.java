@@ -18,10 +18,16 @@ public class Coordinates {
 		this.y = y;
 
 		if (x < 0) {
-			System.err.println("Warning, x coordinate is below 0: " + x);
+			System.err.println(
+					"Warning, x coordinate is below 0: " + x + ".  This almost certainly  shouldn't happen.  Current " +
+					"stack trace:");
+			new Throwable().printStackTrace(System.err);
 		}
 		if (y < 0) {
-			System.err.println("Warning, y coordinate is below 0: " + y);
+			System.err.println(
+					"Warning, y coordinate is below 0: " + y + ".  This almost certainly shouldn't happen.  Current " +
+					"stack trace:");
+			new Throwable().printStackTrace(System.err);
 		}
 	}
 
