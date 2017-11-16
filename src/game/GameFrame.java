@@ -139,6 +139,16 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 				(action) -> controller.makeMove(new int[] {1, 0}));
 		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up",
 				(action) -> controller.makeMove(new int[] {0, -1}));
+
+		//TODO: does this comply with MVC patterns?
+		addKeyBinding(invPane, KeyEvent.VK_UP, "up",
+				(action) -> invPane.selectUp());
+		addKeyBinding(invPane, KeyEvent.VK_DOWN, "down",
+				(action) -> invPane.selectDown());
+		addKeyBinding(invPane, KeyEvent.VK_LEFT, "left",
+				(action) -> invPane.moveLeft());
+		addKeyBinding(invPane, KeyEvent.VK_RIGHT, "right",
+				(action) -> invPane.moveRight());
 	}
 
 	private void addKeyBinding(JComponent component, int key, String id, ActionListener action) {
@@ -171,10 +181,6 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 			System.out.println("Button not yet implemented");
 		}
 	}
-
-	/*
-	Standard KeyListener functions (only keyPressed is actually used at the moment)
-	 */
 
 	public void setController(ControllerInterface controller) {
 		this.controller = controller;
