@@ -13,7 +13,7 @@ public class Terrain implements MapViewable {
 	public Terrain(char ch) {
 		this.id = Character.toString(ch); // TODO handle better?
 		this.mapGraphic = ch;
-		this.isOccupiable = Terrain.checkIfOccupiable(id);
+		this.isOccupiable = checkIfOccupiable(this.id);
 	}
 
 	/**
@@ -26,7 +26,7 @@ public class Terrain implements MapViewable {
 		if (Terrain.checkIfValidID(id)) {
 			this.id = id;
 			this.mapGraphic = mapGraphic;
-			this.isOccupiable = Terrain.checkIfOccupiable(this.id);
+			this.isOccupiable = checkIfOccupiable(this.id);
 		} else {
 			throw new IllegalArgumentException("Cannot use empty String for Terrain id value");
 			// TODO handle differently?
@@ -64,7 +64,24 @@ public class Terrain implements MapViewable {
 		}
 	}
 
+	/**
+	 * Method to get standard graphical representation of a Terrain that would be outside the GameMap bounds.
+	 * (Checked when a Terrain/Tile does not exist.)
+	 *
+	 * @return The graphic for a Terrain that is outside the GameMap boundary.
+	 */
 	public static char getOutOfWorldTerrainGraphic() {
-		return '␀';
+		return ' ';
+		// May want to return '␀' (reads NUL) to represent out of world stuff while testing/debugging
+	}
+
+	/**
+	 * Method to get standard graphical representation of a Terrain that is in the GameMap bounds, but not currently
+	 * known/visible.
+	 *
+	 * @return The graphic for a Terrain that is not known/visible.
+	 */
+	public static char getUnknownTerrainGraphic() {
+		return ' ';
 	}
 }

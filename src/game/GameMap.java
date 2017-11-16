@@ -112,11 +112,47 @@ public class GameMap implements GameMapInterface {
 			throw new IllegalArgumentException("Cannot get square area with distance < 0");
 		}
 
-		Tile[][] results = new Tile[2 * distance + 1][2 * distance + 1];
+		Tile[][] results = getRectangularAreaAroundLocation(coordinates, distance, distance);
 
-		for (int resultsRow = 0, mapRow = coordinates.getY() - distance; resultsRow < 2 * distance + 1;
+		return results;
+	}
+
+	/**
+	 * Returns the square area around the given location as a row-major 2D char array, with what should be visible at
+	 * each Tile.
+	 *
+	 * @param coordinates Location to get the map around
+	 * @param distance    Distance away from the location to include
+	 * @return A row-major 2D char array centered at the given location.
+	 * @see #getSquareAreaAroundLocation(Coordinates, int)
+	 */
+	public char[][] getSquareAreaAroundLocationAsCharArray(Coordinates coordinates, int distance) {
+		return convertTileArrayToCharArray(getSquareAreaAroundLocation(coordinates, distance));
+	}
+
+	/**
+	 * Returns the rectangular area around the given location as a row-major 2D Tile array.  Width and height are how
+	 * many blocks away from the coordinates to include.  Tiles outside the GameMap are added as null.
+	 *
+	 * @param coordinates Location to get the map around.
+	 * @param width       Distance away from the location in the X direction to include
+	 * @param height      Distance away from the location in the Y direction to include
+	 * @return A row-major 2D Tile array centered at the given location.
+	 */
+	@Override
+	public Tile[][] getRectangularAreaAroundLocation(Coordinates coordinates, int width, int height) {
+		if (width < 0) {
+			throw new IllegalArgumentException("Cannot get rectangular area with width < 0");
+		}
+		if (height < 0) {
+			throw new IllegalArgumentException("Cannot get rectangular area with height < 0");
+		}
+
+		Tile[][] results = new Tile[2 * height + 1][2 * width + 1];
+
+		for (int resultsRow = 0, mapRow = coordinates.getY() - height; resultsRow < 2 * height + 1;
 			 resultsRow++, mapRow++) {
-			for (int resultsCol = 0, mapCol = coordinates.getX() - distance; resultsCol < 2 * distance + 1;
+			for (int resultsCol = 0, mapCol = coordinates.getX() - width; resultsCol < 2 * width + 1;
 				 resultsCol++, mapCol++) {
 				try {
 					results[resultsRow][resultsCol] = map[mapRow][mapCol];
@@ -130,27 +166,87 @@ public class GameMap implements GameMapInterface {
 	}
 
 	/**
-	 * Returns the square area around the given location as a row-major 2D char array, with what should be visible at
-	 * each Tile.
+	 * Returns the rectangular area around the given location as a row-major 2D char array, with what should be
+	 * visible at each Tile.
+	 *
+	 * @param coordinates The location to get the area around.
+	 * @param width       How far horizontally to include.
+	 * @param height      How far vertically to include.
+	 * @return A row-major 2D char array centered at the given location.
+	 * @see #getRectangularAreaAroundLocation(Coordinates, int, int)
+	 */
+	public char[][] getRectangularAreaAroundLocationAsCharArray(Coordinates coordinates, int width, int height) {
+		return convertTileArrayToCharArray(getRectangularAreaAroundLocation(coordinates, width, height));
+	}
+
+	/**
+	 * Returns the circular area around the given location in a row-major 2D Tile array.
+	 * <p>
+	 * The returned array is in fact square, with important cases (set in this order):<ul>
+	 * <li>A Tile inside the returned array that is outside the GameMap boundaries is set to null.</li>
+	 * <li>A Tile inside the returned array that is not visible with the given radius (e.g. top left) is set as new
+	 * Tile (new Terrain("notVisible", Terrain.getUnknownTerrainGraphic()))</li>
+	 * </ul>
 	 *
 	 * @param coordinates Location to get the map around
-	 * @param distance    Distance away from the location to include
-	 * @return A row-major 2D char array centered at the given location.
+	 * @param radius      Radius away from the location to include
+	 * @return A row-major 2D Tile array with visible tiles centered at the given location.
 	 */
-	public char[][] getSquareAreaAroundLocationAsCharArray(Coordinates coordinates, int distance) {
-		return convertTileArrayToCharArray(getSquareAreaAroundLocation(coordinates, distance));
-	}
-
-	@Override
-	public Tile[][] getRectangularAreaAroundLocation(Coordinates coordinates, int width, int height) {
-		// TODO implement
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
 	@Override
 	public Tile[][] getCircularAreaAroundLocation(Coordinates coordinates, int radius) {
-		// TODO implement
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (radius < 0) {
+			throw new IllegalArgumentException("Cannot get circular area with radius < 0");
+		}
+
+		Tile[][] results = new Tile[2 * radius + 1][2 * radius + 1];
+
+		for (int resultsRow = 0, mapRow = coordinates.getY() - radius; resultsRow < 2 * radius + 1;
+			 resultsRow++, mapRow++) {
+			for (int resultsCol = 0, mapCol = coordinates.getX() - radius; resultsCol < 2 * radius + 1;
+				 resultsCol++, mapCol++) {
+				double currentRadius = Math.sqrt(
+						Math.pow(mapRow - coordinates.getY(), 2) + Math.pow(mapCol - coordinates.getX(), 2));
+				if ((int) (currentRadius + 0.5) <= radius) {
+					// Current location is 'visible', inside radius
+					try {
+						results[resultsRow][resultsCol] = map[mapRow][mapCol];
+					} catch (ArrayIndexOutOfBoundsException e) {
+						results[resultsRow][resultsCol] = null;
+					}
+				} else {
+					// Current location is not 'visible', outside radius
+					try {
+						Tile temp = map[mapRow][mapCol]; // test if indices inside map
+						results[resultsRow][resultsCol] = new Tile(
+								new Terrain("notVisible", Terrain.getUnknownTerrainGraphic()));
+					} catch (ArrayIndexOutOfBoundsException e) {
+						results[resultsRow][resultsCol] = null;
+					}
+				}
+			}
+		}
+
+		return results;
+	}
+
+	/**
+	 * Returns the circular area around the given location in a row-major 2D char array, with what should be visible
+	 * at each Tile.
+	 * <p>
+	 * The returned array is in fact square, with important cases (set in this order):<ul>
+	 * <li>A Tile inside the returned array that is outside the GameMap boundaries is returned as Terrain
+	 * .getOutOfWorldTerrainGraphic()</li>
+	 * <li>A Tile inside the returned array that is not visible with the given radius (e.g. top left) is returned as
+	 * Terrain.getUnknownTerrainGraphic()</li>
+	 * </ul>
+	 *
+	 * @param coordinates Location to get the map around
+	 * @param radius      Radius away from the location to include
+	 * @return A row-major 2D Tile array with visible tiles centered at the given location.
+	 * @see #getCircularAreaAroundLocation(Coordinates, int)
+	 */
+	public char[][] getCircularAreaAroundLocationAsCharArray(Coordinates coordinates, int radius) {
+		return convertTileArrayToCharArray(getCircularAreaAroundLocation(coordinates, radius));
 	}
 
 	@Override
@@ -163,6 +259,7 @@ public class GameMap implements GameMapInterface {
 			// TODO figure out how to handle
 			throw new IllegalArgumentException("Y coordinate too large");
 		}
+
 		return map[coordinates.getY()][coordinates.getX()];
 	}
 
@@ -174,7 +271,11 @@ public class GameMap implements GameMapInterface {
 		this.player = player;
 
 		Tile location = map[player.getCoordinates().getY()][player.getCoordinates().getX()];
-		location.addEntity(player);
+		if (!location.addEntity(player)) {
+			throw new IllegalStateException(
+					"Cannot add a player to a Tile that already has a Creature (location x:" + player.getCoordinates()
+							.getX() + ", y:" + player.getCoordinates().getY() + ")");
+		}
 	}
 
 	/**
@@ -208,6 +309,7 @@ public class GameMap implements GameMapInterface {
 	 */
 	private int getFileLength(File file) {
 		try (LineNumberReader reader = new LineNumberReader(new FileReader(file))) {
+			//noinspection StatementWithEmptyBody
 			while (reader.readLine() != null) {
 			}
 			return reader.getLineNumber();

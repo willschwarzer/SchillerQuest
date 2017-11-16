@@ -69,8 +69,9 @@ class GameMapTest {
 		GameMap gameMap = new GameMap(file);
 		Tile[][] output = gameMap.getSquareAreaAroundLocation(new Coordinates(2, 0), 1);
 		char[][] charOutput = GameMap.convertTileArrayToCharArray(output);
+		char out = Terrain.getOutOfWorldTerrainGraphic();
 
-		char[] row0 = {'␀', '␀', '␀'};
+		char[] row0 = {out, out, out};
 		char[] row1 = {'#', '1', '#'};
 		char[] row2 = {' ', '2', ' '};
 		char[][] expected = {row0, row1, row2};
@@ -83,9 +84,10 @@ class GameMapTest {
 		File file = new File("test/resources/map.txt");
 		GameMap gameMap = new GameMap(file);
 		char[][] output = gameMap.getSquareAreaAroundLocationAsCharArray(new Coordinates(2, -1), 1);
+		char out = Terrain.getOutOfWorldTerrainGraphic();
 
-		char[] row0 = {'␀', '␀', '␀'};
-		char[] row1 = {'␀', '␀', '␀'};
+		char[] row0 = {out, out, out};
+		char[] row1 = {out, out, out};
 		char[] row2 = {'#', '1', '#'};
 		char[][] expected = {row0, row1, row2};
 
@@ -99,8 +101,9 @@ class GameMapTest {
 		GameMap gameMap = new GameMap(file);
 		Tile[][] output = gameMap.getSquareAreaAroundLocation(new Coordinates(3, 0), 1);
 		char[][] charOutput = GameMap.convertTileArrayToCharArray(output);
+		char out = Terrain.getOutOfWorldTerrainGraphic();
 
-		char[] row0 = {'␀', '␀', '␀'};
+		char[] row0 = {out, out, out};
 		char[] row1 = {'B', 'b', 'C'};
 		char[] row2 = {'H', 'h', 'I'};
 		char[][] expected = {row0, row1, row2};
