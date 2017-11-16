@@ -84,7 +84,6 @@ public class InventoryPane extends JTextPane {
 					index++;
 				}
 				appendText(RIGHT_INDICATOR, Color.green);
-				index += RIGHT_INDICATOR.length();
 			}
 		} else {
 			// Move cursor to position for equipped item
@@ -168,7 +167,7 @@ public class InventoryPane extends JTextPane {
 	}
 
 	//TODO: move this to model?
-	// Moves to backpack
+	// Moves item to backpack section
 	public void moveLeft() {
 		if (equipped.size() >= curr) { // valid change?
 			backpack.add(equipped.get(curr));
@@ -181,7 +180,7 @@ public class InventoryPane extends JTextPane {
 		drawPane();
 	}
 
-	// Moves to equipped
+	// Moves item to equipped section
 	public void moveRight() {
 		if (backpack.size() >= curr) { // valid change?
 			equipped.add(backpack.get(curr));
