@@ -1,5 +1,7 @@
 package game;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.util.Arrays;
 import java.util.Random;
 import java.util.List;
@@ -13,37 +15,52 @@ public class MapGenerator {
 	private final int GRID_WIDTH = 5;
 	private final int GRID_HEIGHT = 5;
 	private final int NUM_ROOMS = 6;
-	private GridItem[][] grid;
-	private List<int[]> roomLocations;
+	private Grid grid;
+	private List<Room> rooms;
 
 	public MapGenerator(long seed) {
 		random = new Random(seed);
-		roomLocations = new ArrayList();
+		rooms = new ArrayList();
+		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
 	}
 	public MapGenerator() {
 		random = new Random();
-		roomLocations = new ArrayList();
+		rooms = new ArrayList();
+		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
 	}
 
 	public GameMap generate(int difficulty) {
 		GameMap map = new GameMap();
+
+		Room upStaircase = new Room(getNewRoomLocation(), difficulty);
+		Room downStaircase = new Room(getNewRoomLocation(), difficulty);
+		rooms.add(upStaircase);
+		rooms.add(downStaircase);
+
 		for (int i = 0; i < 25; i++) {
 			int[] loc = getNewRoomLocation();
 			if (loc != null) {
-				roomLocations.add(loc);
+				rooms.add(new Room(loc, difficulty));
 			}
 		}
+
+		for (Room room: rooms) {
+			int[] loc = room.getLocation();
+			grid.addItem(room);
+		}
+
+		/* Test code
 		for (int[] loc: roomLocations) {
 			List<int[]> connections = getValidConnections(loc);
 			for (int[] connection : connections) {
 				System.out.println("row: " + loc[0] + "   column: " + loc[1] + "   connection: " + Arrays.toString(connection));
 			}
-		}
+		}*/
 
 		return map;
 	}
 
-	private int[] getNewRoomLocation() {
+	protected int[] getNewRoomLocation() {
 		int[] location;
 		List<int[]> locations = new ArrayList();
 		List<int[]> invalidLocations = new ArrayList();
@@ -52,7 +69,8 @@ public class MapGenerator {
 				locations.add(new int[] {i, j});
 			}
 		}
-		for (int[] loc: roomLocations) {
+		for (Room room: rooms) {
+			int[] loc = room.getLocation();
 			invalidLocations.add(new int[] {loc[0], loc[1]});
 			invalidLocations.add(new int[] {loc[0] - 1, loc[1]});
 			invalidLocations.add(new int[] {loc[0], loc[1] + 1});
@@ -77,56 +95,124 @@ public class MapGenerator {
 		return null;
 	}
 
-	private List<int[]> getValidConnections(int[] loc) {
-		List<int[]> validConnections = new ArrayList();
-		int[] left = new int[] {-1, 0};
-		int[] down = new int[] {0, 1};
-		int[] right = new int[] {1, 0};
-		int[] up = new int[] {0, -1};
+	private class Grid {
+		private GridItem[][] grid;
 
-		if (loc[1] > 0) {
-			validConnections.add(left);
-		}
-		if (loc[0] < GRID_HEIGHT - 1) {
-			validConnections.add(down);
-		}
-		if (loc[1] < GRID_WIDTH - 1) {
-			validConnections.add(right);
-		}
-		if (loc[0] > 0) {
-			validConnections.add(up);
+		public Grid(int width, int height) {
+			grid = new GridItem[height][width];
 		}
 
-		return validConnections;
+		public void addItem(GridItem item) {
+			int[] loc = item.getLocation();
+			if (grid[loc[0]][loc[1]] != null) {
+				throw new IllegalArgumentException();
+			} else {
+				grid[loc[0]][loc[1]] = item;
+			}
+		}
+
+		public GridItem getGridItemAtLocation(int[] loc) {
+			return grid[loc[0]][loc[1]];
+		}
+
+		public char[][] toCharArray() {
+			return null;
+		}
 	}
 
-	private class GridItem {
-		private int[] connections;
-		private Tile[] tiles;
+	private abstract class GridItem {
+		private List<int[]> connections;
+		private Tile[][] tiles;
+		private int[] location;
+		private final int ITEM_WIDTH = 8;
+		private final int ITEM_HEIGHT = 8;
+
+		private GridItem(int[] location) {
+			this.location = location;
+		}
+
+		protected List<int[]> getValidConnections(int[] loc) {
+			List<int[]> validConnections = new ArrayList();
+			int[] left = new int[] {-1, 0};
+			int[] down = new int[] {0, 1};
+			int[] right = new int[] {1, 0};
+			int[] up = new int[] {0, -1};
+
+			if (loc[1] > 0) {
+				validConnections.add(left);
+			}
+			if (loc[0] < GRID_HEIGHT - 1) {
+				validConnections.add(down);
+			}
+			if (loc[1] < GRID_WIDTH - 1) {
+				validConnections.add(right);
+			}
+			if (loc[0] > 0) {
+				validConnections.add(up);
+			}
+
+			return validConnections;
+		}
+
+		public int[] getLocation() {
+			return location;
+		}
+
+		public Tile[][] getTiles() {
+			return tiles;
+		}
+
+		public List<int[]> getConnections() {
+			return connections;
+		}
 	}
 
 	private class Room extends GridItem {
 		private int difficulty;
+		private List<int[]> connections;
 
-		public Room(int[] connections, int[] location, int difficulty) {
+		public Room(int[] location, int difficulty) {
+			super(location);
 			this.difficulty = difficulty;
+			connections = getValidConnections(location);
+			generateTerrain();
+			generateFeatures();
+			generateMonsters();
+			generateItems();
 		}
 
-		public void generateMonsters() {
+		private void generateMonsters() {
 
 		}
 
-		public void generateItems() {
+		private void generateItems() {
 
 		}
 
-		public void generateFeatures () {
+		private void generateFeatures () {
+
+		}
+
+		public void addUpStaircase () {
+
+		}
+
+		public void addDownStaircase () {
+
+		}
+
+		private void generateTerrain() {
 
 		}
 	}
 
 	private class Corridor extends GridItem {
-		private Corridor(int[] connections) {
+		private Corridor(int[] location) {
+			super(location);
+			generateTerrain();
+		}
+
+		private void generateTerrain() {
 
 		}
 	}
