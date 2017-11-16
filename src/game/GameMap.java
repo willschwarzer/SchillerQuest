@@ -22,6 +22,8 @@ public class GameMap implements GameMapInterface {
 		buildMapFromFile(file);
 	}
 
+	public GameMap() {}
+
 	/**
 	 * Builds the map from the given File.  The file must have lines of uniform length.
 	 *
