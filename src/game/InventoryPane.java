@@ -6,16 +6,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class InventoryPane extends JTextPane implements KeyListener {
-	private static int LEFT_KEY = 37;
-	private static int UP_KEY = 38;
-	private static int RIGHT_KEY = 39;
-	private static int DOWN_KEY = 40;
-
+public class InventoryPane extends JTextPane {
 	private static int BACKPACK_ALIGNMENT = 16;
 	private static int EQUIPPED_ALIGNMENT = 38;
 
@@ -30,7 +23,7 @@ public class InventoryPane extends JTextPane implements KeyListener {
     	super();
 
 		//**
-		//TODO: all of this happens in model
+		//TODO: all of this should happen in model
 		backpack.add("Cool Sword");
 		backpack.add("Rusty Spoon");
 		backpack.add("Freedom Key");
@@ -39,8 +32,6 @@ public class InventoryPane extends JTextPane implements KeyListener {
 		equipped.add("Justice Amulet");
 		//**
 
-		//TODO: make a much better keylistener
-		addKeyListener(this);
 		drawPane();
 	}
 
@@ -162,20 +153,23 @@ public class InventoryPane extends JTextPane implements KeyListener {
 		}
 	}
 
-	private void selectUp() {
+	public void selectUp() {
 		if (curr > 0) {
 			curr--;
 		}
+		drawPane();
 	}
 
-	private void selectDown() {
+	public void selectDown() {
 		if (curr < backpack.size() - 1 || curr < equipped.size() - 1) {
 			curr++;
 		}
+		drawPane();
 	}
 
 	//TODO: move this to model?
-	private void moveToBackpack() {
+	// Moves to backpack
+	public void moveLeft() {
 		if (equipped.size() >= curr) { // valid change?
 			backpack.add(equipped.get(curr));
 			equipped.remove(curr);
@@ -184,9 +178,11 @@ public class InventoryPane extends JTextPane implements KeyListener {
 			if (curr < 0)
 				curr = 0;
 		}
+		drawPane();
 	}
 
-	private void moveToEquipped() {
+	// Moves to equipped
+	public void moveRight() {
 		if (backpack.size() >= curr) { // valid change?
 			equipped.add(backpack.get(curr));
 			backpack.remove(curr);
@@ -195,28 +191,6 @@ public class InventoryPane extends JTextPane implements KeyListener {
 			if (curr < 0)
 				curr = 0;
 		}
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-	}
-
-	@Override
-    public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == UP_KEY) {
-			selectUp();
-		} else if (e.getKeyCode() == DOWN_KEY) {
-			selectDown();
-		} else if (e.getKeyCode() == LEFT_KEY) {
-			moveToBackpack();
-		} else if (e.getKeyCode() == RIGHT_KEY) {
-			moveToEquipped();
-		}
 		drawPane();
-    }
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-
 	}
 }
