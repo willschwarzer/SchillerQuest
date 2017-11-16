@@ -154,9 +154,9 @@ public class GameMap implements GameMapInterface {
 			 resultsRow++, mapRow++) {
 			for (int resultsCol = 0, mapCol = coordinates.getX() - width; resultsCol < 2 * width + 1;
 				 resultsCol++, mapCol++) {
-				try {
+				if (mapRow < map.length && mapRow >= 0 && mapCol < map[0].length && mapCol >= 0) {
 					results[resultsRow][resultsCol] = map[mapRow][mapCol];
-				} catch (ArrayIndexOutOfBoundsException e) {
+				} else {
 					results[resultsRow][resultsCol] = null;
 				}
 			}
@@ -208,18 +208,17 @@ public class GameMap implements GameMapInterface {
 						Math.pow(mapRow - coordinates.getY(), 2) + Math.pow(mapCol - coordinates.getX(), 2));
 				if ((int) (currentRadius + 0.5) <= radius) {
 					// Current location is 'visible', inside radius
-					try {
+					if (mapRow < map.length && mapRow >= 0 && mapCol < map[0].length && mapCol >= 0) {
 						results[resultsRow][resultsCol] = map[mapRow][mapCol];
-					} catch (ArrayIndexOutOfBoundsException e) {
+					} else {
 						results[resultsRow][resultsCol] = null;
 					}
 				} else {
 					// Current location is not 'visible', outside radius
-					try {
-						Tile temp = map[mapRow][mapCol]; // test if indices inside map
+					if (mapRow < map.length && mapRow >= 0 && mapCol < map[0].length && mapCol >= 0) {
 						results[resultsRow][resultsCol] = new Tile(
 								new Terrain("notVisible", Terrain.getUnknownTerrainGraphic()));
-					} catch (ArrayIndexOutOfBoundsException e) {
+					} else {
 						results[resultsRow][resultsCol] = null;
 					}
 				}
