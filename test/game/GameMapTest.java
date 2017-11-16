@@ -8,7 +8,7 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * JUnit 5 test class for GameMap
+ * JUnit 5 test class for GameMap.  NOTE THAT ALL TESTS ARE CURRENTLY BROKEN.
  */
 class GameMapTest {
 	/**
