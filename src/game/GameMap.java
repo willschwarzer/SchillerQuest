@@ -1,6 +1,8 @@
 package game;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to store the information about the current map - including the terrain, items, and creatures present.
@@ -12,6 +14,7 @@ public class GameMap implements GameMapInterface {
 	 */
 	private Tile[][] map;
 	private Player player;
+	private ArrayList<Monster> monsters;
 
 	/**
 	 * Creates a GameMap from a given File.  The file must have lines of uniform length.
@@ -20,7 +23,9 @@ public class GameMap implements GameMapInterface {
 	 */
 	public GameMap(File file) {
 		buildMapFromFile(file);
+		this.monsters= new ArrayList<Monster>();
 	}
+
 
 	/**
 	 * Builds the map from the given File.  The file must have lines of uniform length.
@@ -283,6 +288,9 @@ public class GameMap implements GameMapInterface {
 		return player;
 	}
 
+	public ArrayList<Monster> getMonsters() { return monsters; }
+
+
 	public void setPlayer(Player player) {
 		this.player = player;
 
@@ -291,6 +299,17 @@ public class GameMap implements GameMapInterface {
 			throw new IllegalStateException(
 					"Cannot add a player to a Tile that already has a Creature (location x:" + player.getCoordinates()
 							.getX() + ", y:" + player.getCoordinates().getY() + ")");
+		}
+	}
+
+	public void setMonster(Monster monster) {
+		this.monsters.add(monster);
+
+		Tile location = map[monster.getCoordinates().getY()][monster.getCoordinates().getX()];
+		if (!location.addEntity(monster)) {
+			throw new IllegalStateException(
+					"Cannot add a player to a Tile that already has a Creature (location x:" + player.getCoordinates()
+							.getX() + ", y:" + monster.getCoordinates().getY() + ")");
 		}
 	}
 
@@ -351,4 +370,6 @@ public class GameMap implements GameMapInterface {
 			throw new RuntimeException(e);
 		}
 	}
+
+
 }

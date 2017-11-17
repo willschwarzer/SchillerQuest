@@ -75,6 +75,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
 		model.moveCreature(player, move);
+		model.takeTurn();
 	}
 
 	/*

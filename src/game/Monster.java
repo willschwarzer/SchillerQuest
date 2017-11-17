@@ -5,9 +5,10 @@ import java.util.List;
 
 public abstract class Monster extends Creature {
 
-	public Monster(Coordinates coordinates, GameMap map) {
-		super(coordinates, map);
+	public Monster(Coordinates coordinates, GameMap map, char graphic, int level) {
+		super(coordinates, map, graphic, level);
 	}
+
 
 	public int[] getMove() {
 		int[] move;
@@ -47,7 +48,7 @@ public abstract class Monster extends Creature {
 			move = left;
 		} else if (Math.abs(deltaX) < (deltaY) && deltaY > 0 && validDirections.contains(up)) {
 			move = up;
-		} else if (Math.abs(deltaX) < (deltaY) && deltaY > 0 && validDirections.contains(down)) {
+		} else if (Math.abs(deltaX) < (deltaY) && deltaY < 0 && validDirections.contains(down)) {
 			move = down;
 		} else {
 			int randomIndex = (int) Math.random()*validDirections.size();

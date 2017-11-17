@@ -1,4 +1,7 @@
 package game;
+import ;
+
+import monsters.Rat;
 
 import java.io.File;
 import java.util.List;
@@ -15,14 +18,17 @@ public class GameModel implements Subject {
 		addObserver(controller);
 
 		Coordinates startCoordinates = new Coordinates(10, 3);
-		loadNewLevel("src/resources/level1.txt", startCoordinates);
+		Coordinates monsterStart =  new Coordinates(42, 15);
+		loadNewLevel("src/resources/level1.txt", startCoordinates, monsterStart);
 
 		notifyObservers();
 	}
 
-	private void loadNewLevel(String fileName, Coordinates startCoordinates) {
+	private void loadNewLevel(String fileName, Coordinates startCoordinates, Coordinates monsterStart) {
 		map = new GameMap(new File(fileName));
 		spawnPlayer(startCoordinates);
+		spawnMonster(monsterStart,1);
+
 	}
 
 	/**
@@ -44,12 +50,10 @@ public class GameModel implements Subject {
 
 		if (newTile.getCreature() != null) {
 			attack(creature, newTile.getCreature());
-			takeTurn();
 		} else if (newTile.isOccupiable()) {
 			oldTile.removeEntity(creature);
 			newTile.addEntity(creature);
 			creature.setCoordinates(destinationCoordinates);
-			takeTurn();
 		} else {
 			return;
 		}
@@ -68,12 +72,18 @@ public class GameModel implements Subject {
 	}
 
 	public void attack(Creature attacker, Creature attackee) {
+		attacker.getStats().recieveAttack();
 	}
 
 	/**
 	 * Will allow all of the other active entities to take a turn
 	 */
 	public void takeTurn() {
+		ArrayList<Monster> monsters = map.getMonsters();
+
+		for( int i = 0; i < monsters.size(); i++) {
+			moveCreature(monsters.get(i), monsters.get(i).getMove());
+		}
 		notifyObservers();
 	}
 
@@ -83,8 +93,21 @@ public class GameModel implements Subject {
 	 * @param coordinates The coordinate the player will be spawned at
 	 */
 	public void spawnPlayer(Coordinates coordinates) {
-		Player player = new Player(coordinates);
+		//TODO: Fix hard coding in the beginning stats
+		Stats playerStats = new Stats(5,1,1,1,1);
+		Player player = new Player(coordinates, playerStats);
 		map.setPlayer(player);
+	}
+
+	/**
+	 * Creates a Monster at given coordinate location.
+	 * This will be replaced with automatic generation of monster on each level
+	 *
+	 * @param coordinates The coordinate the player will be spawned at
+	 */
+	public void spawnMonster(Coordinates coordinates, int level) {
+		Rat monster = new Rat(coordinates, map, '~', level);
+		map.setMonster(monster);
 	}
 
 	public boolean addObserver(Observer observer) {
