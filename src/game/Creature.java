@@ -1,7 +1,13 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public abstract class Creature extends Entity {
 	private Stats stats;
+	private Map<String, InventoryItem> equipped;
 
 	/**
 	 * Get an informative message about the Creature.
@@ -33,12 +39,18 @@ public abstract class Creature extends Entity {
 		this.stats = stats;
 	}
 
+	public Creature(Coordinates coordinates, GameMap map, int level) {
+		super(coordinates, map);
+		this.stats = new Stats(level);
+	}
+
 	/**
 	 * Creates a creature at given coordinates with specified GameMap.
 	 * @param coordinates
 	 * @param map
 	 */
 	public Creature(Coordinates coordinates, GameMap map) {super(coordinates, map);}
+
 	/**
 	 * Creates a entity at given coordinates
 	 *
@@ -47,4 +59,10 @@ public abstract class Creature extends Entity {
 	public Stats getStats() {
 		return stats;
 	}
+
+	public void setStats(Stats stats) {this.stats = stats;}
+
+	public  Map<String, InventoryItem> getEquipped() {return equipped;}
+
+	public void setEquipped(Map<String, InventoryItem> equipped){this.equipped = equipped;}
 }

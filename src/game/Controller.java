@@ -1,6 +1,8 @@
 package game;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Controller implements ControllerInterface, Subject, Observer {
@@ -48,6 +50,8 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	 * Opens the view's inventory pane.
 	 */
 	public void openInventory() {
+		List currentInv = model.getPlayer().getBackpack();
+		view.updateInventory(currentInv);
 		view.displayInventory();
 	}
   
@@ -75,6 +79,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
 		model.moveCreature(player, move);
+		model.takeTurn();
 	}
 
 	/*
@@ -86,13 +91,13 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void pickUp() {
 	}
 
-	public void drop(Item item) {
+	public void drop(GraphicItem item) {
 	}
 
-	public void equip(Item item) {
+	public void equip(GraphicItem item) {
 	}
 
-	public void unequip(Item item) {
+	public void unequip(GraphicItem item) {
 	}
 
 	/**
