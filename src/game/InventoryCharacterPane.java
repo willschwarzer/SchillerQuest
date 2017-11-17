@@ -1,13 +1,12 @@
 package game;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InventoryCharacterPane extends MutableTextPane {
-
-	Map<String, String> equippedItems = new HashMap<String, String>();
+	Map<String, String> equippedItems = new HashMap<>();
 	String[] itemTypes = new String[5];
+	String selectedType;
 
 
 	public InventoryCharacterPane() {

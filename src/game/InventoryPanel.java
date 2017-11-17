@@ -28,7 +28,6 @@ public class InventoryPanel extends JPanel {
 		//**
 
 		invItemPane.setBackpack(backpack);
-		invItemPane.setEquipped(equipped);
 		updatePanes();
 		add(invItemPane, BorderLayout.WEST);
 		add(invCharPane, BorderLayout.EAST);
@@ -36,7 +35,6 @@ public class InventoryPanel extends JPanel {
 
 	private void updatePanes() {
 		invItemPane.setBackpack(backpack);
-		invItemPane.setEquipped(equipped);
 		invItemPane.setCurr(curr);
 		invItemPane.drawPane();
 		invCharPane.drawPane();
@@ -56,7 +54,6 @@ public class InventoryPanel extends JPanel {
 		updatePanes();
 	}
 
-	//TODO: move this to model?
 	// Moves item to backpack section
 	public void moveLeft() {
 		if (equipped.size() >= curr) { // valid change?

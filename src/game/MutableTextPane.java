@@ -6,7 +6,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class MutableTextPane extends JTextPane {
 	private int fontSize;

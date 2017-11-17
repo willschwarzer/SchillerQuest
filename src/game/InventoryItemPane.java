@@ -11,7 +11,6 @@ public class InventoryItemPane extends MutableTextPane {
 	private static String LEFT_INDICATOR = ">>  ";
 
 	private ArrayList<String> backpack = new ArrayList<>();
-	private ArrayList<String> equipped = new ArrayList<>();
 	private int curr = 0;
 
 	public InventoryItemPane() {
@@ -35,7 +34,7 @@ public class InventoryItemPane extends MutableTextPane {
 		addLine("         =========");
 	}
 
-	private void addItemPair(String backpackItem, String equippedItem, boolean selected) {
+	private void addItem(String backpackItem, boolean selected) {
 		if (selected) {
 			for (int i = 0; i < INDICATOR_ALIGNMENT; i++) {
 				appendText(" ", Color.white);
@@ -56,30 +55,17 @@ public class InventoryItemPane extends MutableTextPane {
 	}
 
 	private void buildInventoryList() {
-		int i = 0;
-		while (i < backpack.size() || i < equipped.size()) {
+		for (int i = 0; i < backpack.size(); i++) {
 			boolean isSelected = false;
 			if (i == curr) {
 				isSelected = true;
 			}
-
-			if (i < backpack.size() && i < equipped.size()) {
-				addItemPair(backpack.get(i), equipped.get(i), isSelected);
-			} else if (i < backpack.size() && i >= equipped.size()) {
-				addItemPair(backpack.get(i), "", isSelected);
-			} else if (i >= backpack.size() && i < equipped.size()) {
-				addItemPair("", equipped.get(i), isSelected);
-			}
-			i++;
+			addItem(backpack.get(i), isSelected);
 		}
 	}
 
 	public void setBackpack(ArrayList<String> backpack) {
 		this.backpack = backpack;
-	}
-
-	public void setEquipped(ArrayList<String> equipped) {
-		this.equipped = equipped;
 	}
 
 	public void setCurr(int curr) {
