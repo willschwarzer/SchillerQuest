@@ -20,8 +20,8 @@ public class InventoryPanel extends JPanel {
 		super();
 		setLayout(new BorderLayout());
 
-		//**
-		//TODO: all of this should happen in model
+		//start of temp dummy items
+		//TODO: get rid of these, serve items from model
 		backpackItems.add("Steel Sword");
 		backpackItems.add("Rusty Dagger");
 		backpackItems.add("Ghost Shield");
@@ -35,7 +35,7 @@ public class InventoryPanel extends JPanel {
 		backpackItemTypes.add("armor");
 		backpackItemTypes.add("amulet");
 		backpackItemTypes.add("shoes");
-		//**
+		// end of temp dummy items
 
 		invItemPane.setBackpack(backpackItems, backpackItemTypes);
 		updatePanes();
