@@ -17,7 +17,6 @@ public class InventoryItem {
         this.type = type;
         this.boost = randomWithRange(1,level);
         this.name = name;
-
     }
 
     private String makeName(String type, int boost){

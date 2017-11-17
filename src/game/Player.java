@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Player extends Creature {
 	private Stats stats;
-	private HashMap inventory;
+	private HashMap<String, InventoryItem> inventory = new HashMap<>();
 
 	public Player(Coordinates coordinates) {
 		super(coordinates);

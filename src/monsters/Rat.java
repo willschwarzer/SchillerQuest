@@ -3,12 +3,13 @@ package monsters;
 import game.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Rat extends Monster {
     private Coordinates coordinates;
     private GameMap map;
     private Stats stats;
-    private HashMap inventory;
+    private HashMap<String, InventoryItem> inventory = new HashMap<>();
 
     public Rat(Coordinates coordinates, GameMap map, int level) {
         super(coordinates, map, level);
