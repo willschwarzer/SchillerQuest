@@ -2,15 +2,15 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InventoryPanel extends JPanel {
-	private ArrayList<String> backpackItems = new ArrayList<>();
-	private ArrayList<String> backpackItemTypes = new ArrayList<>();
+	private Map<String, InventoryItem> equipped = new HashMap<>();
+	private List<InventoryItem> backpack = new ArrayList<>();
 
-	private Map<String, String> equipped = new HashMap<>();
 	private int curr = 0;
 
 	InventoryItemPane invItemPane = new InventoryItemPane();
@@ -20,32 +20,21 @@ public class InventoryPanel extends JPanel {
 		super();
 		setLayout(new BorderLayout());
 
-		//start of temp dummy items
-		//TODO: get rid of these, serve items from model
-		backpackItems.add("Steel Sword");
-		backpackItems.add("Rusty Dagger");
-		backpackItems.add("Ghost Shield");
-		backpackItems.add("Modest Loins");
-		backpackItems.add("Justice Amulet");
-		backpackItems.add("Nike Air Jordans");
-
-		backpackItemTypes.add("weapon");
-		backpackItemTypes.add("weapon");
-		backpackItemTypes.add("shield");
-		backpackItemTypes.add("armor");
-		backpackItemTypes.add("amulet");
-		backpackItemTypes.add("shoes");
-		// end of temp dummy items
-
-		invItemPane.setBackpack(backpackItems, backpackItemTypes);
-		updatePanes();
 		add(invItemPane, BorderLayout.WEST);
 		add(invCharPane, BorderLayout.EAST);
 	}
 
-	private void updatePanes() {
-		invItemPane.setBackpack(backpackItems, backpackItemTypes);
+	public void setBackpack(List newBackpack) {
+		this.backpack = newBackpack;
+	}
+
+	public void setEquipped(Map<String, InventoryItem> equipped) {
+		this.equipped = equipped;
+	}
+
+	public void updatePanes() {
 		invItemPane.setCurr(curr);
+		invItemPane.setBackpack(backpack);
 		invItemPane.drawPane();
 
 		invCharPane.setSelectedType(invItemPane.getSelectedType());
@@ -61,7 +50,7 @@ public class InventoryPanel extends JPanel {
 	}
 
 	public void selectDown() {
-		if (curr < backpackItems.size() - 1) {
+		if (curr < backpack.size() - 1) {
 			curr++;
 		}
 		updatePanes();
@@ -69,18 +58,16 @@ public class InventoryPanel extends JPanel {
 
 	// Moves item to equipped section
 	public void moveRight() {
-		if (backpackItems.size() >= curr) { // valid change?
-			String type = backpackItemTypes.get(curr);
+		if (backpack.size() >= curr) { // valid change?
+			String type = backpack.get(curr).getType();
 			if (equipped.containsKey(type)) {
-				String oldItem = equipped.get(type);
-				backpackItems.add(oldItem);
-				backpackItemTypes.add(type);
+				InventoryItem oldItem = equipped.get(type);
+				backpack.add(oldItem);
 			}
-			equipped.put(type, backpackItems.get(curr));
-			backpackItems.remove(curr);
-			backpackItemTypes.remove(curr);
-			if (curr >= backpackItems.size())
-				curr = backpackItems.size() - 1;
+			equipped.put(type, backpack.get(curr));
+			backpack.remove(curr);
+			if (curr >= backpack.size())
+				curr = backpack.size() - 1;
 			if (curr < 0)
 				curr = 0;
 		}

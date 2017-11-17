@@ -2,6 +2,7 @@ package game;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Controller implements ControllerInterface, Subject, Observer {
@@ -49,6 +50,8 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	 * Opens the view's inventory pane.
 	 */
 	public void openInventory() {
+		List currentInv = model.getPlayer().getBackpack();
+		view.updateInventory(currentInv);
 		view.displayInventory();
 	}
   

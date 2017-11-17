@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InventoryCharacterPane extends MutableTextPane {
-	Map<String, String> equippedItems = new HashMap<>();
+	Map<String, InventoryItem> equippedItems = new HashMap<>();
 	String[] itemTypes = new String[5];
 	String selectedType;
 
@@ -99,7 +99,7 @@ public class InventoryCharacterPane extends MutableTextPane {
 
 	private void displayItemOfType(String type) {
 		if (equippedItems.containsKey(type)) {
-			addLine(" " + symbolForType(type) + " " + equippedItems.get(type) + selectionIndicator(type));
+			addLine(" " + symbolForType(type) + " " + equippedItems.get(type).getName() + selectionIndicator(type));
 		} else {
 			addLine(" " + symbolForType(type) + " (empty)" + selectionIndicator(type));
 		}
@@ -113,7 +113,7 @@ public class InventoryCharacterPane extends MutableTextPane {
 		}
 	}
 
-	public void setEquippedItems(Map<String, String> items) {
+	public void setEquippedItems(Map<String, InventoryItem> items) {
 		equippedItems = items;
 	}
 

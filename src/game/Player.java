@@ -1,10 +1,11 @@
 package game;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends Creature {
 	private Stats stats;
-	private HashMap<String, InventoryItem> inventory = new HashMap<>();
+	private List<InventoryItem> backpack = new ArrayList<>();
 
 	public Player(Coordinates coordinates) {
 		super(coordinates);
@@ -14,19 +15,17 @@ public class Player extends Creature {
 	public Player(Coordinates coordinates, Stats stats) {
 		super(coordinates, stats);
 		this.stats = stats;
-		this.inventory.put("weapon", new InventoryItem("weapon", 1, "Basic stick"));
-		this.inventory.put("armor", new InventoryItem("armor", 1, "Your Wits"));
-		this.inventory.put("shoes", new InventoryItem("weapon", 1, "Crocs"));
-		setInventory(inventory);
+		this.backpack.add(new InventoryItem("weapon", 1, "Basic stick"));
+		this.backpack.add(new InventoryItem("weapon", 1, "better stick"));
+		this.backpack.add(new InventoryItem("shoes", 1, "nike airmags"));
+		this.backpack.add(new InventoryItem("weapon", 1, "Basic stick"));
+		this.backpack.add(new InventoryItem("amulet", 1, "screw you f-rum"));
+		this.backpack.add(new InventoryItem("shield", 1, "pride"));
+		this.backpack.add(new InventoryItem("shoes", 1, "Crocs"));
+		this.backpack.add(new InventoryItem("armor", 1, "Rotblatt shirt"));
 	}
 
-	public Player(Coordinates coordinates, Stats stats, HashMap inventory) {
-		super(coordinates, stats);
-		this.stats = stats;
-		this.inventory = inventory;
-		setInventory(inventory);
 
-	}
 
 	@Override
 	public String getInfo() {
@@ -38,5 +37,9 @@ public class Player extends Creature {
 		return '@';
 		// TODO Change this hack to something better.
 		//	throw new UnsupportedOperationException("getMapGraphic() not yet supported for Player");
+	}
+
+	public List<InventoryItem> getBackpack() {
+		return backpack;
 	}
 }

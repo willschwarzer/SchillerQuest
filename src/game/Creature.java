@@ -2,10 +2,12 @@ package game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class Creature extends Entity {
 	private Stats stats;
-	private HashMap inventory;
+	private Map<String, InventoryItem> equipped;
 
 	/**
 	 * Get an informative message about the Creature.
@@ -60,7 +62,7 @@ public abstract class Creature extends Entity {
 
 	public void setStats(Stats stats) {this.stats = stats;}
 
-	public  HashMap getInventory() {return inventory;}
+	public  Map<String, InventoryItem> getEquipped() {return equipped;}
 
-	public void setInventory(HashMap inventory){this.inventory = inventory;}
+	public void setEquipped(Map<String, InventoryItem> equipped){this.equipped = equipped;}
 }
