@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,13 +88,13 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void pickUp() {
 	}
 
-	public void drop(Item item) {
+	public void drop(GraphicItem item) {
 	}
 
-	public void equip(Item item) {
+	public void equip(GraphicItem item) {
 	}
 
-	public void unequip(Item item) {
+	public void unequip(GraphicItem item) {
 	}
 
 	/**

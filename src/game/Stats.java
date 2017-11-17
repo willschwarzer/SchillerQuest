@@ -49,7 +49,7 @@ public class Stats {
 		this.vision = 2;
 	}
 
-	public int randomWithRange(int min, int max)
+	private int randomWithRange(int min, int max)
 	{
 		int range = (max - min) + 1;
 		return (int)(Math.random() * range) + min;

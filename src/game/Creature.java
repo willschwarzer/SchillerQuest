@@ -1,7 +1,11 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public abstract class Creature extends Entity {
 	private Stats stats;
+	private HashMap inventory;
 
 	/**
 	 * Get an informative message about the Creature.
@@ -53,4 +57,10 @@ public abstract class Creature extends Entity {
 	public Stats getStats() {
 		return stats;
 	}
+
+	public void setStats(Stats stats) {this.stats = stats;}
+
+	public  HashMap getInventory() {return inventory;}
+
+	public void setInventory(HashMap inventory){this.inventory = inventory;}
 }
