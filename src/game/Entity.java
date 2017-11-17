@@ -24,7 +24,7 @@ public abstract class Entity implements MapViewable {
 	 * @param coordinates
 	 * @param map
 	 */
-	public Entity(Coordinates coordinates, GameMap map, char graphic) {
+	public Entity(Coordinates coordinates, GameMap map) {
 		this.coordinates = coordinates;
 		this.map = map;
 		this.graphic = graphic;
@@ -57,6 +57,10 @@ public abstract class Entity implements MapViewable {
 	 */
 	public void setCoordinates(Coordinates coor) {
 		coordinates = coor;
+	}
+
+	public void setMapGraphic(char graphic) {
+		this.graphic = graphic;
 	}
 
 	/**

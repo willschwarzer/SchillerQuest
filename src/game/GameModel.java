@@ -1,7 +1,5 @@
 package game;
-import ;
-
-import monsters.Rat;
+import monsters.*;
 
 import java.io.File;
 import java.util.List;
@@ -72,7 +70,7 @@ public class GameModel implements Subject {
 	}
 
 	public void attack(Creature attacker, Creature attackee) {
-		attacker.getStats().recieveAttack();
+
 	}
 
 	/**
@@ -94,7 +92,7 @@ public class GameModel implements Subject {
 	 */
 	public void spawnPlayer(Coordinates coordinates) {
 		//TODO: Fix hard coding in the beginning stats
-		Stats playerStats = new Stats(5,1,1,1,1);
+		Stats playerStats = new Stats(5,1,1,1,12);
 		Player player = new Player(coordinates, playerStats);
 		map.setPlayer(player);
 	}
@@ -106,7 +104,7 @@ public class GameModel implements Subject {
 	 * @param coordinates The coordinate the player will be spawned at
 	 */
 	public void spawnMonster(Coordinates coordinates, int level) {
-		Rat monster = new Rat(coordinates, map, '~', level);
+		Rat monster = new Rat(coordinates, map, level);
 		map.setMonster(monster);
 	}
 

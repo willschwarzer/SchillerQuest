@@ -33,8 +33,8 @@ public abstract class Creature extends Entity {
 		this.stats = stats;
 	}
 
-	public Creature(Coordinates coordinates, GameMap map, char graphic, int level) {
-		super(coordinates, map, graphic);
+	public Creature(Coordinates coordinates, GameMap map, int level) {
+		super(coordinates, map);
 		this.stats = new Stats(level);
 	}
 
@@ -43,7 +43,7 @@ public abstract class Creature extends Entity {
 	 * @param coordinates
 	 * @param map
 	 */
-	public Creature(Coordinates coordinates, GameMap map, char graphic) {super(coordinates, map, graphic);}
+	public Creature(Coordinates coordinates, GameMap map) {super(coordinates, map);}
 
 	/**
 	 * Creates a entity at given coordinates

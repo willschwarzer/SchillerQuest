@@ -94,9 +94,4 @@ public class Stats {
 	public void setVision(int vision) {
 		this.vision = vision;
 	}
-
-	private int recieveAttack(int hit) {
-		health -= hit;
-		return health;
-	}
 }

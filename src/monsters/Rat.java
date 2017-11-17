@@ -9,22 +9,16 @@ import game.Stats;
 public class Rat extends Monster {
     private Coordinates coordinates;
     private GameMap map;
-    private boolean isOccupiable;
-    private char graphic;
     private Stats stats;
 
-    public Rat(Coordinates coordinates, GameMap map, char graphic, int level) {
-        super(coordinates, map, 'r', level);
-        this.graphic = 'R' ;
+    public Rat(Coordinates coordinates, GameMap map, int level) {
+        super(coordinates, map, level);
         this.stats = new Stats(level);
+        setMapGraphic('r');
     }
 
     public String getInfo(){
 
         return "null";
-    }
-
-    public char getGraphic(){
-        return graphic;
     }
 }

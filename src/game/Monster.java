@@ -5,8 +5,8 @@ import java.util.List;
 
 public abstract class Monster extends Creature {
 
-	public Monster(Coordinates coordinates, GameMap map, char graphic, int level) {
-		super(coordinates, map, graphic, level);
+	public Monster(Coordinates coordinates, GameMap map, int level) {
+		super(coordinates, map, level);
 	}
 
 
