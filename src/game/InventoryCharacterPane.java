@@ -16,9 +16,9 @@ public class InventoryCharacterPane extends MutableTextPane {
 		itemTypes[3] = "armor";
 		itemTypes[4] = "shoes";
 
-		equippedItems.put("weapon", "Rusty Spoon");
-		equippedItems.put("shield", "Legend Shield");
-		equippedItems.put("amulet", "Cool Amulet");
+//		equippedItems.put("weapon", "Rusty Spoon");
+//		equippedItems.put("shield", "Legend Shield");
+//		equippedItems.put("amulet", "Cool Amulet");
 
 		drawPane();
 	}
@@ -61,6 +61,10 @@ public class InventoryCharacterPane extends MutableTextPane {
 		} else {
 			return "";
 		}
+	}
+
+	public void setEquippedItems(Map<String, String> items) {
+		equippedItems = items;
 	}
 
 	public void setSelectedType(String type) {

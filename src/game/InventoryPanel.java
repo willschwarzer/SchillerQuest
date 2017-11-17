@@ -3,11 +3,14 @@ package game;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InventoryPanel extends JPanel {
 	private ArrayList<String> backpackItems = new ArrayList<>();
 	private ArrayList<String> backpackItemTypes = new ArrayList<>();
-	private ArrayList<String> equipped = new ArrayList<>();
+
+	private Map<String, String> equipped = new HashMap<>();
 	private int curr = 0;
 
 	InventoryItemPane invItemPane = new InventoryItemPane();
@@ -43,8 +46,8 @@ public class InventoryPanel extends JPanel {
 		invItemPane.setCurr(curr);
 		invItemPane.drawPane();
 
-
 		invCharPane.setSelectedType(invItemPane.getSelectedType());
+		invCharPane.setEquippedItems(equipped);
 		invCharPane.drawPane();
 	}
 
@@ -56,35 +59,30 @@ public class InventoryPanel extends JPanel {
 	}
 
 	public void selectDown() {
-		if (curr < backpackItems.size() - 1 || curr < equipped.size() - 1) {
+		if (curr < backpackItems.size() - 1) {
 			curr++;
 		}
 		updatePanes();
 	}
-
-	// Moves item to backpack section
-	public void moveLeft() {
-		if (equipped.size() >= curr) { // valid change?
-			backpackItems.add(equipped.get(curr));
-			equipped.remove(curr);
-			if (curr >= backpackItems.size() && curr >= equipped.size())
-				curr = equipped.size() - 1;
-			if (curr < 0)
-				curr = 0;
-		}
-		updatePanes();
-	}
-
+	
 	// Moves item to equipped section
 	public void moveRight() {
 		if (backpackItems.size() >= curr) { // valid change?
-			equipped.add(backpackItems.get(curr));
+			String type = backpackItemTypes.get(curr);
+			if (equipped.containsKey(type)) {
+				String oldItem = equipped.get(type);
+				backpackItems.add(oldItem);
+				backpackItemTypes.add(type);
+			}
+			equipped.put(type, backpackItems.get(curr));
 			backpackItems.remove(curr);
-			if (curr >= backpackItems.size() && curr >= equipped.size())
+			backpackItemTypes.remove(curr);
+			if (curr >= backpackItems.size())
 				curr = backpackItems.size() - 1;
 			if (curr < 0)
 				curr = 0;
 		}
+		System.out.println(equipped);
 		updatePanes();
 	}
 }
