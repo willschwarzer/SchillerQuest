@@ -8,7 +8,6 @@ public class InventoryCharacterPane extends MutableTextPane {
 	String[] itemTypes = new String[5];
 	String selectedType;
 
-
 	public InventoryCharacterPane() {
 		super(18);
 		itemTypes[0] = "weapon";
@@ -50,26 +49,21 @@ public class InventoryCharacterPane extends MutableTextPane {
 
 	private void displayItemOfType(String type) {
 		if (equippedItems.containsKey(type)) {
-			addLine(" " + symbolForType(type) + " " + equippedItems.get(type));
+			addLine(" " + symbolForType(type) + " " + equippedItems.get(type) + selectionIndicator(type));
 		} else {
-			addLine(" " + symbolForType(type) + " (empty)");
+			addLine(" " + symbolForType(type) + " (empty)" + selectionIndicator(type));
 		}
 	}
 
-	private String symbolForType(String type) {
-		switch (type) {
-			case "weapon":
-				return "△";
-			case "shield":
-				return "▯";
-			case "amulet":
-				return "◎";
-			case "armor":
-				return "೧";
-			case "shoes":
-				return "◣";
-			default:
-				return "*";
+	private String selectionIndicator(String type) {
+		if (type == selectedType) {
+			return " <<";
+		} else {
+			return "";
 		}
+	}
+
+	public void setSelectedType(String type) {
+		this.selectedType = type;
 	}
 }

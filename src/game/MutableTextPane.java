@@ -31,12 +31,12 @@ public class MutableTextPane extends JTextPane {
 
 	public void addLine(String line) {
 		for (char c : line.toCharArray()) {
-			appendText(Character.toString(c), colorForChar(c));
+			appendStringWithColor(Character.toString(c), colorForChar(c));
 		}
-		appendText("\n", Color.white);
+		appendStringWithColor("\n", Color.white);
 	}
 
-	public void appendText(String text, Color c) {
+	public void appendStringWithColor(String text, Color c) {
 		StyleContext sc = StyleContext.getDefaultStyleContext();
 		AttributeSet attrSet = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 
@@ -69,6 +69,23 @@ public class MutableTextPane extends JTextPane {
 				return Color.gray;
 			default:
 				return Color.white;
+		}
+	}
+
+	public char symbolForType(String type) {
+		switch (type) {
+			case "weapon":
+				return '△';
+			case "shield":
+				return '▯';
+			case "amulet":
+				return '◎';
+			case "armor":
+				return '೧';
+			case "shoes":
+				return '◣';
+			default:
+				return '*';
 		}
 	}
 }
