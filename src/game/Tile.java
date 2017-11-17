@@ -49,11 +49,12 @@ public class Tile implements MapViewable {
 
 	public boolean isOccupiable() {
 		// TODO Anders - come back to?
-		if (creature == null && (items == null || items.isEmpty()) && terrain.isOccupiable()) {
+		return terrain.isOccupiable();
+		/*if (creature == null && (items == null || items.isEmpty()) && terrain.isOccupiable()) {
 			return true;
 		} else {
 			return false;
-		}
+		}*/
 	}
 
 	public Deque<Item> getItems() {

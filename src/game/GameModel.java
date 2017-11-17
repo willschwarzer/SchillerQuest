@@ -16,7 +16,7 @@ public class GameModel implements Subject {
 		addObserver(controller);
 
 		Coordinates startCoordinates = new Coordinates(10, 3);
-		Coordinates monsterStart =  new Coordinates(42, 15);
+		Coordinates monsterStart =  new Coordinates(15, 3);
 		loadNewLevel("src/resources/level1.txt", startCoordinates, monsterStart);
 
 		notifyObservers();
