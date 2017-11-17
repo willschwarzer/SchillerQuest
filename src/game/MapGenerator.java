@@ -30,25 +30,35 @@ public class MapGenerator {
 	}
 
 	public GameMap generate(int difficulty) {
-		GameMap map = new GameMap();
-
 		Room upStaircase = new Room(getNewRoomLocation(), difficulty);
-		Room downStaircase = new Room(getNewRoomLocation(), difficulty);
+		grid.addItem(upStaircase);
 		rooms.add(upStaircase);
+		Room downStaircase = new Room(getNewRoomLocation(), difficulty);
+		grid.addItem(downStaircase);
 		rooms.add(downStaircase);
 
 		for (int i = 0; i < 25; i++) {
 			int[] loc = getNewRoomLocation();
 			if (loc != null) {
-				rooms.add(new Room(loc, difficulty));
+				Room room = new Room(loc, difficulty);
+				grid.addItem(room);
+				rooms.add(room);
 			}
 		}
 
-		for (Room room : rooms) {
-			int[] loc = room.getLocation();
-			grid.addItem(room);
+		for (int row = 0; row < GRID_HEIGHT; row++) {
+			for (int col = 0; col < GRID_WIDTH; col++) {
+				if (grid.getGridItemAtLocation(new int[]{row, col}) == null) {
+					GridItem corridor = new Corridor(new int[]{row, col});
+					grid.addItem(corridor);
+				}
+			}
 		}
 
+
+		Tile[][] tiles = grid.toTileArray();
+
+		GameMap map = new GameMap(tiles);
 
 		return map;
 	}
@@ -90,6 +100,8 @@ public class MapGenerator {
 
 	private class Grid {
 		private GridItem[][] grid;
+		private final int ITEM_WIDTH = 9;
+		private final int ITEM_HEIGHT = 9;
 
 		public Grid(int width, int height) {
 			grid = new GridItem[height][width];
@@ -104,12 +116,26 @@ public class MapGenerator {
 			}
 		}
 
+
 		public GridItem getGridItemAtLocation(int[] loc) {
 			return grid[loc[0]][loc[1]];
 		}
 
 		public Tile[][] toTileArray() {
-			return null;
+			Tile[][] mapTiles = new Tile[GRID_HEIGHT * ITEM_HEIGHT][GRID_WIDTH * ITEM_WIDTH];
+
+			for (int itemRow = 0; itemRow < GRID_HEIGHT; itemRow++) {
+				for (int itemCol = 0; itemCol < GRID_WIDTH; itemCol++) {
+					Tile[][] itemTiles = grid[itemRow][itemCol].getTiles();
+
+					for (int tileRow = 0; tileRow < ITEM_HEIGHT; tileRow++) {
+						for (int tileCol = 0; tileCol < ITEM_WIDTH; tileCol++) {
+							mapTiles[tileRow + itemRow * ITEM_HEIGHT][tileCol + itemCol * ITEM_WIDTH] = itemTiles[tileRow][tileCol];
+						}
+					}
+				}
+			}
+			return mapTiles;
 		}
 	}
 
@@ -117,22 +143,19 @@ public class MapGenerator {
 		private boolean[] connections;
 		private Tile[][] tiles;
 		private int[] location;
-		private final int ITEM_WIDTH = 9;
-		private final int ITEM_HEIGHT = 9;
+		private int width = 9;
+		private int height = 9;
 
 		private GridItem(int[] location) {
 			this.location = location;
 			this.connections = getValidConnections(location);
+			this.tiles = new Tile[width][height];
 		}
 
 		protected boolean[] getValidConnections(int[] loc) {
 			boolean[] validConnections = new boolean[4];
-			int[] left = new int[]{-1, 0};
-			int[] down = new int[]{0, 1};
-			int[] right = new int[]{1, 0};
-			int[] up = new int[]{0, -1};
 
-			validConnections[LEFT_CONNECTION] = (loc[1] < 0);
+			validConnections[LEFT_CONNECTION] = (loc[1] > 0);
 			validConnections[DOWN_CONNECTION] = (loc[0] < GRID_HEIGHT - 1);
 			validConnections[RIGHT_CONNECTION] = (loc[1] < GRID_HEIGHT - 1);
 			validConnections[UP_CONNECTION] = (loc[0] > 0);
@@ -153,11 +176,11 @@ public class MapGenerator {
 		}
 
 		public int getItemWidth() {
-			return ITEM_WIDTH;
+			return width;
 		}
 
 		public int getItemHeight() {
-			return ITEM_HEIGHT;
+			return height;
 		}
 	}
 
@@ -174,7 +197,7 @@ public class MapGenerator {
 		}
 
 		private void generateMonsters() {
-
+			//List<Monster> monsters = Monster.getAppropriateMonsters(difficulty);
 		}
 
 		private void generateItems() {
@@ -199,34 +222,46 @@ public class MapGenerator {
 			int width = getItemWidth();
 			int height = getItemHeight();
 
-			Tile[] leftWall = new Tile[height];
-			Tile[] bottomWall = new Tile[width - 1];
-			Tile[] rightWall = new Tile[height - 1];
-			Tile[] topWall = new Tile[width - 2];
+			Tile[] leftWall = new Tile[height - 2];
+			Tile[] bottomWall = new Tile[width];
+			Tile[] rightWall = new Tile[height - 2];
+			Tile[] topWall = new Tile[width];
 
 			boolean[] connections = getConnections();
 			for (int i = 0; i < leftWall.length; i++) {
 				leftWall[i] = new Tile(new Terrain('#'));
-				if (connections[LEFT_CONNECTION]) {
-					leftWall[leftWall.length/2] = new Tile(new Terrain(' '));
-				}
+			}
+			if (connections[LEFT_CONNECTION]) {
+				leftWall[leftWall.length / 2] = new Tile(new Terrain(' '));
 			}
 			for (int i = 0; i < bottomWall.length; i++) {
-				leftWall[i] = new Tile(new Terrain('#'));
-				if (connections[DOWN_CONNECTION]) {
-					bottomWall[bottomWall.length/2] = new Tile(new Terrain(' '));
-				}
+				bottomWall[i] = new Tile(new Terrain('#'));
+			}
+			if (connections[DOWN_CONNECTION]) {
+				bottomWall[bottomWall.length / 2] = new Tile(new Terrain(' '));
 			}
 			for (int i = 0; i < rightWall.length; i++) {
-				leftWall[i] = new Tile(new Terrain('#'));
-				if (connections[RIGHT_CONNECTION]) {
-					rightWall[rightWall.length/2] = new Tile(new Terrain(' '));
-				}
+				rightWall[i] = new Tile(new Terrain('#'));
+			}
+			if (connections[RIGHT_CONNECTION]) {
+				rightWall[rightWall.length / 2] = new Tile(new Terrain(' '));
 			}
 			for (int i = 0; i < topWall.length; i++) {
 				topWall[i] = new Tile(new Terrain('#'));
-				if (connections[UP_CONNECTION]) {
-					topWall[topWall.length/2] = new Tile(new Terrain(' '));
+			}
+			if (connections[UP_CONNECTION]) {
+				topWall[topWall.length / 2] = new Tile(new Terrain(' '));
+			}
+
+			tiles[0] = topWall;
+			tiles[height - 1] = bottomWall;
+
+			for (int row = 1; row < height - 1; row++) {
+				tiles[row][0] = leftWall[row - 1];
+				tiles[row][width - 1] = rightWall[row - 1];
+
+				for (int col = 1; col < width - 1; col++) {
+					tiles[row][col] = new Tile(new Terrain(' '));
 				}
 			}
 		}
@@ -239,7 +274,17 @@ public class MapGenerator {
 		}
 
 		private void generateTerrain() {
+			//temp implementation
+			Tile[][] tiles = getTiles();
 
+			int width = getItemWidth();
+			int height = getItemHeight();
+
+			for (int row = 0; row < height; row++) {
+				for (int col = 0; col < width; col++) {
+					tiles[row][col] = new Tile(new Terrain(' '));
+				}
+			}
 		}
 	}
 }

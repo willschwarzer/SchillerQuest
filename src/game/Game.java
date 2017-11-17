@@ -11,5 +11,6 @@ public class Game {
 		Controller controller = new Controller();
 		MapGenerator myGenerator = new MapGenerator();
 		GameMap myMap = myGenerator.generate(1);
+		myMap.printMapToConsole();
 	}
 }
