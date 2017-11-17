@@ -155,10 +155,12 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 
 	private void addKeyBinding(JComponent component, int key, String id, ActionListener action) {
 		InputMap iMap = component.getInputMap(JComponent.WHEN_FOCUSED);
+		InputMap iMapAncestor = component.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		InputMap iMapWindow = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 		ActionMap aMap = component.getActionMap();
 
 		iMap.put(KeyStroke.getKeyStroke(key, 0, false), id);
+		iMapAncestor.put(KeyStroke.getKeyStroke(key, 0, false), id);
 		iMapWindow.put(KeyStroke.getKeyStroke(key, 0, false), id);
 		aMap.put(id, new AbstractAction() {
 			@Override
@@ -183,9 +185,5 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 			System.out.println("Button not yet implemented");
 		}
 		requestFocusInWindow();
-	}
-
-	public void setController(ControllerInterface controller) {
-		this.controller = controller;
 	}
 }
