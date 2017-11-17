@@ -27,12 +27,14 @@ public class InventoryPanel extends JPanel {
 		backpackItems.add("Ghost Shield");
 		backpackItems.add("Modest Loins");
 		backpackItems.add("Justice Amulet");
+		backpackItems.add("Nike Air Jordans");
 
 		backpackItemTypes.add("weapon");
 		backpackItemTypes.add("weapon");
 		backpackItemTypes.add("shield");
 		backpackItemTypes.add("armor");
 		backpackItemTypes.add("amulet");
+		backpackItemTypes.add("shoes");
 		//**
 
 		invItemPane.setBackpack(backpackItems, backpackItemTypes);
