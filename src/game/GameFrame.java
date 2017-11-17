@@ -14,6 +14,9 @@ import java.awt.event.KeyEvent;
 public class GameFrame extends JFrame implements Observer, ActionListener {
 	private LevelTextPane lvlTextPane = new LevelTextPane();
 	private InventoryPane invPane = new InventoryPane();
+	
+	private InventoryPanel invPanel = new InventoryPanel();
+	
 	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
 	private ControllerInterface controller;
@@ -65,7 +68,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 */
 	public void displayInventory() {
 		remove(lvlTextPane);
-		add(invPane);
+		add(invPanel);
 		inventoryButton.setText("Return");
 		revalidate();
 		repaint();
@@ -75,7 +78,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	* This displays the current level
 	*/
 	public void displayLevelScreen() {
-		remove(invPane);
+		remove(invPanel);
 		remove(titlePane);
 		// Either inventory or title screen could be present, so we remove both
 
@@ -143,15 +146,15 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up",
 				(action) -> controller.makeMove(new int[] {0, -1}));
 
-		//TODO: does this comply with MVC patterns?
-		addKeyBinding(invPane, KeyEvent.VK_UP, "up",
-				(action) -> invPane.selectUp());
-		addKeyBinding(invPane, KeyEvent.VK_DOWN, "down",
-				(action) -> invPane.selectDown());
-		addKeyBinding(invPane, KeyEvent.VK_LEFT, "left",
-				(action) -> invPane.moveLeft());
-		addKeyBinding(invPane, KeyEvent.VK_RIGHT, "right",
-				(action) -> invPane.moveRight());
+//		//TODO: does this comply with MVC patterns?
+		addKeyBinding(invPanel, KeyEvent.VK_UP, "up",
+				(action) -> invPanel.selectUp());
+		addKeyBinding(invPanel, KeyEvent.VK_DOWN, "down",
+				(action) -> invPanel.selectDown());
+		addKeyBinding(invPanel, KeyEvent.VK_LEFT, "left",
+				(action) -> invPanel.moveLeft());
+		addKeyBinding(invPanel, KeyEvent.VK_RIGHT, "right",
+				(action) -> invPanel.moveRight());
 	}
 
 	private void addKeyBinding(JComponent component, int key, String id, ActionListener action) {
@@ -183,6 +186,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		} else {
 			System.out.println("Button not yet implemented");
 		}
+		requestFocusInWindow();
 	}
 
 	public void setController(ControllerInterface controller) {
