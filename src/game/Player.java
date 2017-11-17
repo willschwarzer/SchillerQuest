@@ -18,7 +18,7 @@ public class Player extends Creature {
 		this.backpack.add(new InventoryItem("weapon", 1, "Basic stick"));
 		this.backpack.add(new InventoryItem("weapon", 1, "better stick"));
 		this.backpack.add(new InventoryItem("shoes", 1, "nike airmags"));
-		this.backpack.add(new InventoryItem("weapon", 1, "Basic stick"));
+		this.backpack.add(new InventoryItem("weapon", 1, "Sharp Katana"));
 		this.backpack.add(new InventoryItem("amulet", 1, "screw you f-rum"));
 		this.backpack.add(new InventoryItem("shield", 1, "pride"));
 		this.backpack.add(new InventoryItem("shoes", 1, "Crocs"));
