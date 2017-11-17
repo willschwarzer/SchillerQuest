@@ -13,8 +13,6 @@ import java.awt.event.KeyEvent;
  */
 public class GameFrame extends JFrame implements Observer, ActionListener {
 	private LevelTextPane lvlTextPane = new LevelTextPane();
-	private InventoryPane invPane = new InventoryPane();
-	
 	private InventoryPanel invPanel = new InventoryPanel();
 	
 	private TitlePane titlePane = new TitlePane();
