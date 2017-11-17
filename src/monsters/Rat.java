@@ -1,5 +1,4 @@
-package monster;
-
+package monsters;
 
 import game.*;
 
