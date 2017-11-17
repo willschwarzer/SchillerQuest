@@ -16,25 +16,22 @@ public class InventoryCharacterPane extends MutableTextPane {
 		itemTypes[3] = "armor";
 		itemTypes[4] = "shoes";
 
-//		equippedItems.put("weapon", "Rusty Spoon");
-//		equippedItems.put("shield", "Legend Shield");
-//		equippedItems.put("amulet", "Cool Amulet");
-
 		drawPane();
 	}
 
 	public void composeLinesOfText() {
+		//TODO: highlight relevant area of character
 		String lineBreaks = "\n \n";
 		addLine(lineBreaks);
 		String character =
 				"        ___   |   \n" +
-						" ___   |. .|  |   \n" +
-						"|***|  | - | \\_/  \n" +
-						"\\***/\\__( )__/|   \n" +
-						" \\_/   ||~||      \n" +
-						"       \\___/      \n" +
-						"       /   \\      \n" +
-						"     _|     |_    \n";
+				" ___   |. .|  |   \n" +
+				"|***|  | - | \\_/  \n" +
+				"\\***/\\__( )__/|   \n" +
+				" \\_/   ||~||      \n" +
+				"       \\___/      \n" +
+				"       /   \\      \n" +
+				"     _|     |_    \n";
 		addLine(character);
 
 		String header =
