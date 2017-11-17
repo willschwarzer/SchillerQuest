@@ -151,8 +151,6 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 				(action) -> invPanel.selectUp());
 		addKeyBinding(invPanel, KeyEvent.VK_DOWN, "down",
 				(action) -> invPanel.selectDown());
-		addKeyBinding(invPanel, KeyEvent.VK_LEFT, "left",
-				(action) -> invPanel.moveLeft());
 		addKeyBinding(invPanel, KeyEvent.VK_RIGHT, "right",
 				(action) -> invPanel.moveRight());
 	}

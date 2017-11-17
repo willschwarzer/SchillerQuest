@@ -22,11 +22,11 @@ public class InventoryPanel extends JPanel {
 
 		//**
 		//TODO: all of this should happen in model
-		backpackItems.add("Cool Sword");
-		backpackItems.add("Rusty Spoon");
-		backpackItems.add("another");
+		backpackItems.add("Steel Sword");
+		backpackItems.add("Rusty Dagger");
+		backpackItems.add("Ghost Shield");
 		backpackItems.add("Modest Loins");
-		backpackItems.add("wow one more");
+		backpackItems.add("Justice Amulet");
 
 		backpackItemTypes.add("weapon");
 		backpackItemTypes.add("weapon");
@@ -64,7 +64,7 @@ public class InventoryPanel extends JPanel {
 		}
 		updatePanes();
 	}
-	
+
 	// Moves item to equipped section
 	public void moveRight() {
 		if (backpackItems.size() >= curr) { // valid change?
@@ -82,7 +82,6 @@ public class InventoryPanel extends JPanel {
 			if (curr < 0)
 				curr = 0;
 		}
-		System.out.println(equipped);
 		updatePanes();
 	}
 }
