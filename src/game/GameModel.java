@@ -127,7 +127,6 @@ public class GameModel implements Subject {
 	 */
 	public void takeTurn() {
 		ArrayList<Monster> monsters = map.getMonsters();
-		System.out.println(monsters);
 
 		for( int i = 0; i < monsters.size(); i++) {
 			moveCreature(monsters.get(i), monsters.get(i).getMove());
