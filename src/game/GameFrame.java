@@ -153,7 +153,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 				(action) -> invPanel.moveRight());
 	}
 
-	private void addKeyBinding(JComponent component, int key, String id, ActionListener action) {
+	public static void addKeyBinding(JComponent component, int key, String id, ActionListener action) {
 		InputMap iMap = component.getInputMap(JComponent.WHEN_FOCUSED);
 		InputMap iMapAncestor = component.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		InputMap iMapWindow = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);

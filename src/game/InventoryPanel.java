@@ -2,6 +2,9 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +22,7 @@ public class InventoryPanel extends JPanel {
 	public InventoryPanel() {
 		super();
 		setLayout(new BorderLayout());
+		addBindings();
 
 		//start of temp dummy items
 		//TODO: get rid of these, serve items from model
@@ -85,5 +89,22 @@ public class InventoryPanel extends JPanel {
 				curr = 0;
 		}
 		updatePanes();
+	}
+
+	private void addBindings() {
+//		//TODO: does this comply with MVC patterns?
+		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_UP, "up",
+				(action) -> selectUp());
+		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_DOWN, "down",
+				(action) -> selectDown());
+		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_RIGHT, "right",
+				(action) -> moveRight());
+
+		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_UP, "up",
+				(action) -> selectUp());
+		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_DOWN, "down",
+				(action) -> selectDown());
+		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_RIGHT, "right",
+				(action) -> moveRight());
 	}
 }
