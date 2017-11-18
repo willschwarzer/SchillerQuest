@@ -61,17 +61,10 @@ public class TitlePane extends JTextPane {
 
 	private Color colorForChar(char c) {
 		switch (c) {
-			case '>':
-				return Color.green;
-			case '<':
-				return Color.green;
-			case '=':
-				return Color.green;
 			case '#':
 				return Color.gray;
 			default:
-				return Color.green;
+				return Color.white;
 		}
 	}
 }
-
