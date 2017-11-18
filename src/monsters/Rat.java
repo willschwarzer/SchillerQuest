@@ -17,9 +17,10 @@ public class Rat extends Monster {
         setStats(stats);
         setMapGraphic('r');
         HashMap<String, InventoryItem> equipped = new HashMap<>();
-        equipped.put("weapon", new InventoryItem("weapon", 1, "Rat Teeth"));
-        equipped.put("armor",new InventoryItem("armor", 1, "Rat Skin"));
+        equipped.put("weapon", new InventoryItem("weapon", level, "Rat Teeth"));
+        equipped.put("armor",new InventoryItem("armor", level, "Rat Skin"));
         setEquipped(equipped);
+        setName("Lvl " + level + " Rat");
 
     }
 

@@ -6,10 +6,10 @@ public class InventoryItem {
     private String name;
     private int boost;
 
-    public InventoryItem(String type, int level){
+    public InventoryItem(String type, int boost){
         this.type = type;
-        this.boost = level;
-        this.name = makeName(type, boost);
+        this.boost = boost;
+        this.name = makeName(type, this.boost);
 
     }
 
@@ -24,10 +24,11 @@ public class InventoryItem {
          return name;
     }
 
-    public int randomWithRange(int min, int max)
+    private int randomWithRange(int min, int max)
     {
         int range = (max - min) + 1;
-        return (int)(Math.random() * range) + min;
+        int value = (int)(Math.random() * range) + min;
+        return value;
     }
 
     public int getBoost() {

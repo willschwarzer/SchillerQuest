@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An implementation of Java's JFrame with a purpose of displaying a window we can put elements in.
@@ -64,6 +65,15 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 
 	public void updateInventory(List newInv) {
 		invPanel.setBackpack(newInv);
+
+	}
+
+	public List<InventoryItem> updateBackpack(){
+		return invPanel.getBackpack();
+	}
+
+	public Map<String, InventoryItem> updateEquiqqed(){
+		return invPanel.getEquipped();
 	}
 
 	/**

@@ -313,6 +313,8 @@ public class GameMap implements GameMapInterface {
 		}
 	}
 
+	public void removeMonster(Creature monster) {this.monsters.remove(monster);
+	}
 	/**
 	 * Converts a given 2D Tile array to it's character equivalent.  Replaces null Tiles (out of world) with the value
 	 * of Terrain.getOutOfWorldTerrainGraphic()

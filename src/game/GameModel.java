@@ -4,6 +4,7 @@ import monsters.*;
 import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class GameModel implements Subject {
 	private GameMap map;
@@ -25,7 +26,7 @@ public class GameModel implements Subject {
 	private void loadNewLevel(String fileName, Coordinates startCoordinates, Coordinates monsterStart) {
 		map = new GameMap(new File(fileName));
 		spawnPlayer(startCoordinates);
-		spawnMonster(monsterStart,1);
+		spawnMonster(monsterStart,3);
 
 	}
 
@@ -48,6 +49,10 @@ public class GameModel implements Subject {
 
 		if (newTile.getCreature() != null) {
 			attack(creature, newTile.getCreature());
+			if(newTile.getCreature().getStats().getHealth() <= 0) {
+				map.removeMonster(newTile.getCreature());
+				newTile.removeEntity(newTile.getCreature());
+			}
 		} else if (newTile.isOccupiable()) {
 			oldTile.removeEntity(creature);
 			newTile.addEntity(creature);
@@ -70,6 +75,50 @@ public class GameModel implements Subject {
 	}
 
 	public void attack(Creature attacker, Creature attackee) {
+		int attack = attacker.getStats().getAttack();
+		if (attacker.getEquipped().containsKey("weapon")){
+			InventoryItem attackerWeapon = attacker.getEquipped().get("weapon");
+			attack += attackerWeapon.getBoost();
+		}
+
+		int defense = attackee.getStats().getDefense();
+		if (attackee.getEquipped().containsKey("armor")){
+			InventoryItem attackeeArmor = attackee.getEquipped().get("armor");
+			defense += attackeeArmor.getBoost();
+		}
+
+		if (attackee.getEquipped().containsKey("shield")){
+			InventoryItem shield = attackee.getEquipped().get("shield");
+			defense =+ shield.getBoost();
+		}
+
+		int attackeeSpd = attackee.getStats().getSpeed();
+		int attackerSpd = attacker.getStats().getSpeed();
+
+		if (attackee.getEquipped().containsKey("shoes")){
+			InventoryItem attackeeShoes = attackee.getEquipped().get("shoes");
+			attackeeSpd += attackeeShoes.getBoost();
+		}
+		if (attacker.getEquipped().containsKey("shoes")){
+			InventoryItem attackerShoes = attacker.getEquipped().get("shoes");
+			attackeeSpd += attackerShoes.getBoost();
+		}
+
+		int hitChance = randomWithRange(attackerSpd/2, attackerSpd) - randomWithRange(attackeeSpd/3, attackeeSpd);
+
+		int damage = 0;
+		if(hitChance > 0){
+			damage =+ randomWithRange(attack/2, attack) - randomWithRange(defense/3, defense);
+		} else {System.out.println(attacker.getName()+ "'s attack missed");}
+
+		if(damage > 0){
+			attackee.getStats().setHealth(attackee.getStats().getHealth() - damage);
+			System.out.println(attacker.getName() +"'s attack did " + damage + " point(s) of damage to " + attackee.getName());
+		} else { System.out.println(attacker.getName()+ "'s attack did no damage to " + attackee.getName() );}
+
+
+
+
 
 	}
 
@@ -78,6 +127,7 @@ public class GameModel implements Subject {
 	 */
 	public void takeTurn() {
 		ArrayList<Monster> monsters = map.getMonsters();
+		System.out.println(monsters);
 
 		for( int i = 0; i < monsters.size(); i++) {
 			moveCreature(monsters.get(i), monsters.get(i).getMove());
@@ -92,7 +142,7 @@ public class GameModel implements Subject {
 	 */
 	public void spawnPlayer(Coordinates coordinates) {
 		//TODO: Fix hard coding in the beginning stats
-		Stats playerStats = new Stats(5,1,1,1,12);
+		Stats playerStats = new Stats(100,10,10,10,4);
 		Player player = new Player(coordinates, playerStats);
 		map.setPlayer(player);
 	}
@@ -120,5 +170,12 @@ public class GameModel implements Subject {
 		for (Observer observer : observers) {
 			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision()));
 		}
+	}
+
+	private int randomWithRange(int min, int max)
+	{
+		int range = (max - min) + 1;
+		int value = (int)(Math.random() * range) + min;
+		return value;
 	}
 }

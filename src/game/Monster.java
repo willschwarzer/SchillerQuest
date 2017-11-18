@@ -42,9 +42,6 @@ public abstract class Monster extends Creature {
 		int deltaX = playerX - selfX;
 		int deltaY = playerY - selfY;
 
-		for (int[] array: validDirections) {
-			System.out.println("Can move:   " + array[0] + "     " + array[1]);
-		}
 
 		if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
 			int randomIndex = (int) Math.random()*validDirections.size();
@@ -61,7 +58,6 @@ public abstract class Monster extends Creature {
 			int randomIndex = (int) Math.random()*validDirections.size();
 			move = validDirections.get(randomIndex);
 		}
-		System.out.println(move[0] + "      " + move[1]);
 		return move;
 	}
 }
