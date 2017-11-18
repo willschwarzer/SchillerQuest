@@ -196,6 +196,22 @@ public class MapGenerator {
 		public int getItemHeight() {
 			return height;
 		}
+
+		/**
+		 * Gets an occupiable Tile in the GridItem.  Throws a RuntimeException if no occupiable location is found.
+		 *
+		 * @return Location of an occupiable Tile
+		 */
+		public Coordinates getOccupiableCoordinates() {
+			for (int i = 0; i < 1000; i++) {
+				int x = random.nextInt(width);
+				int y = random.nextInt(height);
+				if (tiles[y][x].isOccupiable()) {
+					return new Coordinates(x, y);
+				}
+			}
+			throw new RuntimeException("No occupiable location found in the GridItem with 1000 tries.");
+		}
 	}
 
 	private class Room extends GridItem {
@@ -210,12 +226,32 @@ public class MapGenerator {
 			generateItems();
 		}
 
+		/**
+		 * First generates a List of Monsters that should be spawned in the Room for the given difficulty, and then
+		 * spawns them in.
+		 */
 		private void generateMonsters() {
-			//List<Monster> monsters = Monster.getAppropriateMonsters(difficulty);
+			List<Monster> monsters = Monster.getAppropriateMonsters(random, difficulty);
+
+			for (Monster mob : monsters) {
+				Coordinates spawn = getOccupiableCoordinates();
+				if (!getTiles()[spawn.getY()][spawn.getX()].addEntity(mob)) {
+					throw new RuntimeException(
+							"Could not add a Monster to a tile that was determined to be occupiable previously, huh?");
+				}
+			}
 		}
 
 		private void generateItems() {
+			List<Item> items = Item.getAppropriateItems(random, difficulty);
 
+			for (Item item : items) {
+				Coordinates spawn = getOccupiableCoordinates();
+				if (!getTiles()[spawn.getY()][spawn.getX()].addEntity(item)) {
+					throw new RuntimeException(
+							"Could not add an Item to a tile that was determined to be occupiable previously, huh?");
+				}
+			}
 		}
 
 		private void generateFeatures() {

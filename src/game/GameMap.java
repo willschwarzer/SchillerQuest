@@ -22,8 +22,31 @@ public class GameMap implements GameMapInterface {
 		buildMapFromFile(file);
 	}
 
+	/**
+	 * Creates a GameMap from a given 2D row-major Tile array.  Tells all Entities in the GameMap their coordinates.
+	 * @param map 2D row-major Tile array to set as the GameMap's map
+	 */
 	public GameMap(Tile[][] map) {
 		this.map = map;
+
+		int expectedWidth = map[0].length;
+
+		for (int row = 0; row < map.length; row++) {
+			if (expectedWidth != map[row].length) {
+				throw new IllegalArgumentException("Given Tile array is not rectangular.");
+			}
+
+			for (int col = 0; col < map[0].length; col++) {
+				for (Item item : map[row][col].getItems()) {
+					item.setCoordinates(new Coordinates(col, row));
+				}
+
+				Creature creature = map[row][col].getCreature();
+				if (creature != null) {
+					creature.setCoordinates(new Coordinates(col, row));
+				}
+			}
+		}
 	}
 
 	/**
