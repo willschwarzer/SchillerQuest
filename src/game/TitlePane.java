@@ -18,7 +18,7 @@ public class TitlePane extends JTextPane {
 		drawPane();
 
 		setBackground(Color.black);
-		setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+		setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
 		setEditable(false);
 	}
 

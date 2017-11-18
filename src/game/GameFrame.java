@@ -27,7 +27,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		this.controller = controller;
 		controller.addObserver(this);
 
-		setSize(875, 500);
+		setSize(930, 520);
 		setResizable(false);
 		setTitle("Schiller Quest");
 
