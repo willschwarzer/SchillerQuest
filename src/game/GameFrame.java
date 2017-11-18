@@ -27,9 +27,10 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 */
 	public GameFrame(Controller controller) {
 		super();
+
 		IS_WINDOWS = (System.getProperty("os.name").contains("Windows"));
 		if (IS_WINDOWS) {
-			setSize(1400, 520);
+			setSize(930, 520);
 		} else {
 			setSize(875, 460);
 		}

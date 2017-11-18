@@ -18,7 +18,7 @@ public class TitlePane extends JTextPane {
 		drawPane();
 
 		setBackground(Color.black);
-		setFont(new Font(Font.MONOSPACED, Font.PLAIN, 18));
+		setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
 		setEditable(false);
 	}
 
@@ -61,12 +61,6 @@ public class TitlePane extends JTextPane {
 
 	private Color colorForChar(char c) {
 		switch (c) {
-			case '>':
-				return Color.green;
-			case '<':
-				return Color.green;
-			case '=':
-				return Color.green;
 			case '#':
 				return Color.gray;
 			default:
@@ -74,4 +68,3 @@ public class TitlePane extends JTextPane {
 		}
 	}
 }
-
