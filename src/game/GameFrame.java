@@ -143,14 +143,6 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 				(action) -> controller.makeMove(new int[] {1, 0}));
 		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up",
 				(action) -> controller.makeMove(new int[] {0, -1}));
-
-//		//TODO: does this comply with MVC patterns?
-		addKeyBinding(invPanel, KeyEvent.VK_UP, "up",
-				(action) -> invPanel.selectUp());
-		addKeyBinding(invPanel, KeyEvent.VK_DOWN, "down",
-				(action) -> invPanel.selectDown());
-		addKeyBinding(invPanel, KeyEvent.VK_RIGHT, "right",
-				(action) -> invPanel.moveRight());
 	}
 
 	public static void addKeyBinding(JComponent component, int key, String id, ActionListener action) {

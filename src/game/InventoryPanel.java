@@ -91,8 +91,7 @@ public class InventoryPanel extends JPanel {
 		updatePanes();
 	}
 
-	private void addBindings() {
-//		//TODO: does this comply with MVC patterns?
+	protected void addBindings() {
 		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_UP, "up",
 				(action) -> selectUp());
 		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_DOWN, "down",
