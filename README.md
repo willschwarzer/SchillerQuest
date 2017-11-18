@@ -1,9 +1,9 @@
-# Schillers Quest
+# Schiller Quest
 ### Contributors:
 Ephraim Benson, Anders Bruihler, David Higgs, and Will Schwarzer
 
 ### Overview:
-Schiller's Quest is a turn-based and text-based RPG. The player moves their character through a gridded level space, defeating monsters and acquiring new loot and abilities. In its current state, Schillers Quest has a functional GUI interface that outlines the design of the game. The game currently consists of a title screen, a primary level screen in which the player can navigate, and an inventory screen showing the items in the player's possession. There is no user interaction available on the inventory screen yet.
+Schiller Quest is a turn-based and text-based RPG. The player moves their character through a gridded level space, defeating monsters and acquiring new loot and abilities. In its current state, Schiller Quest has a functional GUI interface that outlines the design of the game. The game currently consists of a title screen, a primary level screen in which the player can navigate, and an inventory screen showing the items in the player's possession.
 
 ### Playing the Game
 * Compile and launch the program
