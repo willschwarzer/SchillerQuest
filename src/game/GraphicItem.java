@@ -1,13 +1,13 @@
 package game;
 
-public abstract class Item extends Entity implements MapViewable {
+public abstract class GraphicItem extends Entity implements MapViewable {
 
 	/**
 	 * Creates an item at given coordinates
 	 *
 	 * @param coordinates Coordinates the item will be created at
 	 */
-	public Item(Coordinates coordinates) {
+	public GraphicItem(Coordinates coordinates) {
 		super(coordinates);
 	}
 }

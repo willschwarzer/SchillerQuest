@@ -41,6 +41,20 @@ public class Stats {
 		this.vision = vision;
 	}
 
+	public Stats(int level) {
+		this.health = randomWithRange(level, level+3);
+		this.attack = randomWithRange(level, level+3);
+		this.speed = randomWithRange(level, level+3);
+		this.defense = randomWithRange(level, level+3);
+		this.vision = 2;
+	}
+
+	private int randomWithRange(int min, int max)
+	{
+		int range = (max - min) + 1;
+		return (int)(Math.random() * range) + min;
+	}
+
 	public int getHealth() {
 		return health;
 	}
@@ -79,10 +93,5 @@ public class Stats {
 
 	public void setVision(int vision) {
 		this.vision = vision;
-	}
-
-	public int recieveAttack(int hit) {
-		health -= hit;
-		return health;
 	}
 }
