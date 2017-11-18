@@ -143,6 +143,8 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 				(action) -> controller.makeMove(new int[] {1, 0}));
 		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up",
 				(action) -> controller.makeMove(new int[] {0, -1}));
+
+		invPanel.addBindingsToChildren();
 	}
 
 	public static void addKeyBinding(JComponent component, int key, String id, ActionListener action) {

@@ -22,7 +22,6 @@ public class InventoryPanel extends JPanel {
 	public InventoryPanel() {
 		super();
 		setLayout(new BorderLayout());
-		addBindings();
 
 		//start of temp dummy items
 		//TODO: get rid of these, serve items from model
@@ -91,7 +90,7 @@ public class InventoryPanel extends JPanel {
 		updatePanes();
 	}
 
-	protected void addBindings() {
+	protected void addBindingsToChildren() {
 		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_UP, "up",
 				(action) -> selectUp());
 		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_DOWN, "down",
