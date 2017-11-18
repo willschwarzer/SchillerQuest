@@ -47,7 +47,7 @@ public abstract class Monster extends Creature {
 		}
 
 		if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
-			int randomIndex = (int) Math.random()*validDirections.size();
+			int randomIndex = (int) (Math.random() * validDirections.size());
 			move = validDirections.get(randomIndex);
 		} else if (deltaX > Math.abs(deltaY) && validDirections.contains(right)) {
 			move = right;
@@ -58,7 +58,7 @@ public abstract class Monster extends Creature {
 		} else if (Math.abs(deltaX) <= deltaY && validDirections.contains(down)) {
 			move = down;
 		} else {
-			int randomIndex = (int) Math.random()*validDirections.size();
+			int randomIndex = (int) (Math.random() * validDirections.size());
 			move = validDirections.get(randomIndex);
 		}
 		System.out.println(move[0] + "      " + move[1]);
