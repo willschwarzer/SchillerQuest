@@ -2,11 +2,9 @@ package game;
 
 import java.util.*;
 
-/**
- * Created by bruihlera on 11/15/17.
- */
 public class MapGenerator {
-	private Random random;
+	private final Random random;
+	private final long initialRandomSeed;
 	private final int GRID_WIDTH = 5;
 	private final int GRID_HEIGHT = 5;
 	private final int NUM_ROOMS = 6;
@@ -17,30 +15,41 @@ public class MapGenerator {
 	private Grid grid;
 	private List<Room> rooms;
 
+	/**
+	 * Creates a new MapGenerator with the given Random seed.
+	 * @param seed the seed for the internal Random that determines the (reproducible) generation of the MapGenerator.
+	 */
 	public MapGenerator(long seed) {
+		initialRandomSeed = seed;
 		random = new Random(seed);
-		rooms = new ArrayList();
+		rooms = new ArrayList<>();
 		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
 	}
 
+	/**
+	 * Creates a new MapGenerator with a pseudorandom Random seed (System.currentTimeMillis())
+	 * @see #MapGenerator(long)
+	 */
 	public MapGenerator() {
-		random = new Random();
-		rooms = new ArrayList();
+		initialRandomSeed = System.currentTimeMillis();
+		random = new Random(initialRandomSeed);
+		rooms = new ArrayList<>();
 		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
 	}
 
 	public GameMap generate(int difficulty) {
-		Room upStaircase = new Room(getNewRoomLocation(), difficulty);
-		grid.addItem(upStaircase);
-		rooms.add(upStaircase);
-		Room downStaircase = new Room(getNewRoomLocation(), difficulty);
-		grid.addItem(downStaircase);
-		rooms.add(downStaircase);
+		Room upStaircaseRoom = new Room(getNewRoomLocation(), difficulty);
+		grid.addItem(upStaircaseRoom);
+		rooms.add(upStaircaseRoom);
+
+		Room downStaircaseRoom = new Room(getNewRoomLocation(), difficulty);
+		grid.addItem(downStaircaseRoom);
+		rooms.add(downStaircaseRoom);
 
 		for (int i = 0; i < 25; i++) {
-			int[] loc = getNewRoomLocation();
-			if (loc != null) {
-				Room room = new Room(loc, difficulty);
+			int[] location = getNewRoomLocation();
+			if (location != null) {
+				Room room = new Room(location, difficulty);
 				grid.addItem(room);
 				rooms.add(room);
 			}
@@ -55,7 +64,6 @@ public class MapGenerator {
 			}
 		}
 
-
 		Tile[][] tiles = grid.toTileArray();
 
 		GameMap map = new GameMap(tiles);
@@ -65,8 +73,8 @@ public class MapGenerator {
 
 	protected int[] getNewRoomLocation() {
 		int[] location;
-		List<int[]> locations = new ArrayList();
-		List<int[]> invalidLocations = new ArrayList();
+		List<int[]> locations = new ArrayList<>();
+		List<int[]> invalidLocations = new ArrayList<>();
 		for (int i = 0; i < GRID_WIDTH; i++) {
 			for (int j = 0; j < GRID_HEIGHT; j++) {
 				locations.add(new int[]{i, j});
@@ -104,6 +112,13 @@ public class MapGenerator {
 		private final int ITEM_HEIGHT = 9;
 
 		public Grid(int width, int height) {
+			if (width <= 0) {
+				throw new IllegalArgumentException("Cannot create a Grid with width " + width);
+			}
+			if (height <= 0) {
+				throw new IllegalArgumentException("Cannot create a Grid with height " + height);
+			}
+
 			grid = new GridItem[height][width];
 		}
 
@@ -115,7 +130,6 @@ public class MapGenerator {
 				grid[loc[0]][loc[1]] = item;
 			}
 		}
-
 
 		public GridItem getGridItemAtLocation(int[] loc) {
 			return grid[loc[0]][loc[1]];
@@ -234,18 +248,21 @@ public class MapGenerator {
 			if (connections[LEFT_CONNECTION]) {
 				leftWall[leftWall.length / 2] = new Tile(new Terrain(' '));
 			}
+
 			for (int i = 0; i < bottomWall.length; i++) {
 				bottomWall[i] = new Tile(new Terrain('#'));
 			}
 			if (connections[DOWN_CONNECTION]) {
 				bottomWall[bottomWall.length / 2] = new Tile(new Terrain(' '));
 			}
+
 			for (int i = 0; i < rightWall.length; i++) {
 				rightWall[i] = new Tile(new Terrain('#'));
 			}
 			if (connections[RIGHT_CONNECTION]) {
 				rightWall[rightWall.length / 2] = new Tile(new Terrain(' '));
 			}
+
 			for (int i = 0; i < topWall.length; i++) {
 				topWall[i] = new Tile(new Terrain('#'));
 			}
