@@ -31,7 +31,7 @@ public abstract class Monster extends Creature {
 		if (map.getTileAtLocation(new Coordinates(selfX + 1, selfY + 0)).isOccupiable()) {
 			validDirections.add(right);
 		}
-		if (map.getTileAtLocation(new Coordinates(selfX + 0, selfY -1)).isOccupiable()) {
+		if (map.getTileAtLocation(new Coordinates(selfX + 0, selfY - 1)).isOccupiable()) {
 			validDirections.add(up);
 		}
 
@@ -42,7 +42,7 @@ public abstract class Monster extends Creature {
 		int deltaX = playerX - selfX;
 		int deltaY = playerY - selfY;
 
-		for (int[] array: validDirections) {
+		for (int[] array : validDirections) {
 			System.out.println("Can move:   " + array[0] + "     " + array[1]);
 		}
 
@@ -51,9 +51,9 @@ public abstract class Monster extends Creature {
 			move = validDirections.get(randomIndex);
 		} else if (deltaX > Math.abs(deltaY) && validDirections.contains(right)) {
 			move = right;
-		} else if (-1*deltaX > Math.abs(deltaY) && validDirections.contains(left)) {
+		} else if (-1 * deltaX > Math.abs(deltaY) && validDirections.contains(left)) {
 			move = left;
-		} else if (Math.abs(deltaX) <= -1*deltaY && validDirections.contains(up)) {
+		} else if (Math.abs(deltaX) <= -1 * deltaY && validDirections.contains(up)) {
 			move = up;
 		} else if (Math.abs(deltaX) <= deltaY && validDirections.contains(down)) {
 			move = down;

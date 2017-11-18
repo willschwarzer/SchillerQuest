@@ -1,4 +1,5 @@
 package game;
+
 import monsters.*;
 
 import java.io.File;
@@ -16,7 +17,7 @@ public class GameModel implements Subject {
 		addObserver(controller);
 
 		Coordinates startCoordinates = new Coordinates(10, 3);
-		Coordinates monsterStart =  new Coordinates(15, 3);
+		Coordinates monsterStart = new Coordinates(15, 3);
 		loadNewLevel("src/resources/level1.txt", startCoordinates, monsterStart);
 
 		notifyObservers();
@@ -25,7 +26,7 @@ public class GameModel implements Subject {
 	private void loadNewLevel(String fileName, Coordinates startCoordinates, Coordinates monsterStart) {
 		map = new GameMap(new File(fileName));
 		spawnPlayer(startCoordinates);
-		spawnMonster(monsterStart,1);
+		spawnMonster(monsterStart, 1);
 
 	}
 
@@ -79,7 +80,7 @@ public class GameModel implements Subject {
 	public void takeTurn() {
 		ArrayList<Monster> monsters = map.getMonsters();
 
-		for( int i = 0; i < monsters.size(); i++) {
+		for (int i = 0; i < monsters.size(); i++) {
 			moveCreature(monsters.get(i), monsters.get(i).getMove());
 		}
 		notifyObservers();
@@ -92,7 +93,7 @@ public class GameModel implements Subject {
 	 */
 	public void spawnPlayer(Coordinates coordinates) {
 		//TODO: Fix hard coding in the beginning stats
-		Stats playerStats = new Stats(5,1,1,1,12);
+		Stats playerStats = new Stats(5, 1, 1, 1, 12);
 		Player player = new Player(coordinates, playerStats);
 		map.setPlayer(player);
 	}
@@ -118,7 +119,8 @@ public class GameModel implements Subject {
 
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision()));
+			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision
+					()));
 		}
 	}
 }

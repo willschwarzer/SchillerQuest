@@ -46,10 +46,13 @@ public abstract class Creature extends Entity {
 
 	/**
 	 * Creates a creature at given coordinates with specified GameMap.
+	 *
 	 * @param coordinates
 	 * @param map
 	 */
-	public Creature(Coordinates coordinates, GameMap map) {super(coordinates, map);}
+	public Creature(Coordinates coordinates, GameMap map) {
+		super(coordinates, map);
+	}
 
 	/**
 	 * Creates a entity at given coordinates
@@ -60,9 +63,15 @@ public abstract class Creature extends Entity {
 		return stats;
 	}
 
-	public void setStats(Stats stats) {this.stats = stats;}
+	public void setStats(Stats stats) {
+		this.stats = stats;
+	}
 
-	public  Map<String, InventoryItem> getEquipped() {return equipped;}
+	public Map<String, InventoryItem> getEquipped() {
+		return equipped;
+	}
 
-	public void setEquipped(Map<String, InventoryItem> equipped){this.equipped = equipped;}
+	public void setEquipped(Map<String, InventoryItem> equipped) {
+		this.equipped = equipped;
+	}
 }

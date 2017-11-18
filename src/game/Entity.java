@@ -51,7 +51,9 @@ public abstract class Entity implements MapViewable {
 		coordinates = coor;
 	}
 
-	public void setItemList(ArrayList<InventoryItem> inventory){this.inventory = inventory;}
+	public void setItemList(ArrayList<InventoryItem> inventory) {
+		this.inventory = inventory;
+	}
 
 	/**
 	 * Check whether another Entity can occupy the same space as this Entity

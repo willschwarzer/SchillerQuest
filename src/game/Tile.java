@@ -111,7 +111,6 @@ public class Tile implements MapViewable {
 							Exception().getStackTrace()[0].getLineNumber());
 			return false;
 		}
-
 	}
 
 	public boolean getSeen() {

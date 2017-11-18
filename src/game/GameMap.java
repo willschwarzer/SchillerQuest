@@ -23,7 +23,7 @@ public class GameMap implements GameMapInterface {
 	 */
 	public GameMap(File file) {
 		buildMapFromFile(file);
-		this.monsters= new ArrayList<Monster>();
+		this.monsters = new ArrayList<Monster>();
 	}
 
 
@@ -288,7 +288,9 @@ public class GameMap implements GameMapInterface {
 		return player;
 	}
 
-	public ArrayList<Monster> getMonsters() { return monsters; }
+	public ArrayList<Monster> getMonsters() {
+		return monsters;
+	}
 
 
 	public void setPlayer(Player player) {

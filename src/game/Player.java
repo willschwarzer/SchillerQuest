@@ -26,7 +26,6 @@ public class Player extends Creature {
 	}
 
 
-
 	@Override
 	public String getInfo() {
 		throw new UnsupportedOperationException("getInfo() not yet supported for Player");

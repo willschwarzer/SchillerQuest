@@ -42,17 +42,16 @@ public class Stats {
 	}
 
 	public Stats(int level) {
-		this.health = randomWithRange(level, level+3);
-		this.attack = randomWithRange(level, level+3);
-		this.speed = randomWithRange(level, level+3);
-		this.defense = randomWithRange(level, level+3);
+		this.health = randomWithRange(level, level + 3);
+		this.attack = randomWithRange(level, level + 3);
+		this.speed = randomWithRange(level, level + 3);
+		this.defense = randomWithRange(level, level + 3);
 		this.vision = 2;
 	}
 
-	private int randomWithRange(int min, int max)
-	{
+	private int randomWithRange(int min, int max) {
 		int range = (max - min) + 1;
-		return (int)(Math.random() * range) + min;
+		return (int) (Math.random() * range) + min;
 	}
 
 	public int getHealth() {
