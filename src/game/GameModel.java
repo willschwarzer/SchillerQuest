@@ -1,5 +1,7 @@
 package game;
+import monsters.*;
 
+import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -8,6 +10,25 @@ public class GameModel implements Subject {
 	private ControllerInterface controller;
 	private List<Observer> observers;
 
+	public GameModel(Controller controller) {
+		observers = new ArrayList<>();
+		this.controller = controller;
+		addObserver(controller);
+
+		Coordinates startCoordinates = new Coordinates(10, 3);
+		Coordinates monsterStart =  new Coordinates(15, 3);
+		loadNewLevel("src/resources/level1.txt", startCoordinates, monsterStart);
+
+		notifyObservers();
+	}
+
+	private void loadNewLevel(String fileName, Coordinates startCoordinates, Coordinates monsterStart) {
+		map = new GameMap(new File(fileName));
+		spawnPlayer(startCoordinates);
+		spawnMonster(monsterStart,1);
+
+	}
+
 	/**
 	 * Moves a given creatures location with given move
 	 *
@@ -15,9 +36,6 @@ public class GameModel implements Subject {
 	 * @param move     The changes in the creatures location
 	 */
 
-	public GameModel() {
-		observers = new ArrayList<>();
-	}
 	public void moveCreature(Creature creature, int[] move) {
 		Coordinates currentCoordinates = creature.getCoordinates();
 		Tile oldTile = map.getTileAtLocation(currentCoordinates);
@@ -30,12 +48,10 @@ public class GameModel implements Subject {
 
 		if (newTile.getCreature() != null) {
 			attack(creature, newTile.getCreature());
-			takeTurn();
 		} else if (newTile.isOccupiable()) {
 			oldTile.removeEntity(creature);
 			newTile.addEntity(creature);
 			creature.setCoordinates(destinationCoordinates);
-			takeTurn();
 		} else {
 			return;
 		}
@@ -54,12 +70,18 @@ public class GameModel implements Subject {
 	}
 
 	public void attack(Creature attacker, Creature attackee) {
+
 	}
 
 	/**
 	 * Will allow all of the other active entities to take a turn
 	 */
 	public void takeTurn() {
+		ArrayList<Monster> monsters = map.getMonsters();
+
+		for( int i = 0; i < monsters.size(); i++) {
+			moveCreature(monsters.get(i), monsters.get(i).getMove());
+		}
 		notifyObservers();
 	}
 
@@ -69,8 +91,21 @@ public class GameModel implements Subject {
 	 * @param coordinates The coordinate the player will be spawned at
 	 */
 	public void spawnPlayer(Coordinates coordinates) {
-		Player player = new Player(coordinates);
+		//TODO: Fix hard coding in the beginning stats
+		Stats playerStats = new Stats(5,1,1,1,12);
+		Player player = new Player(coordinates, playerStats);
 		map.setPlayer(player);
+	}
+
+	/**
+	 * Creates a Monster at given coordinate location.
+	 * This will be replaced with automatic generation of monster on each level
+	 *
+	 * @param coordinates The coordinate the player will be spawned at
+	 */
+	public void spawnMonster(Coordinates coordinates, int level) {
+		Rat monster = new Rat(coordinates, map, level);
+		map.setMonster(monster);
 	}
 
 	public boolean addObserver(Observer observer) {
@@ -83,8 +118,7 @@ public class GameModel implements Subject {
 
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(map.getMapAsCharArray());
+			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision()));
 		}
 	}
-
 }

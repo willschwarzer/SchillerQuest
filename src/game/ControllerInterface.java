@@ -1,8 +1,6 @@
 package game;
 
 public interface ControllerInterface {
-	void keyAction(int key);
-
 	void openInventory();
 
 	void openMainScreen();
@@ -15,11 +13,11 @@ public interface ControllerInterface {
 
 	void pickUp();
 
-	void drop(Item item);
+	void drop(GraphicItem item);
 
-	void equip(Item item);
+	void equip(GraphicItem item);
 
-	void unequip(Item item);
+	void unequip(GraphicItem item);
 
 	void setView(GameFrame view);
 

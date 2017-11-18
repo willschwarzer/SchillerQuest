@@ -6,8 +6,10 @@ import java.util.LinkedList;
 
 public class Tile implements MapViewable {
 	private Terrain terrain;
-	private Deque<Item> items;
+	private Deque<GraphicItem> items;
 	private Creature creature;
+	private boolean seen;
+	private boolean visible;
 
 	/**
 	 * Creates a Tile with the given Terrain.
@@ -47,14 +49,15 @@ public class Tile implements MapViewable {
 
 	public boolean isOccupiable() {
 		// TODO Anders - come back to?
-		if (creature == null && (items == null || items.isEmpty()) && terrain.isOccupiable()) {
+		return terrain.isOccupiable();
+		/*if (creature == null && (items == null || items.isEmpty()) && terrain.isOccupiable()) {
 			return true;
 		} else {
 			return false;
-		}
+		}*/
 	}
 
-	public Deque<Item> getItems() {
+	public Deque<GraphicItem> getItems() {
 		return items;
 	}
 
@@ -74,8 +77,8 @@ public class Tile implements MapViewable {
 			} else {
 				throw new IllegalStateException("Error: tile cannot have two entities");
 			}
-		} else if (Item.class.isAssignableFrom(entity.getClass())) {
-			return items.add((Item) entity);
+		} else if (GraphicItem.class.isAssignableFrom(entity.getClass())) {
+			return items.add((GraphicItem) entity);
 		} else {
 			System.err.println(
 					"Error, tried adding a " + entity.getClass().toString() + " to a Tile, which extends Entity but "
@@ -99,8 +102,8 @@ public class Tile implements MapViewable {
 			} else {
 				return false;
 			}
-		} else if (Item.class.isAssignableFrom(entity.getClass())) {
-			return items.remove((Item) entity);
+		} else if (GraphicItem.class.isAssignableFrom(entity.getClass())) {
+			return items.remove((GraphicItem) entity);
 		} else {
 			System.err.println(
 					"Error, tried removing a " + entity.getClass().toString() + " from a Tile, which extends Entity "
@@ -111,25 +114,74 @@ public class Tile implements MapViewable {
 
 	}
 
+	public boolean getSeen() {
+		return seen;
+	}
+
+	public void setSeen(boolean seen) {
+		this.seen = seen;
+	}
+
+	public boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+
 	public Creature getCreature() {
 		return creature;
 	}
 
 	/**
-	 * Gets the graphic to display for the specified Tile.  Will first return the graphic of the creature on this
-	 * Tile, if no creature will return the graphic of the top item on this Tile, if no items will return the graphic
-	 * of the underlying Terrain.
+	 * Gets the graphic to display for the specified Tile.  If the Tile is visible, it will first return the graphic
+	 * of the creature on this Tile, if no creature will return the graphic of the top item on this Tile, if no items
+	 * will return the graphic of the underlying Terrain.  If the Tile is not visible, but has been seen, it will
+	 * return the graphic of the underlying Terrain.  If the Tile has not been seen, it will return Tile
+	 * .getUnknownTerrainGraphic()
 	 *
 	 * @return The graphical representation of this Tile.
 	 */
 	@Override
 	public char getMapGraphic() {
-		if (creature != null) {
-			return creature.getMapGraphic();
-		} else if (!items.isEmpty()) {
-			return items.getFirst().getMapGraphic();
-		} else {
+		if (visible) {
+			if (creature != null) {
+				return creature.getMapGraphic();
+			} else if (!items.isEmpty()) {
+				return items.getFirst().getMapGraphic();
+			} else {
+				return terrain.getMapGraphic();
+			}
+		} else if (seen) {
 			return terrain.getMapGraphic();
+		} else {
+			return Terrain.getUnknownTerrainGraphic();
 		}
+	}
+
+	public static boolean markTileVisiblity(Tile[][] array, boolean visible) {
+		for (Tile[] row : array) {
+			for (Tile tile : row) {
+				try {
+					tile.setVisible(visible);
+				} catch (NullPointerException ignored) {
+				}
+			}
+		}
+		return true;
+	}
+
+	public static boolean markTileSeen(Tile[][] array, boolean seen) {
+		for (Tile[] row : array) {
+			for (Tile tile : row) {
+				try {
+					tile.setSeen(seen);
+				} catch (NullPointerException ignored) {
+				}
+			}
+		}
+		return true;
 	}
 }

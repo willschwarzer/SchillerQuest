@@ -1,7 +1,8 @@
 package game;
 
-import java.awt.event.KeyEvent;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Controller implements ControllerInterface, Subject, Observer {
@@ -12,6 +13,14 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 	public Controller() {
 		observers = new ArrayList<>();
+		view = new GameFrame(this);
+		model = new GameModel(this);
+
+		view.setVisible(true);
+		// The GameFrame displays the title screen
+		view.displayTitle();
+
+		notifyObservers();
 	}
 
 	//TODO add observer pattern functionality
@@ -38,34 +47,11 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	}
 
 	/**
-	 * Handles keyboard commands passed in from the view.
-	 * Currently only arrow keys are implemented.
-	 *
-	 * @param key
-	 */
-	public void keyAction(int key) {
-		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_DOWN || key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_UP) {
-			int[] direction;
-			if (key == KeyEvent.VK_LEFT) {
-				direction = new int[]{-1, 0};
-			} else if (key == KeyEvent.VK_DOWN) {
-				direction = new int[]{0, 1};
-			} else if (key == KeyEvent.VK_RIGHT) {
-				direction = new int[]{1, 0};
-			} else {
-				direction = new int[]{0, -1};
-			}
-			makeMove(direction);
-		} else {
-			//TODO add more keys as needed
-			return;
-		}
-	}
-
-	/**
 	 * Opens the view's inventory pane.
 	 */
 	public void openInventory() {
+		List currentInv = model.getPlayer().getBackpack();
+		view.updateInventory(currentInv);
 		view.displayInventory();
 	}
   
@@ -74,7 +60,6 @@ public class Controller implements ControllerInterface, Subject, Observer {
    */
 	public void openMainScreen() {
 		view.displayLevelScreen();
-
 	}
 
 	/**
@@ -94,6 +79,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
 		model.moveCreature(player, move);
+		model.takeTurn();
 	}
 
 	/*
@@ -105,13 +91,13 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void pickUp() {
 	}
 
-	public void drop(Item item) {
+	public void drop(GraphicItem item) {
 	}
 
-	public void equip(Item item) {
+	public void equip(GraphicItem item) {
 	}
 
-	public void unequip(Item item) {
+	public void unequip(GraphicItem item) {
 	}
 
 	/**

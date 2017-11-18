@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 /**
  * An implementation of Java's JFrame with a purpose of displaying a window we can put elements in.
@@ -13,7 +14,8 @@ import java.awt.event.KeyEvent;
  */
 public class GameFrame extends JFrame implements Observer, ActionListener {
 	private LevelTextPane lvlTextPane = new LevelTextPane();
-	private InventoryPane invPane = new InventoryPane();
+	private InventoryPanel invPanel = new InventoryPanel();
+	
 	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
 	private ControllerInterface controller;
@@ -23,7 +25,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 * Creates a GameFrame object of fixed size
 	 * It is able to handle key input and the top level of our view.
 	 */
-	public GameFrame() {
+	public GameFrame(Controller controller) {
 		super();
 		IS_WINDOWS = (System.getProperty("os.name").contains("Windows"));
 		if (IS_WINDOWS) {
@@ -31,9 +33,12 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		} else {
 			setSize(875, 460);
 		}
-		setResizable(false);
+    setResizable(false);
 		setTitle("Schiller Quest");
-
+    
+		this.controller = controller;
+		controller.addObserver(this);
+		
 		setupTextPane();
 		addUIElementsToFrame();
 		addBindings();
@@ -63,12 +68,17 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		repaint();
 	}
 
+	public void updateInventory(List newInv) {
+		invPanel.setBackpack(newInv);
+	}
+
 	/**
 	 * This displays the current inventory of the player
 	 */
 	public void displayInventory() {
 		remove(lvlTextPane);
-		add(invPane);
+		invPanel.updatePanes();
+		add(invPanel);
 		inventoryButton.setText("Return");
 		revalidate();
 		repaint();
@@ -78,7 +88,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	* This displays the current level
 	*/
 	public void displayLevelScreen() {
-		remove(invPane);
+		remove(invPanel);
 		remove(titlePane);
 		// Either inventory or title screen could be present, so we remove both
 
@@ -145,6 +155,14 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 				(action) -> controller.makeMove(new int[] {1, 0}));
 		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up",
 				(action) -> controller.makeMove(new int[] {0, -1}));
+
+//		//TODO: does this comply with MVC patterns?
+		addKeyBinding(invPanel, KeyEvent.VK_UP, "up",
+				(action) -> invPanel.selectUp());
+		addKeyBinding(invPanel, KeyEvent.VK_DOWN, "down",
+				(action) -> invPanel.selectDown());
+		addKeyBinding(invPanel, KeyEvent.VK_RIGHT, "right",
+				(action) -> invPanel.moveRight());
 	}
 
 	private void addKeyBinding(JComponent component, int key, String id, ActionListener action) {
@@ -176,11 +194,8 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		} else {
 			System.out.println("Button not yet implemented");
 		}
+		requestFocusInWindow();
 	}
-
-	/*
-	Standard KeyListener functions (only keyPressed is actually used at the moment)
-	 */
 
 	public void setController(ControllerInterface controller) {
 		this.controller = controller;
