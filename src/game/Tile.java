@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 public class Tile implements MapViewable {
 	private Terrain terrain;
-	private Deque<Item> items;
+	private Deque<GraphicItem> items;
 	private Creature creature;
 	private boolean seen;
 	private boolean visible;
@@ -19,7 +19,10 @@ public class Tile implements MapViewable {
 	public Tile(Terrain terrain) {
 		this.terrain = terrain;
 		this.items = new LinkedList<>();
+		// TODO remove
+		visible = true;
 	}
+
 
 	/**
 	 * Creates a Tile with the given Terrain and Entity occupying the tile.
@@ -47,16 +50,20 @@ public class Tile implements MapViewable {
 		}
 	}
 
-	public boolean isOccupiable() {
-		// TODO Anders - come back to?
-		if (creature == null && (items == null || items.isEmpty()) && terrain.isOccupiable()) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean isOccupiableTerrain() {
+		return terrain.isOccupiable();
 	}
 
-	public Deque<Item> getItems() {
+	/**
+	 * Checks whether the Tile is occupiable and has no Creature or Items on it.
+	 *
+	 * @return Whether the Tile is occupiable and empty.
+	 */
+	public boolean isOccupiableAndEmpty() {
+		return (creature == null && (items == null || items.isEmpty()) && terrain.isOccupiable());
+	}
+
+	public Deque<GraphicItem> getItems() {
 		return items;
 	}
 
@@ -76,8 +83,8 @@ public class Tile implements MapViewable {
 			} else {
 				throw new IllegalStateException("Error: tile cannot have two entities");
 			}
-		} else if (Item.class.isAssignableFrom(entity.getClass())) {
-			return items.add((Item) entity);
+		} else if (GraphicItem.class.isAssignableFrom(entity.getClass())) {
+			return items.add((GraphicItem) entity);
 		} else {
 			System.err.println(
 					"Error, tried adding a " + entity.getClass().toString() + " to a Tile, which extends Entity but "
@@ -101,8 +108,8 @@ public class Tile implements MapViewable {
 			} else {
 				return false;
 			}
-		} else if (Item.class.isAssignableFrom(entity.getClass())) {
-			return items.remove((Item) entity);
+		} else if (GraphicItem.class.isAssignableFrom(entity.getClass())) {
+			return items.remove((GraphicItem) entity);
 		} else {
 			System.err.println(
 					"Error, tried removing a " + entity.getClass().toString() + " from a Tile, which extends Entity "
@@ -110,7 +117,6 @@ public class Tile implements MapViewable {
 							Exception().getStackTrace()[0].getLineNumber());
 			return false;
 		}
-
 	}
 
 	public boolean getSeen() {

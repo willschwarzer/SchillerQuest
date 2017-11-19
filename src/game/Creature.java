@@ -1,7 +1,10 @@
 package game;
 
+import java.util.Map;
+
 public abstract class Creature extends Entity {
 	private Stats stats;
+	private Map<String, InventoryItem> equipped;
 
 	/**
 	 * Get an informative message about the Creature.
@@ -11,12 +14,52 @@ public abstract class Creature extends Entity {
 	abstract public String getInfo();
 
 	/**
-	 * Creates a creature at given coordinates
+	 * Creates a creature at given coordinates with the default Stats.  Using the Creature constructor with Stats is
+	 * preferable.
 	 *
 	 * @param coordinates Coordinates the creature will be created at
+	 * @see #Creature(Coordinates, Stats)
 	 */
 	public Creature(Coordinates coordinates) {
 		super(coordinates);
+		this.stats = new Stats();
+	}
+
+	/**
+	 * Creates a creature at given coordinates with the given Stats
+	 *
+	 * @param coordinates Coordinates the creature will be created at
+	 * @param stats       Stats the creature will be created with.
+	 */
+	public Creature(Coordinates coordinates, Stats stats) {
+		super(coordinates);
+		this.stats = stats;
+	}
+
+	/**
+	 * Creates a Creature at the given coordinates with Stats appropriate for the level
+	 *
+	 * @param coordinates Coordinates of the Creature
+	 * @param level       Level of the Creature to derive Stats from
+	 */
+	public Creature(Coordinates coordinates, int level) {
+		super(coordinates);
+		this.stats = new Stats(level);
+	}
+
+	public Creature(Coordinates coordinates, GameMap map, int level) {
+		super(coordinates, map);
+		this.stats = new Stats(level);
+	}
+
+	/**
+	 * Creates a creature at given coordinates with specified GameMap.
+	 *
+	 * @param coordinates
+	 * @param map
+	 */
+	public Creature(Coordinates coordinates, GameMap map) {
+		super(coordinates, map);
 	}
 
 	/**
@@ -26,5 +69,17 @@ public abstract class Creature extends Entity {
 	 */
 	public Stats getStats() {
 		return stats;
+	}
+
+	public void setStats(Stats stats) {
+		this.stats = stats;
+	}
+
+	public Map<String, InventoryItem> getEquipped() {
+		return equipped;
+	}
+
+	public void setEquipped(Map<String, InventoryItem> equipped) {
+		this.equipped = equipped;
 	}
 }

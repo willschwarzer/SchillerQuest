@@ -1,8 +1,8 @@
 package game;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
 
 public class InventoryItemPane extends MutableTextPane {
 	private static int INDICATOR_ALIGNMENT = 5;
@@ -10,8 +10,7 @@ public class InventoryItemPane extends MutableTextPane {
 
 	private static String LEFT_INDICATOR = ">>  ";
 
-	private ArrayList<String> backpackItems = new ArrayList<>();
-	private ArrayList<String> backpackItemTypes = new ArrayList<>();
+	private List<InventoryItem> backpack = new ArrayList<>();
 	private int curr = 0;
 
 	public InventoryItemPane() {
@@ -35,7 +34,10 @@ public class InventoryItemPane extends MutableTextPane {
 		addLine("         =========");
 	}
 
-	private void addItem(String backpackItem, String itemType, boolean selected) {
+	private void addItem(InventoryItem backpackItem, boolean selected) {
+		String itemName = backpackItem.getName();
+		String itemType = backpackItem.getType();
+
 		if (selected) {
 			for (int i = 0; i < INDICATOR_ALIGNMENT; i++) {
 				appendStringWithColor(" ", Color.white);
@@ -52,26 +54,24 @@ public class InventoryItemPane extends MutableTextPane {
 		appendStringWithColor(" ", Color.white);
 
 		// Display name of backpack item at this position
-		char[] bpChars = backpackItem.toCharArray();
-		for (char c : bpChars) {
+		for (char c : itemName.toCharArray()) {
 			appendStringWithColor(Character.toString(c), colorForChar(c));
 		}
 		appendStringWithColor("\n", Color.white);
 	}
 
 	private void buildInventoryList() {
-		for (int i = 0; i < backpackItems.size(); i++) {
+		for (int i = 0; i < backpack.size(); i++) {
 			boolean isSelected = false;
 			if (i == curr) {
 				isSelected = true;
 			}
-			addItem(backpackItems.get(i), backpackItemTypes.get(i), isSelected);
+			addItem(backpack.get(i), isSelected);
 		}
 	}
 
-	public void setBackpack(ArrayList<String> items, ArrayList<String> itemTypes) {
-		this.backpackItems = items;
-		this.backpackItemTypes = itemTypes;
+	public void setBackpack(List items) {
+		this.backpack = items;
 	}
 
 	public void setCurr(int curr) {
@@ -79,6 +79,10 @@ public class InventoryItemPane extends MutableTextPane {
 	}
 
 	public String getSelectedType() {
-		return backpackItemTypes.get(curr);
+		if (backpack.size() > 0) {
+			return backpack.get(curr).getType();
+		} else {
+			return "";
+		}
 	}
 }
