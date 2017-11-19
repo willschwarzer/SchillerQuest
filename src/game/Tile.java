@@ -21,6 +21,7 @@ public class Tile implements MapViewable {
 		this.items = new LinkedList<>();
 		//TODO remove
 		this.seen = true;
+		this.visible = true;
 	}
 
 
