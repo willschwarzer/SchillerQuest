@@ -62,7 +62,10 @@ public class Controller implements ControllerInterface, Subject, Observer {
    */
 	public void openMainScreen() {
 		view.displayLevelScreen();
-
+		List currentInv = model.getPlayer().getBackpack();
+		view.updateInventory(currentInv);
+		model.getPlayer().setEquipped(view.updateEquiqqed());
+		model.getPlayer().setBackpack(view.updateBackpack());
 
 	}
 

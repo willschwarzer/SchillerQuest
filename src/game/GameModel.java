@@ -26,7 +26,7 @@ public class GameModel implements Subject {
 	private void loadNewLevel(String fileName, Coordinates startCoordinates, Coordinates monsterStart) {
 		map = new GameMap(new File(fileName));
 		spawnPlayer(startCoordinates);
-		spawnMonster(monsterStart,3);
+		spawnMonster(monsterStart,2);
 
 	}
 
@@ -50,8 +50,7 @@ public class GameModel implements Subject {
 		if (newTile.getCreature() != null) {
 			attack(creature, newTile.getCreature());
 			if(newTile.getCreature().getStats().getHealth() <= 0) {
-				map.removeMonster(newTile.getCreature());
-				newTile.removeEntity(newTile.getCreature());
+				creatureDeath(newTile.getCreature(), newTile);
 			}
 		} else if (newTile.isOccupiable()) {
 			oldTile.removeEntity(creature);
@@ -104,20 +103,17 @@ public class GameModel implements Subject {
 			attackeeSpd += attackerShoes.getBoost();
 		}
 
-		int hitChance = randomWithRange(attackerSpd/2, attackerSpd) - randomWithRange(attackeeSpd/3, attackeeSpd);
+		int hitChance = randomWithRange(attackerSpd/2, attackerSpd) - randomWithRange(attackeeSpd/4, attackeeSpd);
 
 		int damage = 0;
 		if(hitChance > 0){
-			damage =+ randomWithRange(attack/2, attack) - randomWithRange(defense/3, defense);
+			damage += randomWithRange(attack/2, attack) - randomWithRange(defense/3, defense);
 		} else {System.out.println(attacker.getName()+ "'s attack missed");}
 
 		if(damage > 0){
 			attackee.getStats().setHealth(attackee.getStats().getHealth() - damage);
 			System.out.println(attacker.getName() +"'s attack did " + damage + " point(s) of damage to " + attackee.getName());
-		} else { System.out.println(attacker.getName()+ "'s attack did no damage to " + attackee.getName() );}
-
-
-
+		} else if(hitChance > 0) { System.out.println(attacker.getName()+ "'s attack did no damage to " + attackee.getName() );}
 
 
 	}
@@ -153,6 +149,8 @@ public class GameModel implements Subject {
 	 * @param coordinates The coordinate the player will be spawned at
 	 */
 	public void spawnMonster(Coordinates coordinates, int level) {
+
+
 		Rat monster = new Rat(coordinates, map, level);
 		map.setMonster(monster);
 	}
@@ -176,5 +174,17 @@ public class GameModel implements Subject {
 		int range = (max - min) + 1;
 		int value = (int)(Math.random() * range) + min;
 		return value;
+	}
+
+	private void creatureDeath(Creature dead, Tile newTile ){
+		System.out.println(dead.getName() + " died");
+
+		if(dead == getPlayer()){
+			System.out.println("Game Over");
+			//GameOver
+		}else{
+			map.removeMonster(dead);
+			newTile.removeEntity(dead);
+		}
 	}
 }
