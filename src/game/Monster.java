@@ -9,7 +9,6 @@ public abstract class Monster extends Creature {
 		super(coordinates, map, level);
 	}
 
-
 	public int[] getMove() {
 		int[] move;
 		List<int[]> validDirections = new ArrayList<>();

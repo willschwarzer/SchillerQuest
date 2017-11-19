@@ -1,6 +1,5 @@
 package game;
 
-
 public class InventoryItem {
 	private String type;
 	private String name;

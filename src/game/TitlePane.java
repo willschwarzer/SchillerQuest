@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class TitlePane extends JTextPane {
-	private String sourceFilePath = "src/resources/title.txt";
+	private static final String sourceFilePath = "src/resources/title.txt";
 
 	public TitlePane() {
 		drawPane();

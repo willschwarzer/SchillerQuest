@@ -24,7 +24,7 @@ public class InventoryPanel extends JPanel {
 		add(invCharPane, BorderLayout.EAST);
 	}
 
-	public void setBackpack(List newBackpack) {
+	public void setBackpack(List<InventoryItem> newBackpack) {
 		this.backpack = newBackpack;
 	}
 

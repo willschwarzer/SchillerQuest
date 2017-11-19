@@ -1,10 +1,8 @@
-package monsters;
+package game.monsters;
 
 import game.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Rat extends Monster {
@@ -15,8 +13,7 @@ public class Rat extends Monster {
 		super(coordinates, map, level);
 		Stats stats = new Stats(level);
 		setStats(stats);
-		setMapGraphic('r');
-		HashMap<String, InventoryItem> equipped = new HashMap<>();
+		Map<String, InventoryItem> equipped = new HashMap<>();
 		equipped.put("weapon", new InventoryItem("weapon", 1, "Rat Teeth"));
 		equipped.put("armor", new InventoryItem("armor", 1, "Rat Skin"));
 		setEquipped(equipped);
@@ -24,7 +21,11 @@ public class Rat extends Monster {
 	}
 
 	public String getInfo() {
-
 		return "null";
+	}
+
+	@Override
+	public char getMapGraphic() {
+		return 'r';
 	}
 }

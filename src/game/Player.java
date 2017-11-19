@@ -25,7 +25,6 @@ public class Player extends Creature {
 		this.backpack.add(new InventoryItem("armor", 1, "Rotblatt shirt"));
 	}
 
-
 	@Override
 	public String getInfo() {
 		throw new UnsupportedOperationException("getInfo() not yet supported for Player");
@@ -34,8 +33,6 @@ public class Player extends Creature {
 	@Override
 	public char getMapGraphic() {
 		return '@';
-		// TODO Change this hack to something better.
-		//	throw new UnsupportedOperationException("getMapGraphic() not yet supported for Player");
 	}
 
 	public List<InventoryItem> getBackpack() {
