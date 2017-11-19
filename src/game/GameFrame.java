@@ -32,7 +32,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		if (IS_WINDOWS) {
 			setSize(930, 520);
 		} else {
-			setSize(875, 460);
+			setSize(930, 435);
 		}
 		setResizable(false);
 		setTitle("Schiller Quest");
