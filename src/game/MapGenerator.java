@@ -37,6 +37,14 @@ public class MapGenerator {
 		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
 	}
 
+	/**
+	 * Get the seed that was used to start the Random.
+	 * @return the seed that was used to start the Random
+	 */
+	public long getInitialRandomSeed() {
+		return initialRandomSeed;
+	}
+
 	public GameMap generate(int difficulty) {
 		Room upStaircaseRoom = new Room(getNewRoomLocation(), difficulty);
 		grid.addItem(upStaircaseRoom);
