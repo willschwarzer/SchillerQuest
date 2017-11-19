@@ -27,7 +27,6 @@ public class GameModel implements Subject {
 		map = new GameMap(new File(fileName));
 		spawnPlayer(startCoordinates);
 		spawnMonster(monsterStart, 1);
-
 	}
 
 	/**
@@ -36,7 +35,6 @@ public class GameModel implements Subject {
 	 * @param creature The creature being moved
 	 * @param move     The changes in the creatures location
 	 */
-
 	public void moveCreature(Creature creature, int[] move) {
 		Coordinates currentCoordinates = creature.getCoordinates();
 		Tile oldTile = map.getTileAtLocation(currentCoordinates);
@@ -78,7 +76,7 @@ public class GameModel implements Subject {
 	 * Will allow all of the other active entities to take a turn
 	 */
 	public void takeTurn() {
-		ArrayList<Monster> monsters = map.getMonsters();
+		List<Monster> monsters = map.getMonsters();
 
 		for (int i = 0; i < monsters.size(); i++) {
 			moveCreature(monsters.get(i), monsters.get(i).getMove());

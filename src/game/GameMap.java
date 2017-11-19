@@ -14,7 +14,7 @@ public class GameMap implements GameMapInterface {
 	 */
 	private Tile[][] map;
 	private Player player;
-	private ArrayList<Monster> monsters;
+	private List<Monster> monsters;
 
 	/**
 	 * Creates a GameMap from a given File.  The file must have lines of uniform length.
@@ -288,7 +288,7 @@ public class GameMap implements GameMapInterface {
 		return player;
 	}
 
-	public ArrayList<Monster> getMonsters() {
+	public List<Monster> getMonsters() {
 		return monsters;
 	}
 
@@ -372,6 +372,4 @@ public class GameMap implements GameMapInterface {
 			throw new RuntimeException(e);
 		}
 	}
-
-
 }
