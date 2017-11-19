@@ -11,7 +11,7 @@ public class Rat extends Monster {
 		super(coordinates, map, level);
 		Stats stats = new Stats(level);
 		setStats(stats);
-		setMapGraphic('r');
+//		setMapGraphic('r');
 		HashMap<String, InventoryItem> equipped = new HashMap<>();
 		equipped.put("weapon", new InventoryItem("weapon", level, "Rat Teeth"));
 		equipped.put("armor",new InventoryItem("armor", level, "Rat Skin"));
@@ -22,5 +22,10 @@ public class Rat extends Monster {
 	public String getInfo(){
 
 		return "null";
+	}
+
+	@Override
+	public char getMapGraphic() {
+		return ('r');
 	}
 }
