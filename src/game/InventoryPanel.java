@@ -2,6 +2,9 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,5 +77,21 @@ public class InventoryPanel extends JPanel {
 			}
 		}
 		updatePanes();
+	}
+
+	protected void addBindingsToChildren() {
+		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_UP, "up",
+				(action) -> selectUp());
+		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_DOWN, "down",
+				(action) -> selectDown());
+		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_RIGHT, "right",
+				(action) -> moveRight());
+
+		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_UP, "up",
+				(action) -> selectUp());
+		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_DOWN, "down",
+				(action) -> selectDown());
+		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_RIGHT, "right",
+				(action) -> moveRight());
 	}
 }
