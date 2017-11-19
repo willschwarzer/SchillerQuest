@@ -5,13 +5,31 @@ import java.util.*;
 public class MapGenerator {
 	private final Random random;
 	private final long initialRandomSeed;
+	/**
+	 * Currently must be the same as GRID_HEIGHT
+	 * @see #GRID_HEIGHT
+	 */
 	private final int GRID_WIDTH = 5;
+	/**
+	 * Currently must be the same as GRID_WIDTH
+	 * @see #GRID_HEIGHT
+	 */
 	private final int GRID_HEIGHT = 5;
+	/**
+	 * Currently must be the same as ITEM_HEIGHT
+	 * @see #ITEM_HEIGHT
+	 */
+	private final int ITEM_WIDTH = 9;
+	/**
+	 * Currently must be the same as ITEM_WIDTH
+	 * @see #ITEM_WIDTH
+	 */
+	private final int ITEM_HEIGHT = 9;
 	private final int NUM_ROOMS = 6;
-	private final int LEFT_CONNECTION = 0;
-	private final int DOWN_CONNECTION = 1;
-	private final int RIGHT_CONNECTION = 2;
-	private final int UP_CONNECTION = 3;
+	private static final int LEFT_CONNECTION = 0;
+	private static final int DOWN_CONNECTION = 1;
+	private static final int RIGHT_CONNECTION = 2;
+	private static final int UP_CONNECTION = 3;
 	private Grid grid;
 	private List<Room> rooms;
 
@@ -116,8 +134,6 @@ public class MapGenerator {
 
 	private class Grid {
 		private GridItem[][] grid;
-		private final int ITEM_WIDTH = 9;
-		private final int ITEM_HEIGHT = 9;
 
 		public Grid(int width, int height) {
 			if (width <= 0) {
@@ -165,13 +181,11 @@ public class MapGenerator {
 		private boolean[] connections;
 		private Tile[][] tiles;
 		private int[] location;
-		private int width = 9;
-		private int height = 9;
 
 		private GridItem(int[] location) {
 			this.location = location;
 			this.connections = getValidConnections(location);
-			this.tiles = new Tile[width][height];
+			this.tiles = new Tile[ITEM_WIDTH][ITEM_HEIGHT];
 		}
 
 		protected boolean[] getValidConnections(int[] loc) {
@@ -198,11 +212,11 @@ public class MapGenerator {
 		}
 
 		public int getItemWidth() {
-			return width;
+			return ITEM_WIDTH;
 		}
 
 		public int getItemHeight() {
-			return height;
+			return ITEM_HEIGHT;
 		}
 
 		/**
@@ -212,8 +226,8 @@ public class MapGenerator {
 		 */
 		public Coordinates getOccupiableCoordinates() {
 			for (int i = 0; i < 1000; i++) {
-				int x = random.nextInt(width);
-				int y = random.nextInt(height);
+				int x = random.nextInt(ITEM_WIDTH);
+				int y = random.nextInt(ITEM_HEIGHT);
 				if (tiles[y][x].isOccupiable()) {
 					return new Coordinates(x, y);
 				}
@@ -277,13 +291,10 @@ public class MapGenerator {
 		private void generateTerrain() {
 			Tile[][] tiles = getTiles();
 
-			int width = getItemWidth();
-			int height = getItemHeight();
-
-			Tile[] leftWall = new Tile[height - 2];
-			Tile[] bottomWall = new Tile[width];
-			Tile[] rightWall = new Tile[height - 2];
-			Tile[] topWall = new Tile[width];
+			Tile[] leftWall = new Tile[ITEM_HEIGHT - 2];
+			Tile[] bottomWall = new Tile[ITEM_WIDTH];
+			Tile[] rightWall = new Tile[ITEM_HEIGHT - 2];
+			Tile[] topWall = new Tile[ITEM_WIDTH];
 
 			boolean[] connections = getConnections();
 			for (int i = 0; i < leftWall.length; i++) {
@@ -315,13 +326,13 @@ public class MapGenerator {
 			}
 
 			tiles[0] = topWall;
-			tiles[height - 1] = bottomWall;
+			tiles[ITEM_HEIGHT - 1] = bottomWall;
 
-			for (int row = 1; row < height - 1; row++) {
+			for (int row = 1; row < ITEM_HEIGHT - 1; row++) {
 				tiles[row][0] = leftWall[row - 1];
-				tiles[row][width - 1] = rightWall[row - 1];
+				tiles[row][ITEM_WIDTH - 1] = rightWall[row - 1];
 
-				for (int col = 1; col < width - 1; col++) {
+				for (int col = 1; col < ITEM_WIDTH - 1; col++) {
 					tiles[row][col] = new Tile(new Terrain(' '));
 				}
 			}
@@ -338,12 +349,13 @@ public class MapGenerator {
 			//temp implementation
 			Tile[][] tiles = getTiles();
 
-			int width = getItemWidth();
-			int height = getItemHeight();
-
-			for (int row = 0; row < height; row++) {
-				for (int col = 0; col < width; col++) {
-					tiles[row][col] = new Tile(new Terrain(' '));
+			for (int row = 0; row < ITEM_HEIGHT; row++) {
+				for (int col = 0; col < ITEM_WIDTH; col++) {
+					if (row == ITEM_HEIGHT / 2 || col == ITEM_WIDTH / 2) {
+						tiles[row][col] = new Tile(new Terrain(' '));
+					} else {
+						tiles[row][col] = new Tile(new Terrain('#'));
+					}
 				}
 			}
 		}

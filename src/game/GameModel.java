@@ -20,6 +20,17 @@ public class GameModel implements Subject {
 		notifyObservers();
 	}
 
+	public GameModel(Controller controller, GameMap map, Coordinates startCoordinates) {
+		observers = new ArrayList<>();
+		this.controller = controller;
+		addObserver(controller);
+
+		this.map = map;
+		spawnPlayer(startCoordinates);
+
+		notifyObservers();
+	}
+
 	private void loadNewLevel(String fileName, Coordinates startCoordinates) {
 		map = new GameMap(new File(fileName));
 		spawnPlayer(startCoordinates);
@@ -97,7 +108,7 @@ public class GameModel implements Subject {
 
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), 5));
+			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), 6));
 		}
 	}
 
