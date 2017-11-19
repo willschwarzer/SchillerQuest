@@ -1,5 +1,6 @@
 package game;
-import monsters.*;
+
+import game.monsters.*;
 
 import java.io.File;
 import java.util.List;
@@ -17,17 +18,25 @@ public class GameModel implements Subject {
 		addObserver(controller);
 
 		Coordinates startCoordinates = new Coordinates(10, 3);
-		Coordinates monsterStart =  new Coordinates(15, 3);
-		loadNewLevel("src/resources/level1.txt", startCoordinates, monsterStart);
+		loadNewLevel("src/resources/level1.txt", startCoordinates);
 
 		notifyObservers();
 	}
 
-	private void loadNewLevel(String fileName, Coordinates startCoordinates, Coordinates monsterStart) {
+	public GameModel(Controller controller, GameMap map, Coordinates startCoordinates) {
+		observers = new ArrayList<>();
+		this.controller = controller;
+		addObserver(controller);
+
+		this.map = map;
+		spawnPlayer(startCoordinates);
+
+		notifyObservers();
+	}
+
+	private void loadNewLevel(String fileName, Coordinates startCoordinates) {
 		map = new GameMap(new File(fileName));
 		spawnPlayer(startCoordinates);
-		spawnMonster(monsterStart,2);
-
 	}
 
 	/**
@@ -36,7 +45,6 @@ public class GameModel implements Subject {
 	 * @param creature The creature being moved
 	 * @param move     The changes in the creatures location
 	 */
-
 	public void moveCreature(Creature creature, int[] move) {
 		Coordinates currentCoordinates = creature.getCoordinates();
 		Tile oldTile = map.getTileAtLocation(currentCoordinates);
@@ -52,7 +60,7 @@ public class GameModel implements Subject {
 			if(newTile.getCreature().getStats().getHealth() <= 0) {
 				creatureDeath(newTile.getCreature(), newTile);
 			}
-		} else if (newTile.isOccupiable()) {
+		} else if (newTile.isOccupiableTerrain()) {
 			oldTile.removeEntity(creature);
 			newTile.addEntity(creature);
 			creature.setCoordinates(destinationCoordinates);
@@ -113,18 +121,18 @@ public class GameModel implements Subject {
 		if(damage > 0){
 			attackee.getStats().setHealth(attackee.getStats().getHealth() - damage);
 			System.out.println(attacker.getName() +"'s attack did " + damage + " point(s) of damage to " + attackee.getName());
-		} else if(hitChance > 0) { System.out.println(attacker.getName()+ "'s attack did no damage to " + attackee.getName() );}
-
-
+		} else if(hitChance > 0) { 
+			System.out.println(attacker.getName()+ "'s attack did no damage to " + attackee.getName());
+		}
 	}
 
 	/**
 	 * Will allow all of the other active entities to take a turn
 	 */
 	public void takeTurn() {
-		ArrayList<Monster> monsters = map.getMonsters();
+		List<Monster> monsters = map.getMonsters();
 
-		for( int i = 0; i < monsters.size(); i++) {
+		for (int i = 0; i < monsters.size(); i++) {
 			moveCreature(monsters.get(i), monsters.get(i).getMove());
 		}
 		notifyObservers();
@@ -165,7 +173,8 @@ public class GameModel implements Subject {
 
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision()));
+			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision
+					()));
 		}
 	}
 

@@ -1,8 +1,6 @@
 package game;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Controller implements ControllerInterface, Subject, Observer {
@@ -56,10 +54,10 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		model.getPlayer().setEquipped(view.updateEquiqqed());
 		model.getPlayer().setBackpack(view.updateBackpack());
 	}
-  
-  /**
-   * Opens the view's level pane.
-   */
+
+	/**
+	 * Opens the view's level pane.
+	 */
 	public void openMainScreen() {
 		view.displayLevelScreen();
 		List currentInv = model.getPlayer().getBackpack();
@@ -125,7 +123,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		this.model = model;
 	}
 
-	 /**
+	/**
 	 * it quits the game
 	 */
 	public void quitGame() {

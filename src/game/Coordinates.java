@@ -19,14 +19,14 @@ public class Coordinates {
 
 		if (x < 0) {
 			System.err.println(
-					"Warning, x coordinate is below 0: " + x + ".  This almost certainly  shouldn't happen.  Current " +
-					"stack trace:");
+					"Warning, x coordinate is below 0: " + x + ".  This almost certainly  shouldn't happen.  Current "
+					+ "stack trace:");
 			new Throwable().printStackTrace(System.err);
 		}
 		if (y < 0) {
 			System.err.println(
-					"Warning, y coordinate is below 0: " + y + ".  This almost certainly shouldn't happen.  Current " +
-					"stack trace:");
+					"Warning, y coordinate is below 0: " + y + ".  This almost certainly shouldn't happen.  Current "
+					+ "stack trace:");
 			new Throwable().printStackTrace(System.err);
 		}
 	}

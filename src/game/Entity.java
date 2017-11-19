@@ -7,9 +7,13 @@ import java.util.ArrayList;
  */
 public abstract class Entity implements MapViewable {
 	private Coordinates coordinates;
+
+	public void setMap(GameMap map) {
+		this.map = map;
+	}
+
 	private GameMap map;
 	private boolean isOccupiable;
-	private char graphic;
 	private ArrayList<InventoryItem> inventory;
 
 	/**
@@ -44,15 +48,6 @@ public abstract class Entity implements MapViewable {
 	}
 
 	/**
-	 * Give the char value that represents this entity graphically
-	 *
-	 * @return Returns the char that represents this entity graphically
-	 */
-	public char getMapGraphic() {
-		return graphic;
-	}
-
-	/**
 	 * Sets the coordinates of the entity given coordinates
 	 *
 	 * @param coor The location the entity will be set to
@@ -61,11 +56,9 @@ public abstract class Entity implements MapViewable {
 		coordinates = coor;
 	}
 
-	public void setMapGraphic(char graphic) {
-		this.graphic = graphic;
+	public void setItemList(ArrayList<InventoryItem> inventory) {
+		this.inventory = inventory;
 	}
-
-	public void setItemList(ArrayList<InventoryItem> inventory){this.inventory = inventory;}
 
 	/**
 	 * Check whether another Entity can occupy the same space as this Entity

@@ -26,6 +26,7 @@ public class MutableTextPane extends JTextPane {
 
 	public void composeLinesOfText() {
 		// exists to be overridden
+		// TODO - can this be made an interface or something more elegant than?
 		System.out.println("uh oh");
 	}
 

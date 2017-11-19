@@ -16,10 +16,11 @@ import java.util.Map;
 public class GameFrame extends JFrame implements Observer, ActionListener {
 	private LevelTextPane lvlTextPane = new LevelTextPane();
 	private InventoryPanel invPanel = new InventoryPanel();
-	
+
 	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
 	private ControllerInterface controller;
+	private boolean IS_WINDOWS;
 
 	/**
 	 * Creates a GameFrame object of fixed size
@@ -27,12 +28,18 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 */
 	public GameFrame(Controller controller) {
 		super();
-		this.controller = controller;
-		controller.addObserver(this);
 
-		setSize(875, 460);
+		IS_WINDOWS = (System.getProperty("os.name").contains("Windows"));
+		if (IS_WINDOWS) {
+			setSize(930, 520);
+		} else {
+			setSize(930, 435);
+		}
 		setResizable(false);
 		setTitle("Schiller Quest");
+
+		this.controller = controller;
+		controller.addObserver(this);
 
 		setupTextPane();
 		addUIElementsToFrame();
@@ -52,9 +59,9 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		repaint();
 	}
 
-  /**
-   * This displays the title screen of the game
-   */
+	/**
+	 * This displays the title screen of the game
+	 */
 	public void displayTitle() {
 		remove(lvlTextPane);
 		add(titlePane);
@@ -89,8 +96,8 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	}
 
 	/**
-	* This displays the current level
-	*/
+	 * This displays the current level
+	 */
 	public void displayLevelScreen() {
 		remove(invPanel);
 		remove(titlePane);
@@ -151,22 +158,15 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 * Adds key bindings to the level text pane.
 	 */
 	private void addBindings() {
-		addKeyBinding(lvlTextPane, KeyEvent.VK_LEFT, "left",
-				(action) -> controller.makeMove(new int[] {-1, 0}));
-		addKeyBinding(lvlTextPane, KeyEvent.VK_DOWN, "down",
-				(action) -> controller.makeMove(new int[] {0, 1}));
-		addKeyBinding(lvlTextPane, KeyEvent.VK_RIGHT, "right",
-				(action) -> controller.makeMove(new int[] {1, 0}));
-		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up",
-				(action) -> controller.makeMove(new int[] {0, -1}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_LEFT, "left", (action) -> controller.makeMove(new int[]{-1, 0}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_DOWN, "down", (action) -> controller.makeMove(new int[]{0, 1}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_RIGHT, "right", (action) -> controller.makeMove(new int[]{1, 0}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up", (action) -> controller.makeMove(new int[]{0, -1}));
 
 //		//TODO: does this comply with MVC patterns?
-		addKeyBinding(invPanel, KeyEvent.VK_UP, "up",
-				(action) -> invPanel.selectUp());
-		addKeyBinding(invPanel, KeyEvent.VK_DOWN, "down",
-				(action) -> invPanel.selectDown());
-		addKeyBinding(invPanel, KeyEvent.VK_RIGHT, "right",
-				(action) -> invPanel.moveRight());
+		addKeyBinding(invPanel, KeyEvent.VK_UP, "up", (action) -> invPanel.selectUp());
+		addKeyBinding(invPanel, KeyEvent.VK_DOWN, "down", (action) -> invPanel.selectDown());
+		addKeyBinding(invPanel, KeyEvent.VK_RIGHT, "right", (action) -> invPanel.moveRight());
 	}
 
 	private void addKeyBinding(JComponent component, int key, String id, ActionListener action) {

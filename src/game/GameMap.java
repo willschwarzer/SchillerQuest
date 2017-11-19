@@ -14,7 +14,7 @@ public class GameMap implements GameMapInterface {
 	 */
 	private Tile[][] map;
 	private Player player;
-	private ArrayList<Monster> monsters;
+	private List<Monster> monsters;
 
 	/**
 	 * Creates a GameMap from a given File.  The file must have lines of uniform length.
@@ -23,9 +23,42 @@ public class GameMap implements GameMapInterface {
 	 */
 	public GameMap(File file) {
 		buildMapFromFile(file);
-		this.monsters= new ArrayList<Monster>();
+		this.monsters = new ArrayList<>();
 	}
 
+
+	/**
+	 * Creates a GameMap from a given 2D row-major Tile array.  Tells all Entities in the GameMap their coordinates.
+	 * @param map 2D row-major Tile array to set as the GameMap's map
+	 */
+	public GameMap(Tile[][] map) {
+		this.map = map;
+		monsters = new ArrayList<>();
+
+		int expectedWidth = map[0].length;
+
+		for (int row = 0; row < map.length; row++) {
+			if (expectedWidth != map[row].length) {
+				throw new IllegalArgumentException("Given Tile array is not rectangular.");
+			}
+
+			for (int col = 0; col < map[0].length; col++) {
+				for (GraphicItem item : map[row][col].getItems()) {
+					item.setCoordinates(new Coordinates(col, row));
+					item.setMap(this);
+				}
+
+				Creature creature = map[row][col].getCreature();
+				if (creature != null) {
+					creature.setCoordinates(new Coordinates(col, row));
+					creature.setMap(this);
+					if (Monster.class.isAssignableFrom(creature.getClass())) {
+						monsters.add((Monster) creature);
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * Builds the map from the given File.  The file must have lines of uniform length.
@@ -288,7 +321,9 @@ public class GameMap implements GameMapInterface {
 		return player;
 	}
 
-	public ArrayList<Monster> getMonsters() { return monsters; }
+	public List<Monster> getMonsters() {
+		return monsters;
+	}
 
 
 	public void setPlayer(Player player) {
@@ -372,6 +407,4 @@ public class GameMap implements GameMapInterface {
 			throw new RuntimeException(e);
 		}
 	}
-
-
 }

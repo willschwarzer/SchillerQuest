@@ -82,6 +82,6 @@ public class Terrain implements MapViewable {
 	 * @return The graphic for a Terrain that is not known/visible.
 	 */
 	public static char getUnknownTerrainGraphic() {
-		return ' ';
+		return '?';
 	}
 }

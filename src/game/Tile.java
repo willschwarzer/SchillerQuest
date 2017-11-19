@@ -19,7 +19,10 @@ public class Tile implements MapViewable {
 	public Tile(Terrain terrain) {
 		this.terrain = terrain;
 		this.items = new LinkedList<>();
+		// TODO remove
+		visible = true;
 	}
+
 
 	/**
 	 * Creates a Tile with the given Terrain and Entity occupying the tile.
@@ -47,14 +50,17 @@ public class Tile implements MapViewable {
 		}
 	}
 
-	public boolean isOccupiable() {
-		// TODO Anders - come back to?
+	public boolean isOccupiableTerrain() {
 		return terrain.isOccupiable();
-		/*if (creature == null && (items == null || items.isEmpty()) && terrain.isOccupiable()) {
-			return true;
-		} else {
-			return false;
-		}*/
+	}
+
+	/**
+	 * Checks whether the Tile is occupiable and has no Creature or Items on it.
+	 *
+	 * @return Whether the Tile is occupiable and empty.
+	 */
+	public boolean isOccupiableAndEmpty() {
+		return (creature == null && (items == null || items.isEmpty()) && terrain.isOccupiable());
 	}
 
 	public Deque<GraphicItem> getItems() {
@@ -111,7 +117,6 @@ public class Tile implements MapViewable {
 							Exception().getStackTrace()[0].getLineNumber());
 			return false;
 		}
-
 	}
 
 	public boolean getSeen() {

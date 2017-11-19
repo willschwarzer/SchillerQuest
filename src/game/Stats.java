@@ -49,10 +49,9 @@ public class Stats {
 		this.vision = 2;
 	}
 
-	private int randomWithRange(int min, int max)
-	{
+	private int randomWithRange(int min, int max) {
 		int range = (max - min) + 1;
-		return (int)(Math.random() * range) + min;
+		return (int) (Math.random() * range) + min;
 	}
 
 	public int getHealth() {

@@ -1,8 +1,5 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class Creature extends Entity {
@@ -40,6 +37,17 @@ public abstract class Creature extends Entity {
 		this.stats = stats;
 	}
 
+	/**
+	 * Creates a Creature at the given coordinates with Stats appropriate for the level
+	 *
+	 * @param coordinates Coordinates of the Creature
+	 * @param level       Level of the Creature to derive Stats from
+	 */
+	public Creature(Coordinates coordinates, int level) {
+		super(coordinates);
+		this.stats = new Stats(level);
+	}
+
 	public Creature(Coordinates coordinates, GameMap map, int level) {
 		super(coordinates, map);
 		this.stats = new Stats(level);
@@ -47,10 +55,13 @@ public abstract class Creature extends Entity {
 
 	/**
 	 * Creates a creature at given coordinates with specified GameMap.
+	 *
 	 * @param coordinates
 	 * @param map
 	 */
-	public Creature(Coordinates coordinates, GameMap map) {super(coordinates, map);}
+	public Creature(Coordinates coordinates, GameMap map) {
+		super(coordinates, map);
+	}
 
 	/**
 	 * Creates a entity at given coordinates
@@ -61,13 +72,19 @@ public abstract class Creature extends Entity {
 		return stats;
 	}
 
-	public void setStats(Stats stats) {this.stats = stats;}
+	public void setStats(Stats stats) {
+		this.stats = stats;
+	}
 
-	public  Map<String, InventoryItem> getEquipped() {return equipped;}
+	public Map<String, InventoryItem> getEquipped() {
+		return equipped;
+	}
+
 
 	public void setEquipped(Map<String, InventoryItem> equipped){this.equipped = equipped;}
 
 	public String getName() {return name;}
 
 	public void setName(String name) {this.name = name;}
+
 }

@@ -24,7 +24,7 @@ public class InventoryPanel extends JPanel {
 		add(invCharPane, BorderLayout.EAST);
 	}
 
-	public void setBackpack(List newBackpack) {
+	public void setBackpack(List<InventoryItem> newBackpack) {
 		this.backpack = newBackpack;
 	}
 
@@ -72,10 +72,12 @@ public class InventoryPanel extends JPanel {
 			}
 			equipped.put(type, backpack.get(curr));
 			backpack.remove(curr);
-			if (curr >= backpack.size())
+			if (curr >= backpack.size()) {
 				curr = backpack.size() - 1;
-			if (curr < 0)
+			}
+			if (curr < 0) {
 				curr = 0;
+			}
 		}
 		updatePanes();
 	}

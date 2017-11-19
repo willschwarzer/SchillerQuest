@@ -33,7 +33,6 @@ public class Player extends Creature {
 //		setEquipped(equipped);
 	}
 
-
 	public void setBackpack(List<InventoryItem> backpack) {this.backpack = backpack;}
 
 	@Override
@@ -44,8 +43,6 @@ public class Player extends Creature {
 	@Override
 	public char getMapGraphic() {
 		return '@';
-		// TODO Change this hack to something better.
-		//	throw new UnsupportedOperationException("getMapGraphic() not yet supported for Player");
 	}
 
 	public List<InventoryItem> getBackpack() {
