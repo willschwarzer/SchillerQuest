@@ -228,7 +228,7 @@ public class MapGenerator {
 			for (int i = 0; i < 1000; i++) {
 				int x = random.nextInt(ITEM_WIDTH);
 				int y = random.nextInt(ITEM_HEIGHT);
-				if (tiles[y][x].isOccupiable()) {
+				if (tiles[y][x].isOccupiableAndEmpty()) {
 					return new Coordinates(x, y);
 				}
 			}
@@ -265,9 +265,9 @@ public class MapGenerator {
 		}
 
 		private void generateItems() {
-			List<Item> items = Item.getAppropriateItems(random, difficulty);
+			List<GraphicItem> items = GraphicItem.getAppropriateItems(random, difficulty);
 
-			for (Item item : items) {
+			for (GraphicItem item : items) {
 				Coordinates spawn = getOccupiableCoordinates();
 				if (!getTiles()[spawn.getY()][spawn.getX()].addEntity(item)) {
 					throw new RuntimeException(

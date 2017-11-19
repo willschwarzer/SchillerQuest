@@ -1,6 +1,8 @@
 package game;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to store the information about the current map - including the terrain, items, and creatures present.
@@ -12,6 +14,7 @@ public class GameMap implements GameMapInterface {
 	 */
 	private Tile[][] map;
 	private Player player;
+	private List<Monster> monsters;
 
 	/**
 	 * Creates a GameMap from a given File.  The file must have lines of uniform length.
@@ -20,7 +23,9 @@ public class GameMap implements GameMapInterface {
 	 */
 	public GameMap(File file) {
 		buildMapFromFile(file);
+		this.monsters = new ArrayList<>();
 	}
+
 
 	/**
 	 * Creates a GameMap from a given 2D row-major Tile array.  Tells all Entities in the GameMap their coordinates.
@@ -28,6 +33,7 @@ public class GameMap implements GameMapInterface {
 	 */
 	public GameMap(Tile[][] map) {
 		this.map = map;
+		monsters = new ArrayList<>();
 
 		int expectedWidth = map[0].length;
 
@@ -37,13 +43,18 @@ public class GameMap implements GameMapInterface {
 			}
 
 			for (int col = 0; col < map[0].length; col++) {
-				for (Item item : map[row][col].getItems()) {
+				for (GraphicItem item : map[row][col].getItems()) {
 					item.setCoordinates(new Coordinates(col, row));
+					item.setMap(this);
 				}
 
 				Creature creature = map[row][col].getCreature();
 				if (creature != null) {
 					creature.setCoordinates(new Coordinates(col, row));
+					creature.setMap(this);
+					if (Monster.class.isAssignableFrom(creature.getClass())) {
+						monsters.add((Monster) creature);
+					}
 				}
 			}
 		}
@@ -310,6 +321,11 @@ public class GameMap implements GameMapInterface {
 		return player;
 	}
 
+	public List<Monster> getMonsters() {
+		return monsters;
+	}
+
+
 	public void setPlayer(Player player) {
 		this.player = player;
 
@@ -318,6 +334,17 @@ public class GameMap implements GameMapInterface {
 			throw new IllegalStateException(
 					"Cannot add a player to a Tile that already has a Creature (location x:" + player.getCoordinates()
 							.getX() + ", y:" + player.getCoordinates().getY() + ")");
+		}
+	}
+
+	public void setMonster(Monster monster) {
+		this.monsters.add(monster);
+
+		Tile location = map[monster.getCoordinates().getY()][monster.getCoordinates().getX()];
+		if (!location.addEntity(monster)) {
+			throw new IllegalStateException(
+					"Cannot add a player to a Tile that already has a Creature (location x:" + player.getCoordinates()
+							.getX() + ", y:" + monster.getCoordinates().getY() + ")");
 		}
 	}
 

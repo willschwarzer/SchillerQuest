@@ -3,7 +3,7 @@ package game;
 /**
  * Temporary implementation of an Item for testing with.
  */
-public class Flag extends Item {
+public class Flag extends GraphicItem {
 	public Flag() {
 		super(new Coordinates(0,0));
 	}
