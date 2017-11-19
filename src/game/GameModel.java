@@ -47,7 +47,7 @@ public class GameModel implements Subject {
 
 		if (newTile.getCreature() != null) {
 			attack(creature, newTile.getCreature());
-		} else if (newTile.isOccupiable()) {
+		} else if (newTile.isOccupiableTerrain()) {
 			oldTile.removeEntity(creature);
 			newTile.addEntity(creature);
 			creature.setCoordinates(destinationCoordinates);

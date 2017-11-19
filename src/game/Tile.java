@@ -47,14 +47,8 @@ public class Tile implements MapViewable {
 		}
 	}
 
-	public boolean isOccupiable() {
-		// TODO Anders - come back to?
+	public boolean isOccupiableTerrain() {
 		return terrain.isOccupiable();
-		/*if (creature == null && (items == null || items.isEmpty()) && terrain.isOccupiable()) {
-			return true;
-		} else {
-			return false;
-		}*/
 	}
 
 	public Deque<GraphicItem> getItems() {
