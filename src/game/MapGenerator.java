@@ -348,8 +348,53 @@ public class MapGenerator {
 		private void generateTerrain() {
 			//temp implementation
 			Tile[][] tiles = getTiles();
+			int horMidLine = ITEM_HEIGHT/2;
+			int vertMidLine = ITEM_WIDTH/2;
+
+			boolean[] connections = getConnections();
+
+			if (connections[LEFT_CONNECTION]) {
+				for (int col = 0; col < vertMidLine; col++) {
+					tiles[horMidLine-1][col] = new Tile(new Terrain('#'));
+					tiles[horMidLine+1][col] = new Tile(new Terrain('#'));
+				}
+			} else {
+				tiles[horMidLine][vertMidLine-1] = new Tile(new Terrain('#'));
+			}
+			if (connections[DOWN_CONNECTION]) {
+				for (int row = horMidLine+1; row < ITEM_HEIGHT; row++) {
+					tiles[row][vertMidLine-1] = new Tile(new Terrain('#'));
+					tiles[row][vertMidLine+1] = new Tile(new Terrain('#'));
+				}
+			} else {
+				tiles[horMidLine+1][vertMidLine] = new Tile(new Terrain('#'));
+			}
+			if (connections[RIGHT_CONNECTION]) {
+				for (int col = vertMidLine+1; col < ITEM_WIDTH; col++) {
+					tiles[horMidLine-1][col] = new Tile(new Terrain('#'));
+					tiles[horMidLine+1][col] = new Tile(new Terrain('#'));
+				}
+			} else {
+				tiles[horMidLine][vertMidLine+1] = new Tile(new Terrain('#'));
+			}
+			if (connections[UP_CONNECTION]) {
+				for (int row = 0; row < horMidLine; row++) {
+					tiles[row][vertMidLine-1] = new Tile(new Terrain('#'));
+					tiles[row][vertMidLine+1] = new Tile(new Terrain('#'));
+				}
+			} else {
+				tiles[horMidLine-1][vertMidLine] = new Tile(new Terrain('#'));
+			}
 
 			for (int row = 0; row < ITEM_HEIGHT; row++) {
+				for (int col = 0; col < ITEM_WIDTH; col++) {
+					if (tiles[row][col] == null) {
+						tiles[row][col] = new Tile(new Terrain(' '));
+					}
+				}
+			}
+
+			/*for (int row = 0; row < ITEM_HEIGHT; row++) {
 				for (int col = 0; col < ITEM_WIDTH; col++) {
 					if (row == ITEM_HEIGHT / 2 || col == ITEM_WIDTH / 2) {
 						tiles[row][col] = new Tile(new Terrain(' '));
@@ -357,7 +402,7 @@ public class MapGenerator {
 						tiles[row][col] = new Tile(new Terrain('#'));
 					}
 				}
-			}
+			}*/
 		}
 	}
 }
