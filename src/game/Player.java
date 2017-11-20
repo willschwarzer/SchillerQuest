@@ -15,16 +15,13 @@ public class Player extends Creature {
 
 	public Player(Coordinates coordinates, Stats stats) {
 		super(coordinates, stats);
-		this.stats = stats;
 
-		this.backpack.add(new Item("weapon", 1, "Basic stick"));
-		this.backpack.add(new Item("weapon", 1, "better stick"));
-		this.backpack.add(new Item("shoes", 1, "nike airmags"));
-		this.backpack.add(new Item("weapon", 4, "Sharp Katana"));
-		this.backpack.add(new Item("amulet", 5, "screw you f-rum"));
-		this.backpack.add(new Item("shield", 6, "pride"));
-		this.backpack.add(new Item("shoes", 4, "Crocs"));
-		this.backpack.add(new Item("armor", 2, "Rotblatt shirt"));
+		// Starting kit
+		this.backpack.add(new Item("weapon", 1, "Sharpened Rock"));
+		this.backpack.add(new Item("shoes", 1, "Crocs"));
+		this.backpack.add(new Item("armor", 1, "Rotblatt shirt"));
+
+		this.stats = stats;
 
 		setName("Player");
 		this.stats.setLevel(1);
