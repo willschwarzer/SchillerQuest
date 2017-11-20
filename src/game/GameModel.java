@@ -202,12 +202,18 @@ public class GameModel implements Subject {
 		}
 	}
 
+	/**
+	 * If the player is on a down staircase, moves to the next level
+	 * (generating it if it is not already present). Otherwise, displays an
+	 * appropriate message and does nothing.
+	 */
 	public void useDownStaircase() {
 		Player player = getPlayer();
 		Tile playerTile = currentMap.getTileAtLocation(player.getCoordinates());
 		if (playerTile.hasDownStaircase()) {
 			int newIndex = maps.indexOf(currentMap) + 1;
 			if (newIndex == maps.size()) {
+				// Next level not already present; we need to generate it
 				GameMap newMap = generator.generate(newIndex + 1);
 				newMap.setPlayer(player);
 				maps.add(newMap);
@@ -222,6 +228,10 @@ public class GameModel implements Subject {
 		}
 	}
 
+	/**
+	 * If the player is on an up staircase, moves to the previous level. Otherwise,
+	 * displays an appropriate message and does nothing.
+	 */
 	public void useUpStaircase() {
 		Player player = getPlayer();
 		Tile playerTile = currentMap.getTileAtLocation(player.getCoordinates());

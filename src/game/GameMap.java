@@ -294,6 +294,12 @@ public class GameMap implements GameMapInterface {
 		return convertTileArrayToCharArray(getCircularAreaAroundLocation(coordinates, radius));
 	}
 
+	/**
+	 * Gets the visible area around a point.
+	 * @param coordinates the point to get vision at
+	 * @param visionRadius the radius of the visible area
+	 * @return a rectangular character array with only the entities of the visible part displayed
+	 */
 	public char[][] getVisionAsCharArray(Coordinates coordinates, int visionRadius) {
 		final int windowHeight = 10;
 		final int windowWidth = 30;
@@ -311,6 +317,11 @@ public class GameMap implements GameMapInterface {
 		return output;
 	}
 
+	/**
+	 * Gets the tile at a certain location.
+	 * @param coordinates Location to get the tile at
+	 * @return the tile at coordinates
+	 */
 	@Override
 	public Tile getTileAtLocation(Coordinates coordinates) {
 		if (coordinates.getX() > map[0].length) {
@@ -323,10 +334,18 @@ public class GameMap implements GameMapInterface {
 		return map[coordinates.getY()][coordinates.getX()];
 	}
 
+	/**
+	 * Gets the map's player object.
+	 * @return the map's player
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 
+	/**
+	 * Sets the player object for the map, moving it to the up staircase by default.
+	 * @param player the player to set as the map's player
+	 */
 	public void setPlayer(Player player) {
 		this.player = player;
 
@@ -339,22 +358,36 @@ public class GameMap implements GameMapInterface {
 		player.setCoordinates(upStaircaseCoordinates);
 	}
 
+	/**
+	 * Places the map's player at its down staircase (for when going up an up staircase).
+	 */
 	public void placePlayerAtDownStaircase() {
 		getTileAtLocation(player.getCoordinates()).removeEntity(player);
 		player.setCoordinates(downStaircaseCoordinates);
 		getTileAtLocation(downStaircaseCoordinates).addEntity(player);
 	}
 
+	/**
+	 * Places the map's player at its up staircase (for when going down a down staircase).
+	 */
 	public void placePlayerAtUpStaircase() {
 		getTileAtLocation(player.getCoordinates()).removeEntity(player);
 		player.setCoordinates(upStaircaseCoordinates);
 		getTileAtLocation(upStaircaseCoordinates).addEntity(player);
 	}
 
+	/**
+	 * Returns the monsters currently present on the map.
+	 * @return a List of monsters on the map
+	 */
 	public List<Monster> getMonsters() {
 		return monsters;
 	}
 
+	/**
+	 * Attempts to add a Monster to the tile at the Monster's coordinates.
+	 * @param monster Monster object with non-null coordinates to add
+	 */
 	public void setMonster(Monster monster) {
 		this.monsters.add(monster);
 
@@ -366,9 +399,19 @@ public class GameMap implements GameMapInterface {
 		}
 	}
 
+	/**
+	 * Removes a monster from the map's list of monsters.
+	 * (Note: does not remove the monster from its tile in the map.)
+	 * @param monster Monster to remove from the list of monsters
+	 * @return true if the monster was removed, false if it was not.
+	 */
 	public boolean removeMonster(Monster monster) {
 		return this.monsters.remove(monster);
 	}
+
+	/*
+	Note: the following three functions are not used in the current state of the game.
+	 */
 
 	/**
 	 * Converts a given 2D Tile array to it's character equivalent.  Replaces null Tiles (out of world) with the value
