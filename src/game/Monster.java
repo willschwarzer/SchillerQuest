@@ -16,6 +16,12 @@ public abstract class Monster extends Creature {
 		super(coordinates, level);
 	}
 
+	/**
+	 * Determines where a monster is able to move in the map and then determine which way is the puts its close to
+	 * the player.
+	 *
+	 * @return The move the monster should make
+	 */
 	public int[] getMove() {
 		int[] move;
 		List<int[]> validDirections = new ArrayList<>();
@@ -107,6 +113,12 @@ public abstract class Monster extends Creature {
 		}
 		if (difficulty >= 3 && difficulty <= 7) {
 			possibleMonsters.add(new Bat(random));
+		}
+		if (difficulty >= 7 && difficulty <= 9) {
+			possibleMonsters.add(new Goblin(random));
+		}
+		if (difficulty >= 7 && difficulty <= 9) {
+			possibleMonsters.add(new Knight(random));
 		}
 		int randIndex = random.nextInt(possibleMonsters.size());
 		return possibleMonsters.get(randIndex);

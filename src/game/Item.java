@@ -19,6 +19,12 @@ public class Item extends Entity {
 		super(coordinates);
 	}
 
+	/**
+	 * Creates an item of a certain type with a given level
+	 *
+	 * @param type The type of Item it is
+	 * @param level The level of the item
+	 */
 	public Item(String type, int level) {
 		super(new Coordinates(0, 0));
 		this.type = type;
@@ -26,6 +32,14 @@ public class Item extends Entity {
 		this.name = makeName(type, boost);
 	}
 
+	/**
+	 * Creates an item of a certain type with a given level, name and coordintes
+	 *
+	 * @param type The type of Item
+	 * @param level The level of the item
+	 * @param name The Name of the item
+	 * @param coordinates Coordinates that it will be created at
+	 */
 	public Item(String type, int level, String name, Coordinates coordinates) {
 		super(coordinates);
 		this.type = type;
@@ -33,6 +47,13 @@ public class Item extends Entity {
 		this.name = name;
 	}
 
+	/**
+	 * Creates an item of a certain type with a given level and name
+	 *
+	 * @param type The type of Item
+	 * @param level The level of the item
+	 * @param name The Name of the item
+	 */
 	public Item(String type, int level, String name) {
 		super(new Coordinates(0, 0));
 		this.type = type;
@@ -40,6 +61,11 @@ public class Item extends Entity {
 		this.name = name;
 	}
 
+	/**
+	 * Returns information about the Item.
+	 *
+	 * @return It returns null because nothing is implemented for this
+	 */
 	@Override
 	public String getInfo() {
 		return null;
@@ -56,14 +82,29 @@ public class Item extends Entity {
 		return value;
 	}
 
+	/**
+	 * Gets the boost for the Item
+	 *
+	 * @return The GameMap of the Entity
+	 */
 	public int getBoost() {
 		return boost;
 	}
 
+	/**
+	 * Gets the name of the Item
+	 *
+	 * @return The name of the Item
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Gets the type of the Item
+	 *
+	 * @return The type of the Item
+	 */
 	public String getType() {
 		return type;
 	}
@@ -85,7 +126,13 @@ public class Item extends Entity {
 		return graphic;
 	}
 
-
+	/**
+	 * Creates an List of items based off the given difficulty
+	 *
+	 * @param random A Random object that will be used for randomization in createItem
+	 * @param difficulty The difficulty of the current level which dictates the strength of the items
+	 * @return Give the list of items created
+	 */
 	public static List<Item> getAppropriateItems(Random random, int difficulty) {
 		List<Item> items = new ArrayList<>();
 
@@ -96,6 +143,13 @@ public class Item extends Entity {
 		return items;
 	}
 
+	/**
+	 * Creates an items based off the given difficulty
+	 *
+	 * @param random A Random object that will be used for randomization
+	 * @param difficulty The difficulty of the cuurent level which dictates the strength of the items
+	 * @return Give the list of items created
+	 */
 	public static Item createItem(Random random, int difficulty) {
 		List<String> itemTypes = new ArrayList<>();
 		itemTypes.add("weapon");

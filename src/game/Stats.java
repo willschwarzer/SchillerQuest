@@ -42,6 +42,11 @@ public class Stats {
 		this.vision = vision;
 	}
 
+	/**
+	 * Constructor for Stats with only a level parameter. All of the instance variables are determined off of that.
+	 *
+	 * @param level
+	 */
 	public Stats(int level) {
 		this.health = randomWithRange(3 * level, 10 * level);
 		this.attack = randomWithRange(level, 2 * level);
@@ -56,6 +61,11 @@ public class Stats {
 		return (int) (Math.random() * range) + min;
 	}
 
+	/**
+	 * Gets the Health of the Player
+	 *
+	 * @return The Health of the Player
+	 */
 	public int getHealth() {
 		return health;
 	}
@@ -64,6 +74,11 @@ public class Stats {
 		this.health = health;
 	}
 
+	/**
+	 * Gets the Attack of the Player
+	 *
+	 * @return The Attack of the Player
+	 */
 	public int getAttack() {
 		return attack;
 	}
@@ -72,6 +87,11 @@ public class Stats {
 		this.attack = attack;
 	}
 
+	/**
+	 * Gets the Speed of the Entity
+	 *
+	 * @return The Speed of the Player
+	 */
 	public int getSpeed() {
 		return speed;
 	}
@@ -80,6 +100,11 @@ public class Stats {
 		this.speed = speed;
 	}
 
+	/**
+	 * Gets the Defense of the Entity
+	 *
+	 * @return The Defense of the Player
+	 */
 	public int getDefense() {
 		return defense;
 	}
@@ -88,28 +113,50 @@ public class Stats {
 		this.defense = defense;
 	}
 
+	/**
+	 * Gets the Vision of the Entity
+	 *
+	 * @return The Vision of the Player
+	 */
 	public int getVision() {
 		return vision;
 	}
 
+	/**
+	 * Set the Vision of the Entity
+	 *
+	 * @param vision The new Vision for the Entity
+	 */
 	public void setVision(int vision) {
 		this.vision = vision;
 	}
 
+	/**
+	 * Gets the Level of the Entity
+	 *
+	 * @return The Level of the Player
+	 */
 	public int getLevel() {
 		return level;
 	}
 
+	/**
+	 * Set the Level of the Entity
+	 *
+	 * @param level The new Vision for the Entity
+	 */
 	public void setLevel(int level) {
 		this.level = level;
 	}
 
+	/**
+	 * Levels up the player by standard amount each level
+	 */
 	public void levelUp() {
 		this.level += 1;
 		this.health += 2;
 		this.attack += 2;
 		this.speed += 2;
 		this.defense += 2;
-		System.out.println("levelUp: " + level);
 	}
 }
