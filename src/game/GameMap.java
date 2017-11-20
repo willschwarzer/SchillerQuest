@@ -15,6 +15,8 @@ public class GameMap implements GameMapInterface {
 	private Tile[][] map;
 	private Player player;
 	private List<Monster> monsters;
+	private Coordinates upStaircaseCoordinates;
+	private Coordinates downStaircaseCoordinates;
 
 	/**
 	 * Creates a GameMap from a given File.  The file must have lines of uniform length.
@@ -55,6 +57,12 @@ public class GameMap implements GameMapInterface {
 					if (Monster.class.isAssignableFrom(creature.getClass())) {
 						monsters.add((Monster) creature);
 					}
+				}
+
+				if (map[row][col].hasUpStaircase()) {
+					upStaircaseCoordinates = new Coordinates(col, row);
+				} else if (map[row][col].hasDownStaircase()) {
+					downStaircaseCoordinates = new Coordinates(col, row);
 				}
 			}
 		}
@@ -329,12 +337,25 @@ public class GameMap implements GameMapInterface {
 	public void setPlayer(Player player) {
 		this.player = player;
 
-		Tile location = map[player.getCoordinates().getY()][player.getCoordinates().getX()];
+		Tile location = map[upStaircaseCoordinates.getY()][upStaircaseCoordinates.getX()];
 		if (!location.addEntity(player)) {
 			throw new IllegalStateException(
 					"Cannot add a player to a Tile that already has a Creature (location x:" + player.getCoordinates()
 							.getX() + ", y:" + player.getCoordinates().getY() + ")");
 		}
+		player.setCoordinates(upStaircaseCoordinates);
+	}
+
+	public void placePlayerAtDownStaircase() {
+		getTileAtLocation(player.getCoordinates()).removeEntity(player);
+		player.setCoordinates(downStaircaseCoordinates);
+		getTileAtLocation(downStaircaseCoordinates).addEntity(player);
+	}
+
+	public void placePlayerAtUpStaircase() {
+		getTileAtLocation(player.getCoordinates()).removeEntity(player);
+		player.setCoordinates(upStaircaseCoordinates);
+		getTileAtLocation(upStaircaseCoordinates).addEntity(player);
 	}
 
 	public void setMonster(Monster monster) {

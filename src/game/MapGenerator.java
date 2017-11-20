@@ -10,26 +10,25 @@ public class MapGenerator {
 	 *
 	 * @see #GRID_HEIGHT
 	 */
-	private final int GRID_WIDTH = 5;
+	private final int GRID_WIDTH = 4;
 	/**
 	 * Currently must be the same as GRID_WIDTH
 	 *
 	 * @see #GRID_HEIGHT
 	 */
-	private final int GRID_HEIGHT = 5;
+	private final int GRID_HEIGHT = 3;
 	/**
 	 * Currently must be the same as ITEM_HEIGHT
 	 *
 	 * @see #ITEM_HEIGHT
 	 */
-	private final int ITEM_WIDTH = 11;
+	private final int ITEM_WIDTH = 9;
 	/**
 	 * Currently must be the same as ITEM_WIDTH
 	 *
 	 * @see #ITEM_WIDTH
 	 */
-	private final int ITEM_HEIGHT = 11;
-	private final int NUM_ROOMS = 6;
+	private final int ITEM_HEIGHT = 9;
 	private static final int LEFT_CONNECTION = 0;
 	private static final int DOWN_CONNECTION = 1;
 	private static final int RIGHT_CONNECTION = 2;
@@ -46,7 +45,6 @@ public class MapGenerator {
 		initialRandomSeed = seed;
 		random = new Random(seed);
 		rooms = new ArrayList<>();
-		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
 	}
 
 	/**
@@ -55,10 +53,7 @@ public class MapGenerator {
 	 * @see #MapGenerator(long)
 	 */
 	public MapGenerator() {
-		initialRandomSeed = System.currentTimeMillis();
-		random = new Random(initialRandomSeed);
-		rooms = new ArrayList<>();
-		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
+		this(System.currentTimeMillis());
 	}
 
 	/**
@@ -71,11 +66,16 @@ public class MapGenerator {
 	}
 
 	public GameMap generate(int difficulty) {
+		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
+		rooms = new ArrayList();
+
 		Room upStaircaseRoom = new Room(getNewRoomLocation(), difficulty);
+		upStaircaseRoom.addUpStaircase();
 		grid.addItem(upStaircaseRoom);
 		rooms.add(upStaircaseRoom);
 
 		Room downStaircaseRoom = new Room(getNewRoomLocation(), difficulty);
+		downStaircaseRoom.addDownStaircase();
 		grid.addItem(downStaircaseRoom);
 		rooms.add(downStaircaseRoom);
 
@@ -124,9 +124,9 @@ public class MapGenerator {
 		int i = 0;
 		outerLoop:
 		while (i < GRID_HEIGHT * GRID_WIDTH) {
-			int randomX = random.nextInt(GRID_WIDTH);
-			int randomY = random.nextInt(GRID_HEIGHT);
-			location = new int[]{randomX, randomY};
+			int randomRows = random.nextInt(GRID_HEIGHT);
+			int randomCols = random.nextInt(GRID_WIDTH);
+			location = new int[]{randomRows, randomCols};
 
 			for (int[] invalidLoc : invalidLocations) {
 				if (Arrays.equals(location, invalidLoc)) {
@@ -201,7 +201,7 @@ public class MapGenerator {
 
 			validConnections[LEFT_CONNECTION] = (loc[1] > 0);
 			validConnections[DOWN_CONNECTION] = (loc[0] < GRID_HEIGHT - 1);
-			validConnections[RIGHT_CONNECTION] = (loc[1] < GRID_HEIGHT - 1);
+			validConnections[RIGHT_CONNECTION] = (loc[1] < GRID_WIDTH - 1);
 			validConnections[UP_CONNECTION] = (loc[0] > 0);
 
 			return validConnections;
@@ -225,14 +225,15 @@ public class MapGenerator {
 		 * @return Location of an occupiable Tile
 		 */
 		public Coordinates getOccupiableCoordinates() {
-			for (int i = 0; i < 1000; i++) {
+			for (int i = 0; i < ITEM_HEIGHT*ITEM_WIDTH; i++) {
 				int x = random.nextInt(ITEM_WIDTH);
 				int y = random.nextInt(ITEM_HEIGHT);
-				if (tiles[y][x].isOccupiableAndEmpty()) {
+				if (tiles[y][x].isOccupiableAndEmpty() &&
+						!tiles[y][x].hasUpStaircase()) {
 					return new Coordinates(x, y);
 				}
 			}
-			throw new RuntimeException("No occupiable location found in the GridItem with 1000 tries.");
+			return null;
 		}
 	}
 
@@ -257,9 +258,9 @@ public class MapGenerator {
 
 			for (Monster mob : monsters) {
 				Coordinates spawn = getOccupiableCoordinates();
-				if (!getTiles()[spawn.getY()][spawn.getX()].addEntity(mob)) {
-					throw new RuntimeException(
-							"Could not add a Monster to a tile that was determined to be occupiable previously, huh?");
+				if (spawn != null) {
+					Tile tile = getTiles()[spawn.getX()][spawn.getY()];
+					tile.addEntity(mob);
 				}
 			}
 		}
@@ -280,9 +281,15 @@ public class MapGenerator {
 		}
 
 		public void addUpStaircase() {
+			Coordinates coord = getOccupiableCoordinates();
+			getTiles()[coord.getX()][coord.getY()] =
+					new Tile(new Terrain('<'));
 		}
 
 		public void addDownStaircase() {
+			Coordinates coord = getOccupiableCoordinates();
+			getTiles()[coord.getX()][coord.getY()] =
+					new Tile(new Terrain('>'));
 		}
 
 		private void generateTerrain() {

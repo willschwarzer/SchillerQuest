@@ -8,9 +8,5 @@ public class Game {
 		// TODO find a way to make this an interface again
 		// (how do we access methods from both Subject and ControllerInterface???
 		Controller controller = new Controller();
-
-		MapGenerator myGenerator = new MapGenerator();
-		GameMap myMap = myGenerator.generate(1);
-		controller.setGameModel(new GameModel(controller, myMap, new Coordinates(4, 4)));
 	}
 }

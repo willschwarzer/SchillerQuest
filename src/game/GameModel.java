@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class GameModel implements Subject {
 	private GameMap currentMap;
 	private List<GameMap> maps;
-	private ControllerInterface controller;
+	private Controller controller;
 	private List<Observer> observers;
 	private MapGenerator generator;
 
@@ -18,10 +18,11 @@ public class GameModel implements Subject {
 		this.controller = controller;
 		addObserver(controller);
 
+		maps = new ArrayList();
 		generator = new MapGenerator();
-
-		Coordinates startCoordinates = new Coordinates(10, 3);
-		loadNewLevel("src/resources/level1.txt", startCoordinates);
+		currentMap = generator.generate(1);
+		maps.add(currentMap);
+		spawnPlayer();
 
 		notifyObservers();
 	}
@@ -32,14 +33,14 @@ public class GameModel implements Subject {
 		addObserver(controller);
 
 		this.currentMap = map;
-		spawnPlayer(startCoordinates);
+		//spawnPlayer(startCoordinates);
 
 		notifyObservers();
 	}
 
 	private void loadNewLevel(String fileName, Coordinates startCoordinates) {
 		currentMap = new GameMap(new File(fileName));
-		spawnPlayer(startCoordinates);
+		//spawnPlayer(startCoordinates);
 	}
 
 	/**
@@ -72,7 +73,7 @@ public class GameModel implements Subject {
 		}
 	}
 
-	public void setController(ControllerInterface controller) {
+	public void setController(Controller controller) {
 		this.controller = controller;
 	}
 
@@ -149,13 +150,12 @@ public class GameModel implements Subject {
 
 	/**
 	 * Creates a Player at given coordinate location
-	 *
-	 * @param coordinates The coordinate the player will be spawned at
 	 */
-	public void spawnPlayer(Coordinates coordinates) {
+	public void spawnPlayer() {
 		//TODO: Fix hard coding in the beginning stats
 		Stats playerStats = new Stats(100, 10, 10, 10, 4);
-		Player player = new Player(coordinates, playerStats);
+		// Spawns player with null coordinates, to be immediately overwritten
+		Player player = new Player(null, playerStats);
 		currentMap.setPlayer(player);
 	}
 
@@ -192,8 +192,6 @@ public class GameModel implements Subject {
 	}
 
 	private void creatureDeath(Creature dead, Tile newTile) {
-		System.out.println(dead.getName() + " died");
-
 		if (dead == getPlayer()) {
 			System.out.println("Game Over");
 			//GameOver
@@ -209,11 +207,36 @@ public class GameModel implements Subject {
 		if (playerTile.hasDownStaircase()) {
 			int newIndex = maps.indexOf(currentMap) + 1;
 			if (newIndex == maps.size()) {
-				maps.add(generator.generate(newIndex));
+				GameMap newMap = generator.generate(newIndex+1);
+				newMap.setPlayer(player);
+				maps.add(newMap);
 			}
 			currentMap = maps.get(newIndex);
+			currentMap.placePlayerAtUpStaircase();
+			player.setMap(currentMap);
+			playerTile.removeEntity(player);
+			notifyObservers();
 		} else {
 			controller.log("You can only go down a down staircase.");
+		}
+	}
+
+	public void useUpStaircase() {
+		Player player = getPlayer();
+		Tile playerTile = currentMap.getTileAtLocation(player.getCoordinates());
+		if (playerTile.hasUpStaircase()) {
+			int newIndex = maps.indexOf(currentMap) - 1;
+			if (newIndex < 0) {
+				controller.openTitleScreen();
+			} else {
+				playerTile.removeEntity(player);
+				currentMap = maps.get(newIndex);
+				currentMap.placePlayerAtDownStaircase();
+				player.setMap(currentMap);
+				notifyObservers();
+			}
+		} else {
+			controller.log("You can only go up an up staircase.");
 		}
 	}
 }

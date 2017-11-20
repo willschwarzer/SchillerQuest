@@ -69,6 +69,10 @@ public abstract class Entity implements MapViewable {
 		return isOccupiable;
 	}
 
+	public void setGameMap(GameMap map) {
+		this.map = map;
+	}
+
 	public GameMap getGameMap() {
 		return map;
 	}
