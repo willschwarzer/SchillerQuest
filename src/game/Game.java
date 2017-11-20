@@ -10,7 +10,8 @@ public class Game {
 		Controller controller = new Controller();
 
 		MapGenerator myGenerator = new MapGenerator();
+		System.out.println("Seed: " + myGenerator.getInitialRandomSeed());
 		GameMap myMap = myGenerator.generate(1);
-		controller.setGameModel(new GameModel(controller, myMap, new Coordinates(4, 4)));
+		controller.setGameModel(new GameModel(controller, myMap, myGenerator.getSpawnLocation()));
 	}
 }

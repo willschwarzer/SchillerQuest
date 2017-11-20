@@ -62,6 +62,16 @@ public class MapGenerator {
 	}
 
 	/**
+	 * Gets Coordinates to spawn at, which are inside the generated structure (does not check if there's already a
+	 * Creature there).  Returned Coordinates are the center of the top left room/corridor.
+	 *
+	 * @return Coordinates Coordinates to spawn at
+	 */
+	public Coordinates getSpawnLocation() {
+		return new Coordinates(ITEM_WIDTH / 2, ITEM_HEIGHT / 2);
+	}
+
+	/**
 	 * Get the seed that was used to start the Random.
 	 *
 	 * @return the seed that was used to start the Random
