@@ -6,7 +6,7 @@ Ephraim Benson, Anders Bruihler, David Higgs, and Will Schwarzer
 Schiller Quest is a turn-based and text-based RPG. The player moves their character through a gridded level space, defeating monsters and acquiring new loot and abilities. The goal of the game is to get as far in the dungeon as possible. As you progress through it and defeat monsters, you will become more powerful and gain more powerful equipment; but be careful! The monsters will also become stronger and stronger.
 
 ## Playing the Game
-* Compile and launch the program
+* Run main() in Game.java
 * Click on 'Start' to open the level view
 * Use the left, right, up, and down arrow keys to move the character
 * You can open the inventory screen by clicking 'Inventory' and close it by clicking 'Return'
