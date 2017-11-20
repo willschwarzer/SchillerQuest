@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends Creature {
+	private Stats stats;
+	private int exp;
 	private List<Item> backpack = new ArrayList<>();
 	static final int MAX_BACKPACK_SIZE = 10;
 
@@ -13,6 +15,8 @@ public class Player extends Creature {
 
 	public Player(Coordinates coordinates, Stats stats) {
 		super(coordinates, stats);
+		this.stats = stats;
+    
 		this.backpack.add(new Item("weapon", 1, "Basic stick"));
 		this.backpack.add(new Item("weapon", 1, "better stick"));
 		this.backpack.add(new Item("shoes", 1, "nike airmags"));
@@ -21,12 +25,22 @@ public class Player extends Creature {
 		this.backpack.add(new Item("shield", 6, "pride"));
 		this.backpack.add(new Item("shoes", 4, "Crocs"));
 		this.backpack.add(new Item("armor", 2, "Rotblatt shirt"));
-		setName("Player");
 
-//		HashMap<String, InventoryItem> equipped = new HashMap<>();
-//		equipped.put("weapon", new InventoryItem("weapon", 1, "Test Armor"));
-//		equipped.put("armor",new InventoryItem("armor", 1, "Test Armor"));
-//		setEquipped(equipped);
+		setName("Player");
+		this.stats.setLevel(1);
+		this.exp = 0;
+	}
+
+	public int getExp() {
+		return exp;
+	}
+
+	public void gainExp(int level){
+		this.exp += level * 25;
+		if(this.exp >= 100) {
+			stats.levelUp();
+			this.exp = exp - 100;
+		}
 	}
 
 	public void setBackpack(List<Item> backpack) {

@@ -153,7 +153,7 @@ public class GameModel implements Subject {
 	 */
 	public void spawnPlayer() {
 		//TODO: Fix hard coding in the beginning stats
-		Stats playerStats = new Stats(100, 10, 10, 10, 4);
+		Stats playerStats = new Stats(100,5,5,5,4);
 		// Spawns player with null coordinates, to be immediately overwritten
 		Player player = new Player(null, playerStats);
 		currentMap.setPlayer(player);
@@ -194,20 +194,19 @@ public class GameModel implements Subject {
 		return value;
 	}
 
-	private void creatureDeath(Creature dead, Tile newTile) {
-		if (dead == getPlayer()) {
-			System.out.println("Game Over");
-			//GameOver
-		} else {
-			if (Monster.class.isAssignableFrom(dead.getClass())) {
-				currentMap.removeMonster((Monster) dead);
-				newTile.removeEntity(dead);
-			} else {
-				throw new IllegalArgumentException(
-						"Currently cannot have a Creature that is not a Player or Monster die.");
-			}
-		}
-	}
+	private void creatureDeath(Creature dead, Tile tile){
+		String deathMessage = dead.getName()+ " died";
+		controller.log(deathMessage);
+
+		if(dead == getPlayer()){
+			String gameOver = dead.getName() + " died";
+			controller.log(deathMessage);
+		}else{
+			currentMap.removeMonster(dead);
+			tile.removeEntity(dead);
+			getPlayer().gainExp(dead.getStats().getLevel());
+			System.out.println(dead.getStats().getLevel());
+			System.out.println(getPlayer().getExp());
 
 	public void useDownStaircase() {
 		Player player = getPlayer();
