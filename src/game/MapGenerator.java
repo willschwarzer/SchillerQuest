@@ -80,7 +80,7 @@ public class MapGenerator {
 
 	public GameMap generate(int difficulty) {
 		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
-		rooms = new ArrayList();
+		rooms = new ArrayList<>();
 
 		Room upStaircaseRoom = new Room(getNewRoomLocation(), difficulty);
 		upStaircaseRoom.addUpStaircase();

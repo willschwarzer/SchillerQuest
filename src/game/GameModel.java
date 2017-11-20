@@ -18,7 +18,7 @@ public class GameModel implements Subject {
 		this.controller = controller;
 		addObserver(controller);
 
-		maps = new ArrayList();
+		maps = new ArrayList<>();
 		generator = new MapGenerator();
 		System.out.println("Seed: " + generator.getInitialRandomSeed() + "L"); // L necessary at the end of the long
 		currentMap = generator.generate(1);

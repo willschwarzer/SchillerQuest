@@ -72,7 +72,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		repaint();
 	}
 
-	public void updateInventory(List newInv) {
+	public void updateInventory(List<Item> newInv) {
 		invPanel.setBackpack(newInv);
 	}
 
