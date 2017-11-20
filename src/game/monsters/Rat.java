@@ -1,4 +1,4 @@
-package monsters;
+package game.monsters;
 
 import game.*;
 

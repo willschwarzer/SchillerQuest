@@ -1,11 +1,10 @@
 package game;
 
-import monsters.*;
+import game.monsters.*;
 
 import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class GameModel implements Subject {
 	private GameMap map;

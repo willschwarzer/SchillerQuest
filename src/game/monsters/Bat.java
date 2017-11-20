@@ -1,4 +1,4 @@
-package monsters;
+package game.monsters;
 import game.*;
 import java.util.HashMap;
 import java.util.Random;

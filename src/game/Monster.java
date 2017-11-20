@@ -1,6 +1,6 @@
 package game;
 
-import monsters.*;
+import game.monsters.*;
 
 import java.util.ArrayList;
 import java.util.List;
