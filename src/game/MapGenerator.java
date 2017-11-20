@@ -276,9 +276,9 @@ public class MapGenerator {
 		}
 
 		private void generateItems() {
-			List<InventoryItem> items = InventoryItem.getAppropriateItems(random, difficulty);
+			List<Item> items = Item.getAppropriateItems(random, difficulty);
 
-			for (InventoryItem item : items) {
+			for (Item item : items) {
 				Coordinates spawn = getOccupiableCoordinates();
 				if (!getTiles()[spawn.getY()][spawn.getX()].addEntity(item)) {
 					throw new RuntimeException(

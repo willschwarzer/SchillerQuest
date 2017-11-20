@@ -104,9 +104,13 @@ public class Controller implements Subject, Observer {
 	}
 
 	public void pickUp() {
+		model.pickUp();
+		model.takeTurn();
 	}
 
-	public void drop(InventoryItem item) {
+	public void drop(Item item) {
+		model.drop(item);
+		model.takeTurn();
 	}
 
 	public void useDownStaircase() {

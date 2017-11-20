@@ -27,9 +27,9 @@ public class Rat extends Monster {
 
 	public Rat(Coordinates coordinates, GameMap map, int level) {
 		super(coordinates, map, level);
-		Map<String, InventoryItem> equipped = new HashMap<>();
-		equipped.put("weapon", new InventoryItem("weapon", 1, "Rat Teeth"));
-		equipped.put("armor", new InventoryItem("armor", 1, "Rat Skin"));
+		Map<String, Item> equipped = new HashMap<>();
+		equipped.put("weapon", new Item("weapon", 1, "Rat Teeth"));
+		equipped.put("armor", new Item("armor", 1, "Rat Skin"));
 		setEquipped(equipped);
 		setName("the level " + level + " rat");
 	}

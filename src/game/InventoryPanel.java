@@ -9,35 +9,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InventoryPanel extends JPanel {
-	private Map<String, InventoryItem> equipped = new HashMap<>();
-	private List<InventoryItem> backpack = new ArrayList<>();
+	private Map<String, Item> equipped = new HashMap<>();
+	private List<Item> backpack = new ArrayList<>();
+	private Controller controller;
 
 	private int curr = 0;
 
 	private InventoryItemPane invItemPane = new InventoryItemPane();
 	private InventoryCharacterPane invCharPane = new InventoryCharacterPane();
 
-	public InventoryPanel() {
+	public InventoryPanel(Controller controller) {
 		super();
+		this.controller = controller;
 		setLayout(new BorderLayout());
 
 		add(invItemPane, BorderLayout.CENTER);
 		add(invCharPane, BorderLayout.EAST);
 	}
 
-	public List<InventoryItem> getBackpack() {
+	public List<Item> getBackpack() {
 		return backpack;
 	}
 
-	public void setBackpack(List<InventoryItem> newBackpack) {
+	public void setBackpack(List<Item> newBackpack) {
 		this.backpack = newBackpack;
 	}
 
-	public Map<String, InventoryItem> getEquipped() {
+	public Map<String, Item> getEquipped() {
 		return equipped;
 	}
 
-	public void setEquipped(Map<String, InventoryItem> equipped) {
+	public void setEquipped(Map<String, Item> equipped) {
 		this.equipped = equipped;
 	}
 
@@ -70,7 +72,7 @@ public class InventoryPanel extends JPanel {
 		if (backpack.size() >= curr) { // valid change?
 			String type = backpack.get(curr).getType();
 			if (equipped.containsKey(type)) {
-				InventoryItem oldItem = equipped.get(type);
+				Item oldItem = equipped.get(type);
 				backpack.add(oldItem);
 			}
 			equipped.put(type, backpack.get(curr));
@@ -85,13 +87,23 @@ public class InventoryPanel extends JPanel {
 		updatePanes();
 	}
 
+	public void drop() {
+		if (backpack.size() > 0) {
+			controller.drop(backpack.get(curr));
+			curr = Math.max(0, curr - 1);
+			updatePanes();
+		}
+	}
+
 	protected void addBindingsToChildren() {
 		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_UP, "up", (action) -> selectUp());
 		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_DOWN, "down", (action) -> selectDown());
 		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_RIGHT, "right", (action) -> moveRight());
+		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_D, "drop", (action) -> drop());
 
 		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_UP, "up", (action) -> selectUp());
 		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_DOWN, "down", (action) -> selectDown());
 		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_RIGHT, "right", (action) -> moveRight());
+		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_D, "drop", (action) -> drop());
 	}
 }

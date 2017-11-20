@@ -1,12 +1,11 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Player extends Creature {
-	private List<InventoryItem> backpack = new ArrayList<>();
+	private List<Item> backpack = new ArrayList<>();
+	static final int MAX_BACKPACK_SIZE = 10;
 
 	public Player(Coordinates coordinates) {
 		super(coordinates);
@@ -14,14 +13,14 @@ public class Player extends Creature {
 
 	public Player(Coordinates coordinates, Stats stats) {
 		super(coordinates, stats);
-		this.backpack.add(new InventoryItem("weapon", 1, "Basic stick"));
-		this.backpack.add(new InventoryItem("weapon", 1, "better stick"));
-		this.backpack.add(new InventoryItem("shoes", 1, "nike airmags"));
-		this.backpack.add(new InventoryItem("weapon", 4, "Sharp Katana"));
-		this.backpack.add(new InventoryItem("amulet", 5, "screw you f-rum"));
-		this.backpack.add(new InventoryItem("shield", 6, "pride"));
-		this.backpack.add(new InventoryItem("shoes", 4, "Crocs"));
-		this.backpack.add(new InventoryItem("armor", 2, "Rotblatt shirt"));
+		this.backpack.add(new Item("weapon", 1, "Basic stick"));
+		this.backpack.add(new Item("weapon", 1, "better stick"));
+		this.backpack.add(new Item("shoes", 1, "nike airmags"));
+		this.backpack.add(new Item("weapon", 4, "Sharp Katana"));
+		this.backpack.add(new Item("amulet", 5, "screw you f-rum"));
+		this.backpack.add(new Item("shield", 6, "pride"));
+		this.backpack.add(new Item("shoes", 4, "Crocs"));
+		this.backpack.add(new Item("armor", 2, "Rotblatt shirt"));
 		setName("Player");
 
 //		HashMap<String, InventoryItem> equipped = new HashMap<>();
@@ -30,7 +29,7 @@ public class Player extends Creature {
 //		setEquipped(equipped);
 	}
 
-	public void setBackpack(List<InventoryItem> backpack) {
+	public void setBackpack(List<Item> backpack) {
 		this.backpack = backpack;
 	}
 
@@ -44,7 +43,7 @@ public class Player extends Creature {
 		return '@';
 	}
 
-	public List<InventoryItem> getBackpack() {
+	public List<Item> getBackpack() {
 		return backpack;
 	}
 }
