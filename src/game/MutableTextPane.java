@@ -7,7 +7,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
 
-public class MutableTextPane extends JTextPane {
+public abstract class MutableTextPane extends JTextPane {
 	private int fontSize;
 
 	public MutableTextPane(int fontSize) {
@@ -24,11 +24,7 @@ public class MutableTextPane extends JTextPane {
 		setEditable(false);
 	}
 
-	public void composeLinesOfText() {
-		// exists to be overridden
-		// TODO - can this be made an interface or something more elegant than?
-		System.out.println("uh oh");
-	}
+	public abstract void composeLinesOfText();
 
 	public void addLine(String line) {
 		for (char c : line.toCharArray()) {
