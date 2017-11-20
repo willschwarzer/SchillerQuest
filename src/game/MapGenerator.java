@@ -174,10 +174,8 @@ public class MapGenerator {
 					Tile[][] itemTiles = grid[itemRow][itemCol].getTiles();
 
 					for (int tileRow = 0; tileRow < ITEM_HEIGHT; tileRow++) {
-						for (int tileCol = 0; tileCol < ITEM_WIDTH; tileCol++) {
-							mapTiles[tileRow + itemRow * ITEM_HEIGHT][tileCol + itemCol * ITEM_WIDTH] =
-									itemTiles[tileRow][tileCol];
-						}
+						System.arraycopy(itemTiles[tileRow], 0, mapTiles[tileRow + itemRow * ITEM_HEIGHT],
+								itemCol * ITEM_WIDTH, ITEM_WIDTH);
 					}
 				}
 			}
