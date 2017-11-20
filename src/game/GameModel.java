@@ -115,6 +115,7 @@ public class GameModel implements Subject {
 			InventoryItem attackerShoes = attacker.getEquipped().get("shoes");
 			attackeeSpd += attackerShoes.getBoost();
 		}
+		String eventString = "";
 
 		int hitChance = randomWithRange(attackerSpd / 2, attackerSpd) - randomWithRange(attackeeSpd / 4, attackeeSpd);
 
@@ -122,19 +123,17 @@ public class GameModel implements Subject {
 		if (hitChance > 0) {
 			damage += randomWithRange(attack / 2, attack) - randomWithRange(defense / 3, defense);
 		} else {
-			String eventString = attacker.getName() + "'s attack missed";
-			controller.log(eventString);
+			eventString = attacker.getName() + "'s attack missed";
 		}
 
 		if (damage > 0) {
 			attackee.getStats().setHealth(attackee.getStats().getHealth() - damage);
-			String eventString = attacker.getName() + "'s attack did " + damage + " point(s) of damage to " + attackee
+			eventString = attacker.getName() + "'s attack did " + damage + " point(s) of damage to " + attackee
 					.getName();
-			controller.log(eventString);
 		} else if (hitChance > 0) {
-			String eventString = "'s attack did no damage to " + attackee.getName();
-			controller.log(eventString);
+			eventString = "'s attack did no damage to " + attackee.getName();
 		}
+		controller.log(eventString);
 	}
 
 	/**
