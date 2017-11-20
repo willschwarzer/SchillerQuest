@@ -11,6 +11,12 @@ public class GameModel implements Subject {
 	private List<Observer> observers;
 	private MapGenerator generator;
 
+	/**
+	 * Generates a new GameModel without a premade level (generates all levels
+	 * procedurally). Currently the only used constructor.
+	 *
+	 * @param controller the object to be used as the GameModel's controller
+	 */
 	public GameModel(Controller controller) {
 		observers = new ArrayList<>();
 		this.controller = controller;
@@ -26,6 +32,14 @@ public class GameModel implements Subject {
 		notifyObservers();
 	}
 
+	/**
+	 * Creates a GameModel with a premade map.
+	 * (Not currently used.)
+	 *
+	 * @param controller the object to be the model's controller
+	 * @param map the object to be the model's map
+	 * @param startCoordinates the player's starting coordinates
+	 */
 	public GameModel(Controller controller, GameMap map, Coordinates startCoordinates) {
 		observers = new ArrayList<>();
 		this.controller = controller;
@@ -37,6 +51,13 @@ public class GameModel implements Subject {
 		notifyObservers();
 	}
 
+	/**
+	 * Creates a new level from a premade text file
+	 * (Not currently used)
+	 *
+	 * @param fileName the name of the text file containing the level to be loaded
+	 * @param startCoordinates the starting coordinates of the player
+	 */
 	private void loadNewLevel(String fileName, Coordinates startCoordinates) {
 		currentMap = new GameMap(new File(fileName));
 		//spawnPlayer(startCoordinates);
