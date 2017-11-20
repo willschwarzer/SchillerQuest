@@ -1,6 +1,6 @@
 package game;
 
-import game.monsters.*;
+import monsters.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +83,10 @@ public abstract class Monster extends Creature {
 			Monster monster = createMonster(random, difficulty);
 			monsters.add(monster);
 			difficultySum += monster.getLevel();
+
+			if (difficultySum > difficulty + 2) {
+				monsters.remove(monster);
+			}
 		}
 
 		return monsters;
@@ -99,10 +103,12 @@ public abstract class Monster extends Creature {
 		// TODO make this actually work and return a random Monster
 		List<Monster> possibleMonsters = new ArrayList<>();
 		if (difficulty <= 5) {
-			possibleMonsters.add(new Rat(difficulty));
-		} else if (difficulty >= 3 && difficulty <= 7) {
-			possibleMonsters.add(new Bat(difficulty));
+			possibleMonsters.add(new Rat(random));
 		}
-		return new Rat(difficulty);
+		if (difficulty >= 3 && difficulty <= 7) {
+			possibleMonsters.add(new Bat(random));
+		}
+		int randIndex = random.nextInt(possibleMonsters.size());
+		return possibleMonsters.get(randIndex);
 	}
 }

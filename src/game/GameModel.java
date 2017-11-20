@@ -1,6 +1,6 @@
 package game;
 
-import game.monsters.*;
+import monsters.*;
 
 import java.io.File;
 import java.util.List;

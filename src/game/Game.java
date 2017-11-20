@@ -12,9 +12,6 @@ public class Game {
 
 		MapGenerator myGenerator = new MapGenerator();
 		GameMap myMap = myGenerator.generate(1);
-
-		myMap.printMapToConsole();
-
 		controller.setGameModel(new GameModel(controller, myMap, new Coordinates(4, 4)));
 	}
 }
