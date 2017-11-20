@@ -3,8 +3,8 @@ package game;
 import game.monsters.*;
 
 import java.io.File;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameModel implements Subject {
 	private GameMap currentMap;
