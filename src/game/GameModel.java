@@ -252,7 +252,20 @@ public class GameModel implements Subject {
 		Player player = getPlayer();
 		Coordinates playerCoordinates = player.getCoordinates();
 		Tile tile = currentMap.getTileAtLocation(playerCoordinates);
-		
+		List<Item> backpack = player.getBackpack();
+		if (!tile.getItems().isEmpty()) {
+			if (backpack.size() < Player.MAX_BACKPACK_SIZE) {
+				Item item = tile.getItems().pop();
+				tile.removeEntity(item);
+				item.setCoordinates(null);
+				player.getBackpack().add(item);
+				controller.log("You pick up the " + item.getName());
+			} else {
+				controller.log("Your backpack is too full.");
+			}
+		} else {
+			controller.log("There is nothing here to pick up.");
+		}
 	}
 
 	public void drop(Item item) {
@@ -262,5 +275,6 @@ public class GameModel implements Subject {
 		Tile tile = currentMap.getTileAtLocation(playerCoordinates);
 		tile.addEntity(item);
 		item.setCoordinates(playerCoordinates);
+		controller.log("You drop the " + item.getName());
 	}
 }

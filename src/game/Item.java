@@ -46,7 +46,7 @@ public class Item extends Entity {
 	}
 
 	private String makeName(String type, int boost) {
-		String name = type + " +" + boost;
+		String name = "+" + boost + " " + type;
 		return name;
 	}
 

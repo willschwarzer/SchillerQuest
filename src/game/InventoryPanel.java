@@ -88,9 +88,11 @@ public class InventoryPanel extends JPanel {
 	}
 
 	public void drop() {
-		controller.drop(backpack.get(curr));
-		curr = Math.max(0, curr-1);
-		updatePanes();
+		if (backpack.size() > 0) {
+			controller.drop(backpack.get(curr));
+			curr = Math.max(0, curr - 1);
+			updatePanes();
+		}
 	}
 
 	protected void addBindingsToChildren() {

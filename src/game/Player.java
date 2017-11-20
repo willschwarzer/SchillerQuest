@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Player extends Creature {
 	private List<Item> backpack = new ArrayList<>();
+	static final int MAX_BACKPACK_SIZE = 10;
 
 	public Player(Coordinates coordinates) {
 		super(coordinates);
