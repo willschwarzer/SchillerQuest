@@ -133,7 +133,6 @@ public class Tile implements MapViewable {
 		this.visible = visible;
 	}
 
-
 	public Creature getCreature() {
 		return creature;
 	}

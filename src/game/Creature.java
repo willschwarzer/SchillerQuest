@@ -85,11 +85,17 @@ public abstract class Creature extends Entity {
 	}
 
 
-	public void setEquipped(Map<String, InventoryItem> equipped){this.equipped = equipped;}
+	public void setEquipped(Map<String, InventoryItem> equipped) {
+		this.equipped = equipped;
+	}
 
-	public String getName() {return name;}
+	public String getName() {
+		return name;
+	}
 
-	public void setName(String name) {this.name = name;}
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public int getLevel() {
 		return this.level;

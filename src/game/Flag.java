@@ -5,7 +5,7 @@ package game;
  */
 public class Flag extends GraphicItem {
 	public Flag() {
-		super(new Coordinates(0,0));
+		super(new Coordinates(0, 0));
 	}
 
 	public Flag(Coordinates coordinates) {

@@ -18,7 +18,7 @@ public class Rat extends Monster {
 	}
 
 	public Rat(Random random) {
-		this(random.nextInt(4)+1);
+		this(random.nextInt(4) + 1);
 	}
 
 	public Rat(Coordinates coordinates, int level) {

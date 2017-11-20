@@ -26,9 +26,9 @@ public class GameMap implements GameMapInterface {
 		this.monsters = new ArrayList<>();
 	}
 
-
 	/**
 	 * Creates a GameMap from a given 2D row-major Tile array.  Tells all Entities in the GameMap their coordinates.
+	 *
 	 * @param map 2D row-major Tile array to set as the GameMap's map
 	 */
 	public GameMap(Tile[][] map) {
@@ -348,8 +348,10 @@ public class GameMap implements GameMapInterface {
 		}
 	}
 
-	public void removeMonster(Creature monster) {this.monsters.remove(monster);
+	public void removeMonster(Creature monster) {
+		this.monsters.remove(monster);
 	}
+
 	/**
 	 * Converts a given 2D Tile array to it's character equivalent.  Replaces null Tiles (out of world) with the value
 	 * of Terrain.getOutOfWorldTerrainGraphic()

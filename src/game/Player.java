@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Player extends Creature {
-	private Stats stats;
 	private List<InventoryItem> backpack = new ArrayList<>();
 
 	public Player(Coordinates coordinates) {
@@ -16,7 +15,6 @@ public class Player extends Creature {
 	//When first spawned
 	public Player(Coordinates coordinates, Stats stats) {
 		super(coordinates, stats);
-		this.stats = stats;
 		this.backpack.add(new InventoryItem("weapon", 1, "Basic stick"));
 		this.backpack.add(new InventoryItem("weapon", 1, "better stick"));
 		this.backpack.add(new InventoryItem("shoes", 1, "nike airmags"));
@@ -33,7 +31,9 @@ public class Player extends Creature {
 //		setEquipped(equipped);
 	}
 
-	public void setBackpack(List<InventoryItem> backpack) {this.backpack = backpack;}
+	public void setBackpack(List<InventoryItem> backpack) {
+		this.backpack = backpack;
+	}
 
 	@Override
 	public String getInfo() {

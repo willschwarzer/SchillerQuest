@@ -31,7 +31,9 @@ public class InventoryPanel extends JPanel {
 		this.backpack = newBackpack;
 	}
 
-	public List getBackpack(){return this.backpack;}
+	public List getBackpack() {
+		return this.backpack;
+	}
 
 	public Map<String, InventoryItem> getEquipped() {
 		return equipped;
@@ -86,18 +88,12 @@ public class InventoryPanel extends JPanel {
 	}
 
 	protected void addBindingsToChildren() {
-		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_UP, "up",
-				(action) -> selectUp());
-		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_DOWN, "down",
-				(action) -> selectDown());
-		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_RIGHT, "right",
-				(action) -> moveRight());
+		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_UP, "up", (action) -> selectUp());
+		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_DOWN, "down", (action) -> selectDown());
+		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_RIGHT, "right", (action) -> moveRight());
 
-		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_UP, "up",
-				(action) -> selectUp());
-		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_DOWN, "down",
-				(action) -> selectDown());
-		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_RIGHT, "right",
-				(action) -> moveRight());
+		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_UP, "up", (action) -> selectUp());
+		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_DOWN, "down", (action) -> selectDown());
+		GameFrame.addKeyBinding(invCharPane, KeyEvent.VK_RIGHT, "right", (action) -> moveRight());
 	}
 }

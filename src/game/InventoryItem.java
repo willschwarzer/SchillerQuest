@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class InventoryItem  extends Entity implements MapViewable {
+public class InventoryItem extends Entity implements MapViewable {
 	private String type;
 	private String name;
 	private int boost;
@@ -25,11 +25,10 @@ public class InventoryItem  extends Entity implements MapViewable {
 
 
 	public InventoryItem(String type, int level) {
-		super(new Coordinates(0,0));
+		super(new Coordinates(0, 0));
 		this.type = type;
-		this.boost = randomWithRange(1, level);;
+		this.boost = randomWithRange(1, level);
 		this.name = makeName(type, boost);
-
 	}
 
 	public InventoryItem(String type, int level, String name, Coordinates coordinates) {
@@ -40,7 +39,7 @@ public class InventoryItem  extends Entity implements MapViewable {
 	}
 
 	public InventoryItem(String type, int level, String name) {
-		super(new Coordinates(0,0));
+		super(new Coordinates(0, 0));
 		this.type = type;
 		this.boost = randomWithRange(1, level);
 		this.name = name;
@@ -78,7 +77,6 @@ public class InventoryItem  extends Entity implements MapViewable {
 		itemTypes.add("armor");
 		itemTypes.add("shoes");
 
-
 		String type = itemTypes.get(random.nextInt(5));
 
 		InventoryItem rand = new InventoryItem(type, difficulty);
@@ -101,11 +99,17 @@ public class InventoryItem  extends Entity implements MapViewable {
 	@Override
 	public char getMapGraphic() {
 		char graphic = '*';
-		if( this.type == "weapon"){ graphic = '△';}
-		if( this.type == "shield"){ graphic = '▯';}
-		if( this.type == "amulet"){ graphic = '◎';}
-		if( this.type == "armor"){ graphic = '೧';}
-		if( this.type == "shoes"){ graphic = '◣';}
+		if (this.type == "weapon") {
+			graphic = '△';
+		} else if (this.type == "shield") {
+			graphic = '▯';
+		} else if (this.type == "amulet") {
+			graphic = '◎';
+		} else if (this.type == "armor") {
+			graphic = '೧';
+		} else if (this.type == "shoes") {
+			graphic = '◣';
+		}
 		return graphic;
 	}
 }

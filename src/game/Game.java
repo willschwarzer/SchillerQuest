@@ -1,7 +1,6 @@
 package game;
 
 public class Game {
-
 	/**
 	 * Instantiates a Controller, which takes care of the rest.
 	 */

@@ -25,9 +25,11 @@ public class InventoryItemPane extends MutableTextPane {
 
 	private void addHeaderText() {
 		String header =
+				// @formatter:off
 				"                      _      ___  _   _           \n" +
 				"         | |\\ | \\  / |_ |\\ |  |  | | |_| \\ /      \n" +
 				"         | | \\|  \\/  |_ | \\|  |  |_| | \\  |       ";
+				// @formatter:off
 		addLine(header);
 		addLine("\n");
 		addLine("         Backpack:");

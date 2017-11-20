@@ -56,7 +56,7 @@ public class GameModel implements Subject {
 
 		if (newTile.getCreature() != null) {
 			attack(creature, newTile.getCreature());
-			if(newTile.getCreature().getStats().getHealth() <= 0) {
+			if (newTile.getCreature().getStats().getHealth() <= 0) {
 				creatureDeath(newTile.getCreature(), newTile);
 			}
 		} else if (newTile.isOccupiableTerrain()) {
@@ -82,49 +82,50 @@ public class GameModel implements Subject {
 
 	public void attack(Creature attacker, Creature attackee) {
 		int attack = attacker.getStats().getAttack();
-		if (attacker.getEquipped().containsKey("weapon")){
+		if (attacker.getEquipped().containsKey("weapon")) {
 			InventoryItem attackerWeapon = attacker.getEquipped().get("weapon");
 			attack += attackerWeapon.getBoost();
 		}
 
 		int defense = attackee.getStats().getDefense();
-		if (attackee.getEquipped().containsKey("armor")){
+		if (attackee.getEquipped().containsKey("armor")) {
 			InventoryItem attackeeArmor = attackee.getEquipped().get("armor");
 			defense += attackeeArmor.getBoost();
 		}
 
-		if (attackee.getEquipped().containsKey("shield")){
+		if (attackee.getEquipped().containsKey("shield")) {
 			InventoryItem shield = attackee.getEquipped().get("shield");
-			defense =+ shield.getBoost();
+			defense = +shield.getBoost();
 		}
 
 		int attackeeSpd = attackee.getStats().getSpeed();
 		int attackerSpd = attacker.getStats().getSpeed();
 
-		if (attackee.getEquipped().containsKey("shoes")){
+		if (attackee.getEquipped().containsKey("shoes")) {
 			InventoryItem attackeeShoes = attackee.getEquipped().get("shoes");
 			attackeeSpd += attackeeShoes.getBoost();
 		}
-		if (attacker.getEquipped().containsKey("shoes")){
+		if (attacker.getEquipped().containsKey("shoes")) {
 			InventoryItem attackerShoes = attacker.getEquipped().get("shoes");
 			attackeeSpd += attackerShoes.getBoost();
 		}
 
-		int hitChance = randomWithRange(attackerSpd/2, attackerSpd) - randomWithRange(attackeeSpd/4, attackeeSpd);
+		int hitChance = randomWithRange(attackerSpd / 2, attackerSpd) - randomWithRange(attackeeSpd / 4, attackeeSpd);
 
 		int damage = 0;
-		if(hitChance > 0){
-			damage += randomWithRange(attack/2, attack) - randomWithRange(defense/3, defense);
+		if (hitChance > 0) {
+			damage += randomWithRange(attack / 2, attack) - randomWithRange(defense / 3, defense);
 		} else {
 			String eventString = attacker.getName() + "'s attack missed";
 			controller.log(eventString);
 		}
 
-		if(damage > 0){
+		if (damage > 0) {
 			attackee.getStats().setHealth(attackee.getStats().getHealth() - damage);
-			String eventString = attacker.getName() +"'s attack did " + damage + " point(s) of damage to " + attackee.getName();
+			String eventString = attacker.getName() + "'s attack did " + damage + " point(s) of damage to " + attackee
+					.getName();
 			controller.log(eventString);
-		} else if(hitChance > 0) { 
+		} else if (hitChance > 0) {
 			String eventString = "'s attack did no damage to " + attackee.getName();
 			controller.log(eventString);
 		}
@@ -149,7 +150,7 @@ public class GameModel implements Subject {
 	 */
 	public void spawnPlayer(Coordinates coordinates) {
 		//TODO: Fix hard coding in the beginning stats
-		Stats playerStats = new Stats(100,10,10,10,4);
+		Stats playerStats = new Stats(100, 10, 10, 10, 4);
 		Player player = new Player(coordinates, playerStats);
 		map.setPlayer(player);
 	}
@@ -161,8 +162,6 @@ public class GameModel implements Subject {
 	 * @param coordinates The coordinate the player will be spawned at
 	 */
 	public void spawnMonster(Coordinates coordinates, int level) {
-
-
 		Rat monster = new Rat(coordinates, map, level);
 		map.setMonster(monster);
 	}
@@ -182,20 +181,19 @@ public class GameModel implements Subject {
 		}
 	}
 
-	private int randomWithRange(int min, int max)
-	{
+	private int randomWithRange(int min, int max) {
 		int range = (max - min) + 1;
-		int value = (int)(Math.random() * range) + min;
+		int value = (int) (Math.random() * range) + min;
 		return value;
 	}
 
-	private void creatureDeath(Creature dead, Tile newTile ){
+	private void creatureDeath(Creature dead, Tile newTile) {
 		System.out.println(dead.getName() + " died");
 
-		if(dead == getPlayer()){
+		if (dead == getPlayer()) {
 			System.out.println("Game Over");
 			//GameOver
-		}else{
+		} else {
 			map.removeMonster(dead);
 			newTile.removeEntity(dead);
 		}

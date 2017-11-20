@@ -10,28 +10,37 @@ public class InventoryCharacterPane extends MutableTextPane {
 	String selectedType;
 
 	private static String characterString =
+			// @formatter:off
 			"        ___  \n" +
-					"  |. .| \n" +
-					"  | - | \n" +
-					"\\__( )__/\n" +
-					"  ||~||      \n" +
-					"       \\___/      \n" +
-					"       /   \\      \n" +
-					"     _|     |_    ";
+			"  |. .| \n" +
+			"  | - | \n" +
+			"\\__( )__/\n" +
+			"  ||~||      \n" +
+			"       \\___/      \n" +
+			"       /   \\      \n" +
+			"     _|     |_    ";
+			// @formatter:on
+
 	private static String[] characterLines = characterString.split(System.getProperty("line.separator"));
 
 	private static String sword =
+			// @formatter:off
 			" | \n" +
-					" | \n" +
-					"\\_/\n" +
-					"| ";
+			" | \n" +
+			"\\_/\n" +
+			"| ";
+			// @formatter:on
+
 	private static String[] swordLines = sword.split(System.getProperty("line.separator"));
 
 	private static String shield =
+			// @formatter:off
 			" ___ \n" +
-					"|***|\n" +
-					"\\***/\n" +
-					" \\_/ ";
+			"|***|\n" +
+			"\\***/\n" +
+			" \\_/ ";
+			// @formatter:on
+
 	private static String[] shieldLines = shield.split(System.getProperty("line.separator"));
 
 	public InventoryCharacterPane() {
@@ -53,8 +62,7 @@ public class InventoryCharacterPane extends MutableTextPane {
 	}
 
 	private void drawItemList() {
-		String header = "\n Equipped:        \n" +
-				" =========        ";
+		String header = "\n Equipped:        \n" + " =========        ";
 		addLine(header);
 
 		for (String t : itemTypes) {
@@ -68,10 +76,11 @@ public class InventoryCharacterPane extends MutableTextPane {
 			// Shield comes before character
 			if (i >= 1 && i <= 4) {
 				// Draw shield on these lines
-				if (selectedType == "shield")
-					appendStringWithColor(shieldLines[i-1], Color.green);
-				else
-					appendStringWithColor(shieldLines[i-1], Color.white);
+				if (selectedType == "shield") {
+					appendStringWithColor(shieldLines[i - 1], Color.green);
+				} else {
+					appendStringWithColor(shieldLines[i - 1], Color.white);
+				}
 			}
 
 			// Amulet and armor are an entire line of character
@@ -88,10 +97,11 @@ public class InventoryCharacterPane extends MutableTextPane {
 
 			// Draw sword on these lines
 			if (i >= 0 && i <= 3) {
-				if (selectedType == "weapon")
+				if (selectedType == "weapon") {
 					appendStringWithColor(swordLines[i], Color.green);
-				else
+				} else {
 					appendStringWithColor(swordLines[i], Color.white);
+				}
 			}
 			appendStringWithColor(System.lineSeparator(), Color.white);
 		}

@@ -23,7 +23,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
 	private ControllerInterface controller;
-	private boolean IS_WINDOWS;
+	private static final boolean IS_WINDOWS = System.getProperty("os.name").contains("Windows");
 
 	/**
 	 * Creates a GameFrame object of fixed size
@@ -32,7 +32,6 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	public GameFrame(Controller controller) {
 		super();
 
-		IS_WINDOWS = (System.getProperty("os.name").contains("Windows"));
 		if (IS_WINDOWS) {
 			setSize(930, 520);
 		} else {
@@ -74,11 +73,11 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 
 	}
 
-	public List<InventoryItem> updateBackpack(){
+	public List<InventoryItem> updateBackpack() {
 		return invPanel.getBackpack();
 	}
 
-	public Map<String, InventoryItem> updateEquiqqed(){
+	public Map<String, InventoryItem> updateEquiqqed() {
 		return invPanel.getEquipped();
 	}
 

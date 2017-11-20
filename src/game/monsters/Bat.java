@@ -1,8 +1,10 @@
 package game.monsters;
-import game.*;
-import java.util.HashMap;
-import java.util.Random;
 
+import game.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class Bat extends Monster {
 
@@ -11,7 +13,7 @@ public class Bat extends Monster {
 	}
 
 	public Bat(Random random) {
-		this(random.nextInt(4)+3);
+		this(random.nextInt(4) + 3);
 	}
 
 	public Bat(Coordinates coordinates, int level) {
@@ -20,14 +22,14 @@ public class Bat extends Monster {
 
 	public Bat(Coordinates coordinates, GameMap map, int level) {
 		super(coordinates, map, level);
-		HashMap<String, InventoryItem> equipped = new HashMap<>();
+		Map<String, InventoryItem> equipped = new HashMap<>();
 		equipped.put("weapon", new InventoryItem("weapon", level, "Bat Claws"));
-		equipped.put("armor",new InventoryItem("armor", level, "Bat Wings "));
+		equipped.put("armor", new InventoryItem("armor", level, "Bat Wings "));
 		setEquipped(equipped);
 		setName("the level " + level + " bat");
 	}
 
-	public String getInfo(){
+	public String getInfo() {
 		return "null";
 	}
 

@@ -7,21 +7,25 @@ public class MapGenerator {
 	private final long initialRandomSeed;
 	/**
 	 * Currently must be the same as GRID_HEIGHT
+	 *
 	 * @see #GRID_HEIGHT
 	 */
 	private final int GRID_WIDTH = 5;
 	/**
 	 * Currently must be the same as GRID_WIDTH
+	 *
 	 * @see #GRID_HEIGHT
 	 */
 	private final int GRID_HEIGHT = 5;
 	/**
 	 * Currently must be the same as ITEM_HEIGHT
+	 *
 	 * @see #ITEM_HEIGHT
 	 */
 	private final int ITEM_WIDTH = 11;
 	/**
 	 * Currently must be the same as ITEM_WIDTH
+	 *
 	 * @see #ITEM_WIDTH
 	 */
 	private final int ITEM_HEIGHT = 11;
@@ -35,6 +39,7 @@ public class MapGenerator {
 
 	/**
 	 * Creates a new MapGenerator with the given Random seed.
+	 *
 	 * @param seed the seed for the internal Random that determines the (reproducible) generation of the MapGenerator.
 	 */
 	public MapGenerator(long seed) {
@@ -46,6 +51,7 @@ public class MapGenerator {
 
 	/**
 	 * Creates a new MapGenerator with a pseudorandom Random seed (System.currentTimeMillis())
+	 *
 	 * @see #MapGenerator(long)
 	 */
 	public MapGenerator() {
@@ -57,6 +63,7 @@ public class MapGenerator {
 
 	/**
 	 * Get the seed that was used to start the Random.
+	 *
 	 * @return the seed that was used to start the Random
 	 */
 	public long getInitialRandomSeed() {
@@ -168,7 +175,8 @@ public class MapGenerator {
 
 					for (int tileRow = 0; tileRow < ITEM_HEIGHT; tileRow++) {
 						for (int tileCol = 0; tileCol < ITEM_WIDTH; tileCol++) {
-							mapTiles[tileRow + itemRow * ITEM_HEIGHT][tileCol + itemCol * ITEM_WIDTH] = itemTiles[tileRow][tileCol];
+							mapTiles[tileRow + itemRow * ITEM_HEIGHT][tileCol + itemCol * ITEM_WIDTH] =
+									itemTiles[tileRow][tileCol];
 						}
 					}
 				}
@@ -209,14 +217,6 @@ public class MapGenerator {
 
 		public boolean[] getConnections() {
 			return connections;
-		}
-
-		public int getItemWidth() {
-			return ITEM_WIDTH;
-		}
-
-		public int getItemHeight() {
-			return ITEM_HEIGHT;
 		}
 
 		/**
@@ -277,15 +277,12 @@ public class MapGenerator {
 		}
 
 		private void generateFeatures() {
-
 		}
 
 		public void addUpStaircase() {
-
 		}
 
 		public void addDownStaircase() {
-
 		}
 
 		private void generateTerrain() {
@@ -348,42 +345,42 @@ public class MapGenerator {
 		private void generateTerrain() {
 			//temp implementation
 			Tile[][] tiles = getTiles();
-			int horMidLine = ITEM_HEIGHT/2;
-			int vertMidLine = ITEM_WIDTH/2;
+			int horMidLine = ITEM_HEIGHT / 2;
+			int vertMidLine = ITEM_WIDTH / 2;
 
 			boolean[] connections = getConnections();
 
 			if (connections[LEFT_CONNECTION]) {
 				for (int col = 0; col < vertMidLine; col++) {
-					tiles[horMidLine-1][col] = new Tile(new Terrain('#'));
-					tiles[horMidLine+1][col] = new Tile(new Terrain('#'));
+					tiles[horMidLine - 1][col] = new Tile(new Terrain('#'));
+					tiles[horMidLine + 1][col] = new Tile(new Terrain('#'));
 				}
 			} else {
-				tiles[horMidLine][vertMidLine-1] = new Tile(new Terrain('#'));
+				tiles[horMidLine][vertMidLine - 1] = new Tile(new Terrain('#'));
 			}
 			if (connections[DOWN_CONNECTION]) {
-				for (int row = horMidLine+1; row < ITEM_HEIGHT; row++) {
-					tiles[row][vertMidLine-1] = new Tile(new Terrain('#'));
-					tiles[row][vertMidLine+1] = new Tile(new Terrain('#'));
+				for (int row = horMidLine + 1; row < ITEM_HEIGHT; row++) {
+					tiles[row][vertMidLine - 1] = new Tile(new Terrain('#'));
+					tiles[row][vertMidLine + 1] = new Tile(new Terrain('#'));
 				}
 			} else {
-				tiles[horMidLine+1][vertMidLine] = new Tile(new Terrain('#'));
+				tiles[horMidLine + 1][vertMidLine] = new Tile(new Terrain('#'));
 			}
 			if (connections[RIGHT_CONNECTION]) {
-				for (int col = vertMidLine+1; col < ITEM_WIDTH; col++) {
-					tiles[horMidLine-1][col] = new Tile(new Terrain('#'));
-					tiles[horMidLine+1][col] = new Tile(new Terrain('#'));
+				for (int col = vertMidLine + 1; col < ITEM_WIDTH; col++) {
+					tiles[horMidLine - 1][col] = new Tile(new Terrain('#'));
+					tiles[horMidLine + 1][col] = new Tile(new Terrain('#'));
 				}
 			} else {
-				tiles[horMidLine][vertMidLine+1] = new Tile(new Terrain('#'));
+				tiles[horMidLine][vertMidLine + 1] = new Tile(new Terrain('#'));
 			}
 			if (connections[UP_CONNECTION]) {
 				for (int row = 0; row < horMidLine; row++) {
-					tiles[row][vertMidLine-1] = new Tile(new Terrain('#'));
-					tiles[row][vertMidLine+1] = new Tile(new Terrain('#'));
+					tiles[row][vertMidLine - 1] = new Tile(new Terrain('#'));
+					tiles[row][vertMidLine + 1] = new Tile(new Terrain('#'));
 				}
 			} else {
-				tiles[horMidLine-1][vertMidLine] = new Tile(new Terrain('#'));
+				tiles[horMidLine - 1][vertMidLine] = new Tile(new Terrain('#'));
 			}
 
 			for (int row = 0; row < ITEM_HEIGHT; row++) {
@@ -393,16 +390,6 @@ public class MapGenerator {
 					}
 				}
 			}
-
-			/*for (int row = 0; row < ITEM_HEIGHT; row++) {
-				for (int col = 0; col < ITEM_WIDTH; col++) {
-					if (row == ITEM_HEIGHT / 2 || col == ITEM_WIDTH / 2) {
-						tiles[row][col] = new Tile(new Terrain(' '));
-					} else {
-						tiles[row][col] = new Tile(new Terrain('#'));
-					}
-				}
-			}*/
 		}
 	}
 }
