@@ -192,7 +192,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	}
 
 	/**
-	 * Adds key bindings to the level text pane.
+	 * Adds key bindings to the level text pane and the inventory panel.
 	 */
 	private void addBindings() {
 		addKeyBinding(lvlTextPane, KeyEvent.VK_LEFT, "left", (action) -> controller.makeMove(new int[]{-1, 0}));
@@ -206,6 +206,14 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		invPanel.addBindingsToChildren();
 	}
 
+	/**
+	 * Adds a key binding to all focus levels of the given component.
+	 *
+	 * @param component component to add the binding to
+	 * @param key the virtual key code of the key to be bound
+	 * @param id the id of the key binding
+	 * @param action the action to be performed on the key being pressed
+	 */
 	public static void addKeyBinding(JComponent component, int key, String id, ActionListener action) {
 		InputMap iMap = component.getInputMap(JComponent.WHEN_FOCUSED);
 		InputMap iMapAncestor = component.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);

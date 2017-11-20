@@ -21,10 +21,6 @@ public class Controller implements Subject, Observer {
 		notifyObservers();
 	}
 
-	//TODO add observer pattern functionality
-	/*
-	 * The next four functions are not yet used (see updateViewGrid()).
-	 */
 	@Override
 	public boolean addObserver(Observer o) {
 		return observers.add(o);
@@ -35,6 +31,9 @@ public class Controller implements Subject, Observer {
 		return observers.remove(o);
 	}
 
+	/**
+	 * Updates the observers' (likely just the view's) character maps
+	 */
 	@Override
 	public void notifyObservers() {
 		for (Observer observer : observers) {
@@ -42,6 +41,12 @@ public class Controller implements Subject, Observer {
 		}
 	}
 
+	/**
+	 * Updates the controller with new player status information, in addition to
+	 * updating the character map.
+	 *
+	 * @param map new character map
+	 */
 	@Override
 	public void update(char[][] map) {
 		setCharMap(map);
@@ -84,10 +89,10 @@ public class Controller implements Subject, Observer {
 	}
 
 	/**
-	 * When a movement key has been pressed, parses the movement
-	 * and makes the corresponding player move in the model.
+	 * When a movement key has been pressed,
+	 * makes the corresponding player move in the model.
 	 *
-	 * @param move
+	 * @param move the direction of the desired movement
 	 */
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
@@ -96,32 +101,40 @@ public class Controller implements Subject, Observer {
 	}
 
 	/**
-	 * Tell the view to update its activity log text
+	 * Tells the view to update its activity log text.
+	 * @param description the new log text
 	 */
 	public void log(String description) {
 		view.setActivityLogText(description);
 	}
 
-	/*
-	The next five functions are not yet implemented.
+	/**
+	 * Picks up the item at the player's location, then takes a turn.
 	 */
-	public void whatIsTile(Coordinates position) {
-	}
-
 	public void pickUp() {
 		model.pickUp();
 		model.takeTurn();
 	}
 
+	/**
+	 * Drops an item from the player's inventory to their location, then takes a turn.
+	 * @param item item to be dropped.
+	 */
 	public void drop(Item item) {
 		model.drop(item);
 		model.takeTurn();
 	}
 
+	/**
+	 * Uses a down staircase, if one is present.
+	 */
 	public void useDownStaircase() {
 		model.useDownStaircase();
 	}
 
+	/**
+	 * Uses an up staircase, if one is present.
+	 */
 	public void useUpStaircase() {
 		model.useUpStaircase();
 	}
@@ -145,12 +158,17 @@ public class Controller implements Subject, Observer {
 	}
 
 	/**
-	 * it quits the game
+	 * It quits the game.
+	 * (duh)
 	 */
 	public void quitGame() {
 		System.exit(0);
 	}
 
+	/**
+	 * Updates the character map.
+	 * @param map the new character map
+	 */
 	public void setCharMap(char[][] map) {
 		this.charMap = map;
 	}
