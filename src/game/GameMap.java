@@ -1,6 +1,8 @@
 package game;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to store the information about the current map - including the terrain, items, and creatures present.
@@ -12,6 +14,9 @@ public class GameMap implements GameMapInterface {
 	 */
 	private Tile[][] map;
 	private Player player;
+	private List<Monster> monsters;
+	private Coordinates upStaircaseCoordinates;
+	private Coordinates downStaircaseCoordinates;
 
 	/**
 	 * Creates a GameMap from a given File.  The file must have lines of uniform length.
@@ -20,6 +25,47 @@ public class GameMap implements GameMapInterface {
 	 */
 	public GameMap(File file) {
 		buildMapFromFile(file);
+		this.monsters = new ArrayList<>();
+	}
+
+	/**
+	 * Creates a GameMap from a given 2D row-major Tile array.  Tells all Entities in the GameMap their coordinates.
+	 *
+	 * @param map 2D row-major Tile array to set as the GameMap's map
+	 */
+	public GameMap(Tile[][] map) {
+		this.map = map;
+		monsters = new ArrayList<>();
+
+		int expectedWidth = map[0].length;
+
+		for (int row = 0; row < map.length; row++) {
+			if (expectedWidth != map[row].length) {
+				throw new IllegalArgumentException("Given Tile array is not rectangular.");
+			}
+
+			for (int col = 0; col < map[0].length; col++) {
+				for (Item item : map[row][col].getItems()) {
+					item.setCoordinates(new Coordinates(col, row));
+					item.setGameMap(this);
+				}
+
+				Creature creature = map[row][col].getCreature();
+				if (creature != null) {
+					creature.setCoordinates(new Coordinates(col, row));
+					creature.setGameMap(this);
+					if (Monster.class.isAssignableFrom(creature.getClass())) {
+						monsters.add((Monster) creature);
+					}
+				}
+
+				if (map[row][col].hasUpStaircase()) {
+					upStaircaseCoordinates = new Coordinates(col, row);
+				} else if (map[row][col].hasDownStaircase()) {
+					downStaircaseCoordinates = new Coordinates(col, row);
+				}
+			}
+		}
 	}
 
 	/**
@@ -98,46 +144,296 @@ public class GameMap implements GameMapInterface {
 		return array;
 	}
 
+	/**
+	 * Returns the square area around the given location as a row-major 2D Tile array.  Distance is how many blocks
+	 * away from the coordinates to include.  Tiles outside the GameMap are added as null
+	 *
+	 * @param coordinates Location to get the map around
+	 * @param distance    Distance away from the location to include
+	 * @return A row-major 2D Tile array centered at the given location.
+	 */
 	@Override
 	public Tile[][] getSquareAreaAroundLocation(Coordinates coordinates, int distance) {
-		// TODO implement
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (distance < 0) {
+			throw new IllegalArgumentException("Cannot get square area with distance < 0");
+		}
+
+		Tile[][] results = getRectangularAreaAroundLocation(coordinates, distance, distance);
+
+		return results;
 	}
 
+	/**
+	 * Returns the square area around the given location as a row-major 2D char array, with what should be visible at
+	 * each Tile.
+	 *
+	 * @param coordinates Location to get the map around
+	 * @param distance    Distance away from the location to include
+	 * @return A row-major 2D char array centered at the given location.
+	 * @see #getSquareAreaAroundLocation(Coordinates, int)
+	 */
+	public char[][] getSquareAreaAroundLocationAsCharArray(Coordinates coordinates, int distance) {
+		return convertTileArrayToCharArray(getSquareAreaAroundLocation(coordinates, distance));
+	}
+
+	/**
+	 * Returns the rectangular area around the given location as a row-major 2D Tile array.  Width and height are how
+	 * many blocks away from the coordinates to include.  Tiles outside the GameMap are added as null.
+	 *
+	 * @param coordinates Location to get the map around.
+	 * @param width       Distance away from the location in the X direction to include
+	 * @param height      Distance away from the location in the Y direction to include
+	 * @return A row-major 2D Tile array centered at the given location.
+	 */
 	@Override
 	public Tile[][] getRectangularAreaAroundLocation(Coordinates coordinates, int width, int height) {
-		// TODO implement
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (width < 0) {
+			throw new IllegalArgumentException("Cannot get rectangular area with width < 0");
+		}
+		if (height < 0) {
+			throw new IllegalArgumentException("Cannot get rectangular area with height < 0");
+		}
+
+		Tile[][] results = new Tile[2 * height + 1][2 * width + 1];
+
+		for (int resultsRow = 0, mapRow = coordinates.getY() - height; resultsRow < 2 * height + 1;
+			 resultsRow++, mapRow++) {
+			for (int resultsCol = 0, mapCol = coordinates.getX() - width; resultsCol < 2 * width + 1;
+				 resultsCol++, mapCol++) {
+				if (mapRow < map.length && mapRow >= 0 && mapCol < map[0].length && mapCol >= 0) {
+					results[resultsRow][resultsCol] = map[mapRow][mapCol];
+				} else {
+					results[resultsRow][resultsCol] = null;
+				}
+			}
+		}
+
+		return results;
 	}
 
+	/**
+	 * Returns the rectangular area around the given location as a row-major 2D char array, with what should be
+	 * visible at each Tile.
+	 *
+	 * @param coordinates The location to get the area around.
+	 * @param width       How far horizontally to include.
+	 * @param height      How far vertically to include.
+	 * @return A row-major 2D char array centered at the given location.
+	 * @see #getRectangularAreaAroundLocation(Coordinates, int, int)
+	 */
+	public char[][] getRectangularAreaAroundLocationAsCharArray(Coordinates coordinates, int width, int height) {
+		return convertTileArrayToCharArray(getRectangularAreaAroundLocation(coordinates, width, height));
+	}
+
+	/**
+	 * Returns the circular area around the given location in a row-major 2D Tile array.
+	 * <p>
+	 * The returned array is in fact square, with important cases (set in this order):<ul>
+	 * <li>A Tile inside the returned array that is outside the GameMap boundaries is set to null.</li>
+	 * <li>A Tile inside the returned array that is not visible with the given radius (e.g. top left) is set as new
+	 * Tile (new Terrain("notVisible", Terrain.getUnknownTerrainGraphic()))</li>
+	 * </ul>
+	 *
+	 * @param coordinates Location to get the map around
+	 * @param radius      Radius away from the location to include
+	 * @return A row-major 2D Tile array with visible tiles centered at the given location.
+	 */
 	@Override
 	public Tile[][] getCircularAreaAroundLocation(Coordinates coordinates, int radius) {
-		// TODO implement
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (radius < 0) {
+			throw new IllegalArgumentException("Cannot get circular area with radius < 0");
+		}
+
+		Tile[][] results = new Tile[2 * radius + 1][2 * radius + 1];
+
+		for (int resultsRow = 0, mapRow = coordinates.getY() - radius; resultsRow < 2 * radius + 1;
+			 resultsRow++, mapRow++) {
+			for (int resultsCol = 0, mapCol = coordinates.getX() - radius; resultsCol < 2 * radius + 1;
+				 resultsCol++, mapCol++) {
+				double currentRadius = Math.sqrt(
+						Math.pow(mapRow - coordinates.getY(), 2) + Math.pow(mapCol - coordinates.getX(), 2));
+				if ((int) (currentRadius + 0.5) <= radius) {
+					// Current location is 'visible', inside radius
+					if (mapRow < map.length && mapRow >= 0 && mapCol < map[0].length && mapCol >= 0) {
+						results[resultsRow][resultsCol] = map[mapRow][mapCol];
+					} else {
+						results[resultsRow][resultsCol] = null;
+					}
+				} else {
+					// Current location is not 'visible', outside radius
+					if (mapRow < map.length && mapRow >= 0 && mapCol < map[0].length && mapCol >= 0) {
+						results[resultsRow][resultsCol] = new Tile(
+								new Terrain("notVisible", Terrain.getUnknownTerrainGraphic()));
+					} else {
+						results[resultsRow][resultsCol] = null;
+					}
+				}
+			}
+		}
+
+		return results;
 	}
 
+	/**
+	 * Returns the circular area around the given location in a row-major 2D char array, with what should be visible
+	 * at each Tile.
+	 * <p>
+	 * The returned array is in fact square, with important cases (set in this order):<ul>
+	 * <li>A Tile inside the returned array that is outside the GameMap boundaries is returned as Terrain
+	 * .getOutOfWorldTerrainGraphic()</li>
+	 * <li>A Tile inside the returned array that is not visible with the given radius (e.g. top left) is returned as
+	 * Terrain.getUnknownTerrainGraphic()</li>
+	 * </ul>
+	 *
+	 * @param coordinates Location to get the map around
+	 * @param radius      Radius away from the location to include
+	 * @return A row-major 2D Tile array with visible tiles centered at the given location.
+	 * @see #getCircularAreaAroundLocation(Coordinates, int)
+	 */
+	public char[][] getCircularAreaAroundLocationAsCharArray(Coordinates coordinates, int radius) {
+		return convertTileArrayToCharArray(getCircularAreaAroundLocation(coordinates, radius));
+	}
+
+	/**
+	 * Gets the visible area around a point.
+	 * @param coordinates the point to get vision at
+	 * @param visionRadius the radius of the visible area
+	 * @return a rectangular character array with only the entities of the visible part displayed
+	 */
+	public char[][] getVisionAsCharArray(Coordinates coordinates, int visionRadius) {
+		final int windowHeight = 10;
+		final int windowWidth = 30;
+
+		Tile.markTileVisiblity(map, false);
+
+		Tile[][] center = getCircularAreaAroundLocation(coordinates, visionRadius);
+		Tile.markTileSeen(center, true);
+		Tile.markTileVisiblity(center, true);
+
+		Tile[][] background = getRectangularAreaAroundLocation(coordinates, windowWidth, windowHeight);
+
+		char[][] output = convertTileArrayToCharArray(background);
+
+		return output;
+	}
+
+	/**
+	 * Gets the tile at a certain location.
+	 * @param coordinates Location to get the tile at
+	 * @return the tile at coordinates
+	 */
 	@Override
 	public Tile getTileAtLocation(Coordinates coordinates) {
 		if (coordinates.getX() > map[0].length) {
-			// TODO figure out how to handle
 			throw new IllegalArgumentException("X coordinate too large");
 		}
 		if (coordinates.getY() > map.length) {
-			// TODO figure out how to handle
 			throw new IllegalArgumentException("Y coordinate too large");
 		}
+
 		return map[coordinates.getY()][coordinates.getX()];
 	}
 
+	/**
+	 * Gets the map's player object.
+	 * @return the map's player
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 
+	/**
+	 * Sets the player object for the map, moving it to the up staircase by default.
+	 * @param player the player to set as the map's player
+	 */
 	public void setPlayer(Player player) {
 		this.player = player;
 
-		Tile location = map[player.getCoordinates().getY()][player.getCoordinates().getX()];
-		location.addEntity(player);
+		Tile location = map[upStaircaseCoordinates.getY()][upStaircaseCoordinates.getX()];
+		if (!location.addEntity(player)) {
+			throw new IllegalStateException(
+					"Cannot add a player to a Tile that already has a Creature (location x:" + player.getCoordinates()
+							.getX() + ", y:" + player.getCoordinates().getY() + ")");
+		}
+		player.setCoordinates(upStaircaseCoordinates);
+	}
+
+	/**
+	 * Places the map's player at its down staircase (for when going up an up staircase).
+	 */
+	public void placePlayerAtDownStaircase() {
+		getTileAtLocation(player.getCoordinates()).removeEntity(player);
+		player.setCoordinates(downStaircaseCoordinates);
+		getTileAtLocation(downStaircaseCoordinates).addEntity(player);
+	}
+
+	/**
+	 * Places the map's player at its up staircase (for when going down a down staircase).
+	 */
+	public void placePlayerAtUpStaircase() {
+		getTileAtLocation(player.getCoordinates()).removeEntity(player);
+		player.setCoordinates(upStaircaseCoordinates);
+		getTileAtLocation(upStaircaseCoordinates).addEntity(player);
+	}
+
+	/**
+	 * Returns the monsters currently present on the map.
+	 * @return a List of monsters on the map
+	 */
+	public List<Monster> getMonsters() {
+		return monsters;
+	}
+
+	/**
+	 * Attempts to add a Monster to the tile at the Monster's coordinates.
+	 * @param monster Monster object with non-null coordinates to add
+	 */
+	public void setMonster(Monster monster) {
+		this.monsters.add(monster);
+
+		Tile location = map[monster.getCoordinates().getY()][monster.getCoordinates().getX()];
+		if (!location.addEntity(monster)) {
+			throw new IllegalStateException(
+					"Cannot add a player to a Tile that already has a Creature (location x:" + player.getCoordinates()
+							.getX() + ", y:" + monster.getCoordinates().getY() + ")");
+		}
+	}
+
+	/**
+	 * Removes a monster from the map's list of monsters.
+	 * (Note: does not remove the monster from its tile in the map.)
+	 * @param monster Monster to remove from the list of monsters
+	 * @return true if the monster was removed, false if it was not.
+	 */
+	public boolean removeMonster(Monster monster) {
+		return this.monsters.remove(monster);
+	}
+
+	/*
+	Note: the following three functions are not used in the current state of the game.
+	 */
+
+	/**
+	 * Converts a given 2D Tile array to it's character equivalent.  Replaces null Tiles (out of world) with the value
+	 * of Terrain.getOutOfWorldTerrainGraphic()
+	 *
+	 * @param array 2D Tile array to convert to 2D char array
+	 * @return 2D char array version of the given 2D Tile array
+	 */
+	public static char[][] convertTileArrayToCharArray(Tile[][] array) {
+		char[][] output = new char[array.length][array[0].length];
+
+		for (int row = 0; row < array.length; row++) {
+			for (int col = 0; col < array[0].length; col++) {
+				try {
+					output[row][col] = array[row][col].getMapGraphic();
+				} catch (NullPointerException e) {
+					output[row][col] = Terrain.getOutOfWorldTerrainGraphic();
+				}
+			}
+		}
+
+		return output;
 	}
 
 	/**
@@ -148,6 +444,7 @@ public class GameMap implements GameMapInterface {
 	 */
 	private int getFileLength(File file) {
 		try (LineNumberReader reader = new LineNumberReader(new FileReader(file))) {
+			//noinspection StatementWithEmptyBody
 			while (reader.readLine() != null) {
 			}
 			return reader.getLineNumber();
@@ -159,7 +456,7 @@ public class GameMap implements GameMapInterface {
 	}
 
 	/**
-	 * Gets the width of the first line of the given file
+	 * Gets the width of the first line of the given file.
 	 *
 	 * @param file File to get the width of
 	 * @return Width of the given file

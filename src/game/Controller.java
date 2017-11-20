@@ -1,120 +1,142 @@
 package game;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller implements ControllerInterface, Subject, Observer {
+public class Controller implements Subject, Observer {
 	private List<Observer> observers;
-	private char[][] temp;
 	private GameFrame view;
 	private GameModel model;
+	private char[][] charMap;
 
 	public Controller() {
 		observers = new ArrayList<>();
+		view = new GameFrame(this);
+		model = new GameModel(this);
+
+		view.setVisible(true);
+		// The GameFrame displays the title screen
+		openTitleScreen();
+
+		notifyObservers();
 	}
 
-	//TODO add observer pattern functionality
-	/*
-	 * The next four functions are not yet used (see updateViewGrid()).
-	 */
+	@Override
 	public boolean addObserver(Observer o) {
 		return observers.add(o);
 	}
 
+	@Override
 	public boolean removeObserver(Observer o) {
 		return observers.remove(o);
 	}
 
+	/**
+	 * Updates the observers' (likely just the view's) character maps
+	 */
+	@Override
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(temp);
+			observer.update(charMap);
 		}
-	}
-
-	public void update(char[][] map) {
-		this.temp = map;
 	}
 
 	/**
-	 * Handles keyboard commands passed in from the view.
-	 * Currently only arrow keys are implemented.
+	 * Updates the controller with new player status information, in addition to
+	 * updating the character map.
 	 *
-	 * @param key
+	 * @param map new character map
 	 */
-	public void keyAction(int key) {
-		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_DOWN || key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_UP) {
-			int[] direction;
-			if (key == KeyEvent.VK_LEFT) {
-				direction = new int[]{-1, 0};
-			} else if (key == KeyEvent.VK_DOWN) {
-				direction = new int[]{0, 1};
-			} else if (key == KeyEvent.VK_RIGHT) {
-				direction = new int[]{1, 0};
-			} else {
-				direction = new int[]{0, -1};
-			}
-			makeMove(direction);
-		} else {
-			//TODO add more keys as needed
-			return;
+	@Override
+	public void update(char[][] map) {
+		setCharMap(map);
+		if (model != null) {
+			view.updateHealthDisplay(model.getPlayer().getHealth());
+			view.updateLevelDisplay(model.getPlayer().getStats().getLevel());
+			view.updateExpDisplay(model.getPlayer().getExp());
 		}
+		notifyObservers();
 	}
 
 	/**
 	 * Opens the view's inventory pane.
 	 */
 	public void openInventory() {
+		List<Item> currentInv = model.getPlayer().getBackpack();
+		view.updateInventory(currentInv);
 		view.displayInventory();
+		model.getPlayer().setEquipped(view.updateEquipped());
+		model.getPlayer().setBackpack(view.updateBackpack());
 	}
-  
-  /**
-   * Opens the view's level pane.
-   */
+
+	/**
+	 * Opens the view's level pane.
+	 */
 	public void openMainScreen() {
 		view.displayLevelScreen();
-
+		List<Item> currentInv = model.getPlayer().getBackpack();
+		view.updateInventory(currentInv);
+		model.getPlayer().setEquipped(view.updateEquipped());
+		model.getPlayer().setBackpack(view.updateBackpack());
 	}
 
 	/**
 	 * Opens the view's options pane.
 	 * Not yet implemented.
 	 */
-	public void openOptions() {
-		System.out.println("Not yet implemented.");
+	public void openTitleScreen() {
+		view.displayTitle();
 	}
 
 	/**
-	 * When a movement key has been pressed, parses the movement
-	 * and makes the corresponding player move in the model.
+	 * When a movement key has been pressed,
+	 * makes the corresponding player move in the model.
 	 *
-	 * @param move
+	 * @param move the direction of the desired movement
 	 */
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
 		model.moveCreature(player, move);
+		model.takeTurn();
 	}
 
-	public void updateViewGrid(char[][] newGrid) {
-		view.updateTextPane(newGrid);
-	}
-
-	/*
-	The next five functions are not yet implemented.
+	/**
+	 * Tells the view to update its activity log text.
+	 * @param description the new log text
 	 */
-	public void whatIsTile(Coordinates position) {
+	public void log(String description) {
+		view.setActivityLogText(description);
 	}
 
+	/**
+	 * Picks up the item at the player's location, then takes a turn.
+	 */
 	public void pickUp() {
+		model.pickUp();
+		model.takeTurn();
 	}
 
+	/**
+	 * Drops an item from the player's inventory to their location, then takes a turn.
+	 * @param item item to be dropped.
+	 */
 	public void drop(Item item) {
+		model.drop(item);
+		model.takeTurn();
 	}
 
-	public void equip(Item item) {
+	/**
+	 * Uses a down staircase, if one is present.
+	 */
+	public void useDownStaircase() {
+		model.useDownStaircase();
 	}
 
-	public void unequip(Item item) {
+	/**
+	 * Uses an up staircase, if one is present.
+	 */
+	public void useUpStaircase() {
+		model.useUpStaircase();
 	}
 
 	/**
@@ -135,11 +157,19 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		this.model = model;
 	}
 
-	 /**
-	 * it quits the game
+	/**
+	 * It quits the game.
+	 * (duh)
 	 */
 	public void quitGame() {
 		System.exit(0);
 	}
 
+	/**
+	 * Updates the character map.
+	 * @param map the new character map
+	 */
+	public void setCharMap(char[][] map) {
+		this.charMap = map;
+	}
 }

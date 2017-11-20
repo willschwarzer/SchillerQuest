@@ -1,7 +1,7 @@
 package game;
 
 public class Terrain implements MapViewable {
-	private String id; // TODO replace with enum or something?
+	private String id;
 	private char mapGraphic;
 	private boolean isOccupiable;
 
@@ -11,9 +11,9 @@ public class Terrain implements MapViewable {
 	 * @param ch Both the id & mapGraphic of the Terrain
 	 */
 	public Terrain(char ch) {
-		this.id = Character.toString(ch); // TODO handle better?
+		this.id = Character.toString(ch);
 		this.mapGraphic = ch;
-		this.isOccupiable = Terrain.checkIfOccupiable(id);
+		this.isOccupiable = checkIfOccupiable(this.id);
 	}
 
 	/**
@@ -26,10 +26,9 @@ public class Terrain implements MapViewable {
 		if (Terrain.checkIfValidID(id)) {
 			this.id = id;
 			this.mapGraphic = mapGraphic;
-			this.isOccupiable = Terrain.checkIfOccupiable(this.id);
+			this.isOccupiable = checkIfOccupiable(this.id);
 		} else {
 			throw new IllegalArgumentException("Cannot use empty String for Terrain id value");
-			// TODO handle differently?
 		}
 	}
 
@@ -48,7 +47,7 @@ public class Terrain implements MapViewable {
 	}
 
 	private static boolean checkIfValidID(String id) {
-		// TODO reformat to work with texture pack
+		// allows changes later for texture pack potential, etc.
 		if (id.equals("")) {
 			return false;
 		} else {
@@ -57,10 +56,31 @@ public class Terrain implements MapViewable {
 	}
 
 	private static boolean checkIfOccupiable(String id) {
-		if (id.equals(" ") || id.equals("$") || id.equals("I")) {
-			return true;
-		} else {
+		if (id.equals("#")) {
 			return false;
+		} else {
+			return true;
 		}
+	}
+
+	/**
+	 * Method to get standard graphical representation of a Terrain that would be outside the GameMap bounds.
+	 * (Checked when a Terrain/Tile does not exist.)
+	 *
+	 * @return The graphic for a Terrain that is outside the GameMap boundary.
+	 */
+	public static char getOutOfWorldTerrainGraphic() {
+		return ' ';
+		// May want to return '␀' (reads NUL) to represent out of world stuff while testing/debugging
+	}
+
+	/**
+	 * Method to get standard graphical representation of a Terrain that is in the GameMap bounds, but not currently
+	 * known/visible.
+	 *
+	 * @return The graphic for a Terrain that is not known/visible.
+	 */
+	public static char getUnknownTerrainGraphic() {
+		return '?';
 	}
 }

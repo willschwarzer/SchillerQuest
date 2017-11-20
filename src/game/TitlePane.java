@@ -12,13 +12,13 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class TitlePane extends JTextPane {
-	private String sourceFilePath = "src/resources/title.txt";
+	private static final String sourceFilePath = "src/resources/title.txt";
 
 	public TitlePane() {
 		drawPane();
 
 		setBackground(Color.black);
-		setFont(new Font(Font.MONOSPACED, Font.PLAIN, 18));
+		setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
 		setEditable(false);
 	}
 
@@ -26,8 +26,6 @@ public class TitlePane extends JTextPane {
 		setEditable(true);
 		setText("");
 
-		// Load static menu screen from file
-		//TODO: decide on a standard way of loading files across the application
 		File levelFile = new File(sourceFilePath);
 
 		try (BufferedReader br = new BufferedReader(new FileReader(levelFile))) {
@@ -41,7 +39,6 @@ public class TitlePane extends JTextPane {
 		} catch (IOException e) {
 			System.out.print(e.getMessage());
 		}
-		// end temp implementation
 
 		setEditable(false);
 		setBackground(Color.black);
@@ -61,12 +58,6 @@ public class TitlePane extends JTextPane {
 
 	private Color colorForChar(char c) {
 		switch (c) {
-			case '>':
-				return Color.green;
-			case '<':
-				return Color.green;
-			case '=':
-				return Color.green;
 			case '#':
 				return Color.gray;
 			default:
@@ -74,4 +65,3 @@ public class TitlePane extends JTextPane {
 		}
 	}
 }
-
