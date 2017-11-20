@@ -112,10 +112,10 @@ public abstract class Monster extends Creature {
 		if (difficulty >= 3 && difficulty <= 7) {
 			possibleMonsters.add(new Bat(random));
 		}
-		if (difficulty >= 7 && difficulty <= 9) {
+		if (difficulty >= 7) {
 			possibleMonsters.add(new Goblin(random));
 		}
-		if (difficulty >= 7 && difficulty <= 9) {
+		if (difficulty >= 7) {
 			possibleMonsters.add(new Knight(random));
 		}
 		int randIndex = random.nextInt(possibleMonsters.size());
