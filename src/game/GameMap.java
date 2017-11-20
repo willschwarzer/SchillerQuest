@@ -43,7 +43,7 @@ public class GameMap implements GameMapInterface {
 			}
 
 			for (int col = 0; col < map[0].length; col++) {
-				for (GraphicItem item : map[row][col].getItems()) {
+				for (InventoryItem item : map[row][col].getItems()) {
 					item.setCoordinates(new Coordinates(col, row));
 					item.setMap(this);
 				}

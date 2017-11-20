@@ -96,13 +96,13 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void pickUp() {
 	}
 
-	public void drop(GraphicItem item) {
+	public void drop(InventoryItem item) {
 	}
 
-	public void equip(GraphicItem item) {
+	public void equip(InventoryItem item) {
 	}
 
-	public void unequip(GraphicItem item) {
+	public void unequip(InventoryItem item) {
 	}
 
 	/**
