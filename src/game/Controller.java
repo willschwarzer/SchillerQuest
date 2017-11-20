@@ -47,7 +47,7 @@ public class Controller implements Subject, Observer {
 		setCharMap(map);
 		if (model != null) {
 			view.updateHealthDisplay(model.getPlayer().getHealth());
-			view.updateLevelDisplay(model.getPlayer().getLevel());
+			view.updateLevelDisplay(model.getPlayer().getStats().getLevel());
 			view.updateExpDisplay(model.getPlayer().getExp());
 		}
 		notifyObservers();

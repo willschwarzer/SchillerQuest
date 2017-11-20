@@ -43,9 +43,9 @@ public class Player extends Creature {
 	public boolean gainExp(int level) {
 		boolean levelUp = false;
 		exp += level * 10;
-		if (exp >= 100) {
+		if (exp >= 100 + (stats.getLevel()-1)*25) {
+			exp = exp- 100 + (stats.getLevel()-1)*25;
 			stats.levelUp();
-			exp -= 100;
 			levelUp = true;
 		}
 		return levelUp;

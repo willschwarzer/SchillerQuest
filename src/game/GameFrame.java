@@ -157,7 +157,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 
 		healthLabel = new JLabel("Health: 100");
 		xpLabel = new JLabel("XP: 0");
-		levelLabel = new JLabel("Level: 0");
+		levelLabel = new JLabel("Level: 1");
 		statsPanel.add(healthLabel);
 		statsPanel.add(xpLabel);
 		statsPanel.add(levelLabel);
