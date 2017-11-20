@@ -19,12 +19,12 @@ public class MapGenerator {
 	 * Currently must be the same as ITEM_HEIGHT
 	 * @see #ITEM_HEIGHT
 	 */
-	private final int ITEM_WIDTH = 9;
+	private final int ITEM_WIDTH = 11;
 	/**
 	 * Currently must be the same as ITEM_WIDTH
 	 * @see #ITEM_WIDTH
 	 */
-	private final int ITEM_HEIGHT = 9;
+	private final int ITEM_HEIGHT = 11;
 	private final int NUM_ROOMS = 6;
 	private static final int LEFT_CONNECTION = 0;
 	private static final int DOWN_CONNECTION = 1;

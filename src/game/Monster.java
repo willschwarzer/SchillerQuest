@@ -77,8 +77,12 @@ public abstract class Monster extends Creature {
 		// TODO improve this
 		List<Monster> monsters = new ArrayList<>();
 
-		for (int i = 0; i < difficulty; i++) {
-			monsters.add(createMonster(random, difficulty));
+		int difficultySum = 0;
+
+		while (difficultySum <= difficulty) {
+			Monster monster = createMonster(random, difficulty);
+			monsters.add(monster);
+			difficultySum += monster.getLevel();
 		}
 
 		return monsters;
@@ -93,6 +97,12 @@ public abstract class Monster extends Creature {
 	 */
 	private static Monster createMonster(Random random, int difficulty) {
 		// TODO make this actually work and return a random Monster
+		List<Monster> possibleMonsters = new ArrayList<>();
+		if (difficulty <= 5) {
+			possibleMonsters.add(new Rat(difficulty));
+		} else if (difficulty >= 3 && difficulty <= 7) {
+			possibleMonsters.add(new Bat(difficulty));
+		}
 		return new Rat(difficulty);
 	}
 }

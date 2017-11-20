@@ -7,6 +7,7 @@ public abstract class Creature extends Entity {
 	private Stats stats;
 	private Map<String, InventoryItem> equipped = new HashMap<>();
 	private String name;
+	private int level;
 
 	/**
 	 * Get an informative message about the Creature.
@@ -46,11 +47,13 @@ public abstract class Creature extends Entity {
 	 */
 	public Creature(Coordinates coordinates, int level) {
 		super(coordinates);
+		this.level = level;
 		this.stats = new Stats(level);
 	}
 
 	public Creature(Coordinates coordinates, GameMap map, int level) {
 		super(coordinates, map);
+		this.level = level;
 		this.stats = new Stats(level);
 	}
 
@@ -88,4 +91,11 @@ public abstract class Creature extends Entity {
 
 	public void setName(String name) {this.name = name;}
 
+	public int getLevel() {
+		return this.level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
 }

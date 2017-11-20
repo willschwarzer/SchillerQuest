@@ -18,7 +18,6 @@ public class Bat extends Monster {
 	}
 
 	public String getInfo(){
-
 		return "null";
 	}
 
