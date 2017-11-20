@@ -186,4 +186,12 @@ public class Tile implements MapViewable {
 		}
 		return true;
 	}
+
+	public boolean hasUpStaircase() {
+		return (terrain.getMapGraphic() == '<');
+	}
+
+	public boolean hasDownStaircase() {
+		return (terrain.getMapGraphic() == '>');
+	}
 }

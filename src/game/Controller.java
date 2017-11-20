@@ -105,11 +105,13 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void drop(InventoryItem item) {
 	}
 
-	public void equip(InventoryItem item) {
+	public void useDownStaircase() {
+		model.useDownStaircase();
 	}
 
-	public void unequip(InventoryItem item) {
-	}
+	/*public void useUpStaircase() {
+		model.useUpStaircase();
+	}*/
 
 	/**
 	 * Sets the controller's view object.

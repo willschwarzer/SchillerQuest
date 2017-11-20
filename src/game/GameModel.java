@@ -7,14 +7,18 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class GameModel implements Subject {
-	private GameMap map;
+	private GameMap currentMap;
+	private List<GameMap> maps;
 	private ControllerInterface controller;
 	private List<Observer> observers;
+	private MapGenerator generator;
 
 	public GameModel(Controller controller) {
 		observers = new ArrayList<>();
 		this.controller = controller;
 		addObserver(controller);
+
+		generator = new MapGenerator();
 
 		Coordinates startCoordinates = new Coordinates(10, 3);
 		loadNewLevel("src/resources/level1.txt", startCoordinates);
@@ -27,14 +31,14 @@ public class GameModel implements Subject {
 		this.controller = controller;
 		addObserver(controller);
 
-		this.map = map;
+		this.currentMap = map;
 		spawnPlayer(startCoordinates);
 
 		notifyObservers();
 	}
 
 	private void loadNewLevel(String fileName, Coordinates startCoordinates) {
-		map = new GameMap(new File(fileName));
+		currentMap = new GameMap(new File(fileName));
 		spawnPlayer(startCoordinates);
 	}
 
@@ -46,13 +50,13 @@ public class GameModel implements Subject {
 	 */
 	public void moveCreature(Creature creature, int[] move) {
 		Coordinates currentCoordinates = creature.getCoordinates();
-		Tile oldTile = map.getTileAtLocation(currentCoordinates);
+		Tile oldTile = currentMap.getTileAtLocation(currentCoordinates);
 		int x = currentCoordinates.getX();
 		int y = currentCoordinates.getY();
 		x += move[0];
 		y += move[1];
 		Coordinates destinationCoordinates = new Coordinates(x, y);
-		Tile newTile = map.getTileAtLocation(destinationCoordinates);
+		Tile newTile = currentMap.getTileAtLocation(destinationCoordinates);
 
 		if (newTile.getCreature() != null) {
 			attack(creature, newTile.getCreature());
@@ -73,11 +77,11 @@ public class GameModel implements Subject {
 	}
 
 	public void setGameMap(GameMap map) {
-		this.map = map;
+		this.currentMap = map;
 	}
 
 	public Player getPlayer() {
-		return map.getPlayer();
+		return currentMap.getPlayer();
 	}
 
 	public void attack(Creature attacker, Creature attackee) {
@@ -135,7 +139,7 @@ public class GameModel implements Subject {
 	 * Will allow all of the other active entities to take a turn
 	 */
 	public void takeTurn() {
-		List<Monster> monsters = map.getMonsters();
+		List<Monster> monsters = currentMap.getMonsters();
 
 		for (int i = 0; i < monsters.size(); i++) {
 			moveCreature(monsters.get(i), monsters.get(i).getMove());
@@ -152,7 +156,7 @@ public class GameModel implements Subject {
 		//TODO: Fix hard coding in the beginning stats
 		Stats playerStats = new Stats(100, 10, 10, 10, 4);
 		Player player = new Player(coordinates, playerStats);
-		map.setPlayer(player);
+		currentMap.setPlayer(player);
 	}
 
 	/**
@@ -162,8 +166,8 @@ public class GameModel implements Subject {
 	 * @param coordinates The coordinate the player will be spawned at
 	 */
 	public void spawnMonster(Coordinates coordinates, int level) {
-		Rat monster = new Rat(coordinates, map, level);
-		map.setMonster(monster);
+		Rat monster = new Rat(coordinates, currentMap, level);
+		currentMap.setMonster(monster);
 	}
 
 	public boolean addObserver(Observer observer) {
@@ -176,7 +180,7 @@ public class GameModel implements Subject {
 
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(map.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision
+			observer.update(currentMap.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision
 					()));
 		}
 	}
@@ -194,8 +198,22 @@ public class GameModel implements Subject {
 			System.out.println("Game Over");
 			//GameOver
 		} else {
-			map.removeMonster(dead);
+			currentMap.removeMonster(dead);
 			newTile.removeEntity(dead);
+		}
+	}
+
+	public void useDownStaircase() {
+		Player player = getPlayer();
+		Tile playerTile = currentMap.getTileAtLocation(player.getCoordinates());
+		if (playerTile.hasDownStaircase()) {
+			int newIndex = maps.indexOf(currentMap) + 1;
+			if (newIndex == maps.size()) {
+				maps.add(generator.generate(newIndex));
+			}
+			currentMap = maps.get(newIndex);
+		} else {
+			controller.log("You can only go down a down staircase.");
 		}
 	}
 }

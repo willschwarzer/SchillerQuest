@@ -15,10 +15,6 @@ public interface ControllerInterface {
 
 	void drop(InventoryItem item);
 
-	void equip(InventoryItem item);
-
-	void unequip(InventoryItem item);
-
 	void setView(GameFrame view);
 
 	void log(String description);
