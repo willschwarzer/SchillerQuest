@@ -150,7 +150,7 @@ public class GameModel implements Subject {
 	 */
 	public void spawnPlayer(Coordinates coordinates) {
 		//TODO: Fix hard coding in the beginning stats
-		Stats playerStats = new Stats(100,10,10,10,4);
+		Stats playerStats = new Stats(100,5,5,5,4);
 		Player player = new Player(coordinates, playerStats);
 		map.setPlayer(player);
 	}
@@ -190,15 +190,20 @@ public class GameModel implements Subject {
 		return value;
 	}
 
-	private void creatureDeath(Creature dead, Tile newTile ){
-		System.out.println(dead.getName() + " died");
+	private void creatureDeath(Creature dead, Tile newTile){
+		String deathMessage = dead.getName()+ " died";
+		controller.log(deathMessage);
 
 		if(dead == getPlayer()){
-			System.out.println("Game Over");
-			//GameOver
+			String gameOver = dead.getName() + " died";
+			controller.log(deathMessage);
 		}else{
 			map.removeMonster(dead);
 			newTile.removeEntity(dead);
+			getPlayer().gainExp(dead.getStats().getLevel());
+			System.out.println(dead.getStats().getLevel());
+			System.out.println(getPlayer().getExp());
+
 		}
 	}
 }

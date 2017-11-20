@@ -8,6 +8,7 @@ import java.util.Map;
 public class Player extends Creature {
 	private Stats stats;
 	private List<InventoryItem> backpack = new ArrayList<>();
+	private int exp;
 
 	public Player(Coordinates coordinates) {
 		super(coordinates);
@@ -17,20 +18,29 @@ public class Player extends Creature {
 	public Player(Coordinates coordinates, Stats stats) {
 		super(coordinates, stats);
 		this.stats = stats;
-		this.backpack.add(new InventoryItem("weapon", 1, "Basic stick"));
-		this.backpack.add(new InventoryItem("weapon", 1, "better stick"));
-		this.backpack.add(new InventoryItem("shoes", 1, "nike airmags"));
-		this.backpack.add(new InventoryItem("weapon", 4, "Sharp Katana"));
-		this.backpack.add(new InventoryItem("amulet", 5, "screw you f-rum"));
-		this.backpack.add(new InventoryItem("shield", 6, "pride"));
-		this.backpack.add(new InventoryItem("shoes", 4, "Crocs"));
-		this.backpack.add(new InventoryItem("armor", 2, "Rotblatt shirt"));
+//		this.backpack.add(new InventoryItem("weapon", 1, "Basic stick"));
+//		this.backpack.add(new InventoryItem("weapon", 1, "better stick"));
+//		this.backpack.add(new InventoryItem("shoes", 1, "nike airmags"));
+//		this.backpack.add(new InventoryItem("weapon", 4, "Sharp Katana"));
+//		this.backpack.add(new InventoryItem("amulet", 5, "screw you f-rum"));
+//		this.backpack.add(new InventoryItem("shield", 6, "pride"));
+//		this.backpack.add(new InventoryItem("shoes", 4, "Crocs"));
+//		this.backpack.add(new InventoryItem("armor", 2, "Rotblatt shirt"));
 		setName("Player");
+		this.stats.setLevel(1);
+		this.exp = 0;
+	}
 
-//		HashMap<String, InventoryItem> equipped = new HashMap<>();
-//		equipped.put("weapon", new InventoryItem("weapon", 1, "Test Armor"));
-//		equipped.put("armor",new InventoryItem("armor", 1, "Test Armor"));
-//		setEquipped(equipped);
+	public int getExp() {
+		return exp;
+	}
+
+	public void gainExp(int level){
+		this.exp += level * 25;
+		if(this.exp >= 100) {
+			stats.levelUp();
+			this.exp = exp - 100;
+		}
 	}
 
 	public void setBackpack(List<InventoryItem> backpack) {this.backpack = backpack;}
