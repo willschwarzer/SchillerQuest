@@ -45,6 +45,11 @@ public class Controller implements Subject, Observer {
 	@Override
 	public void update(char[][] map) {
 		setCharMap(map);
+		if (model != null) {
+			view.updateHealthDisplay(model.getPlayer().getHealth());
+			view.updateLevelDisplay(model.getPlayer().getLevel());
+			view.updateExpDisplay(model.getPlayer().getExp());
+		}
 		notifyObservers();
 	}
 

@@ -19,6 +19,10 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	private InventoryPanel invPanel;
 	private JLabel activityLog;
 
+	private JLabel healthLabel;
+	private JLabel levelLabel;
+	private JLabel xpLabel;
+
 	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
 	private Controller controller;
@@ -149,10 +153,14 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	private JPanel buildStatsPanel() {
 		JPanel statsPanel = new JPanel();
 		statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.PAGE_AXIS));
-		//TODO: make these accessible and editable
-		statsPanel.add(new JLabel("Health: 100"));
-		statsPanel.add(new JLabel("Level: 1"));
-		statsPanel.add(new JLabel("XP: 13/100"));
+
+
+		healthLabel = new JLabel("Health: 100");
+		xpLabel = new JLabel("XP: 0");
+		levelLabel = new JLabel("Level: 0");
+		statsPanel.add(healthLabel);
+		statsPanel.add(xpLabel);
+		statsPanel.add(levelLabel);
 		return statsPanel;
 	}
 
@@ -169,6 +177,18 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		quitButton.addActionListener(this);
 		buttonPanel.add(quitButton);
 		return buttonPanel;
+	}
+
+	public void updateHealthDisplay(int newHealth) {
+		healthLabel.setText("Health: " + newHealth);
+	}
+
+	public void updateExpDisplay(int exp) {
+		xpLabel.setText("XP: " + exp);
+	}
+
+	public void updateLevelDisplay(int level) {
+		levelLabel.setText("Level: " + level);
 	}
 
 	/**
