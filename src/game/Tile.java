@@ -155,7 +155,7 @@ public class Tile implements MapViewable {
 			} else {
 				return terrain.getMapGraphic();
 			}
-		} else if (true) {
+		} else if (seen) {
 			return terrain.getMapGraphic();
 		} else {
 			return Terrain.getUnknownTerrainGraphic();

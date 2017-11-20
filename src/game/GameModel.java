@@ -222,7 +222,7 @@ public class GameModel implements Subject {
 			}
 			currentMap = maps.get(newIndex);
 			currentMap.placePlayerAtUpStaircase();
-			player.setMap(currentMap);
+			player.setGameMap(currentMap);
 			playerTile.removeEntity(player);
 			notifyObservers();
 		} else {
@@ -241,7 +241,7 @@ public class GameModel implements Subject {
 				playerTile.removeEntity(player);
 				currentMap = maps.get(newIndex);
 				currentMap.placePlayerAtDownStaircase();
-				player.setMap(currentMap);
+				player.setGameMap(currentMap);
 				notifyObservers();
 			}
 		} else {

@@ -8,6 +8,7 @@ import java.util.List;
 public abstract class Entity implements MapViewable {
 	private Coordinates coordinates;
 	private GameMap map;
+	private boolean isOccupiable;
 	private List<InventoryItem> inventory;
 
 	/**

@@ -51,7 +51,6 @@ public class Controller implements Subject, Observer {
 	/**
 	 * Opens the view's inventory pane.
 	 */
-	@Override
 	public void openInventory() {
 		List currentInv = model.getPlayer().getBackpack();
 		view.updateInventory(currentInv);
@@ -63,7 +62,6 @@ public class Controller implements Subject, Observer {
 	/**
 	 * Opens the view's level pane.
 	 */
-	@Override
 	public void openMainScreen() {
 		view.displayLevelScreen();
 		List currentInv = model.getPlayer().getBackpack();
@@ -86,7 +84,6 @@ public class Controller implements Subject, Observer {
 	 *
 	 * @param move
 	 */
-	@Override
 	public void makeMove(int[] move) {
 		Player player = model.getPlayer();
 		model.moveCreature(player, move);
@@ -96,7 +93,6 @@ public class Controller implements Subject, Observer {
 	/**
 	 * Tell the view to update its activity log text
 	 */
-	@Override
 	public void log(String description) {
 		view.setActivityLogText(description);
 	}
@@ -104,15 +100,12 @@ public class Controller implements Subject, Observer {
 	/*
 	The next five functions are not yet implemented.
 	 */
-	@Override
 	public void whatIsTile(Coordinates position) {
 	}
 
-	@Override
 	public void pickUp() {
 	}
 
-	@Override
 	public void drop(InventoryItem item) {
 	}
 
@@ -129,7 +122,6 @@ public class Controller implements Subject, Observer {
 	 *
 	 * @param view
 	 */
-	@Override
 	public void setView(GameFrame view) {
 		this.view = view;
 	}
@@ -139,7 +131,6 @@ public class Controller implements Subject, Observer {
 	 *
 	 * @param model
 	 */
-	@Override
 	public void setGameModel(GameModel model) {
 		this.model = model;
 	}
@@ -147,12 +138,10 @@ public class Controller implements Subject, Observer {
 	/**
 	 * it quits the game
 	 */
-	@Override
 	public void quitGame() {
 		System.exit(0);
 	}
 
-	@Override
 	public void setCharMap(char[][] map) {
 		this.charMap = map;
 	}
