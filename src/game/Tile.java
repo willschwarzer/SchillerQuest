@@ -21,7 +21,6 @@ public class Tile implements MapViewable {
 		this.items = new LinkedList<>();
 	}
 
-
 	/**
 	 * Creates a Tile with the given Terrain and Entity occupying the tile.
 	 *

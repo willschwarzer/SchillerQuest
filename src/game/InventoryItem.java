@@ -2,9 +2,10 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
-public class InventoryItem extends Entity implements MapViewable {
+public class InventoryItem extends Entity {
 	private String type;
 	private String name;
 	private int boost;
@@ -17,12 +18,6 @@ public class InventoryItem extends Entity implements MapViewable {
 	public InventoryItem(Coordinates coordinates) {
 		super(coordinates);
 	}
-
-	@Override
-	public String getInfo() {
-		return null;
-	}
-
 
 	public InventoryItem(String type, int level) {
 		super(new Coordinates(0, 0));
@@ -45,6 +40,11 @@ public class InventoryItem extends Entity implements MapViewable {
 		this.name = name;
 	}
 
+	@Override
+	public String getInfo() {
+		return null;
+	}
+
 	private String makeName(String type, int boost) {
 		String name = type + " +" + boost;
 		return name;
@@ -54,6 +54,35 @@ public class InventoryItem extends Entity implements MapViewable {
 		int range = (max - min) + 1;
 		int value = (int) (Math.random() * range) + min;
 		return value;
+	}
+
+	public int getBoost() {
+		return boost;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	@Override
+	public char getMapGraphic() {
+		char graphic = '*';
+		if (Objects.equals(this.type, "weapon")) {
+			graphic = '△';
+		} else if (Objects.equals(this.type, "shield")) {
+			graphic = '▯';
+		} else if (Objects.equals(this.type, "amulet")) {
+			graphic = '◎';
+		} else if (Objects.equals(this.type, "armor")) {
+			graphic = '೧';
+		} else if (Objects.equals(this.type, "shoes")) {
+			graphic = '◣';
+		}
+		return graphic;
 	}
 
 
@@ -82,34 +111,5 @@ public class InventoryItem extends Entity implements MapViewable {
 		InventoryItem rand = new InventoryItem(type, difficulty);
 
 		return rand;
-	}
-
-	public int getBoost() {
-		return boost;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	@Override
-	public char getMapGraphic() {
-		char graphic = '*';
-		if (this.type == "weapon") {
-			graphic = '△';
-		} else if (this.type == "shield") {
-			graphic = '▯';
-		} else if (this.type == "amulet") {
-			graphic = '◎';
-		} else if (this.type == "armor") {
-			graphic = '೧';
-		} else if (this.type == "shoes") {
-			graphic = '◣';
-		}
-		return graphic;
 	}
 }

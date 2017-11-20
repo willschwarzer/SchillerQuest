@@ -220,7 +220,8 @@ public class MapGenerator {
 		}
 
 		/**
-		 * Gets an occupiable Tile in the GridItem.  Throws a RuntimeException if no occupiable location is found.
+		 * Gets an occupiable Tile in the GridItem.  Prefers to return a completely open spot over a spot that is
+		 * occupiable but having another object.  Throws a RuntimeException if no occupiable location is found.
 		 *
 		 * @return Location of an occupiable Tile
 		 */
@@ -232,7 +233,14 @@ public class MapGenerator {
 					return new Coordinates(x, y);
 				}
 			}
-			throw new RuntimeException("No occupiable location found in the GridItem with 1000 tries.");
+			for (int i = 0; i < 1000; i++) {
+				int x = random.nextInt(ITEM_WIDTH);
+				int y = random.nextInt(ITEM_HEIGHT);
+				if (tiles[y][x].isOccupiableTerrain() && tiles[y][x].getCreature() == null) {
+					return new Coordinates(x, y);
+				}
+			}
+			throw new RuntimeException("No occupiable location found in the GridItem");
 		}
 	}
 
@@ -280,9 +288,11 @@ public class MapGenerator {
 		}
 
 		public void addUpStaircase() {
+			// TODO add up staircase
 		}
 
 		public void addDownStaircase() {
+			// TODO add down staircase
 		}
 
 		private void generateTerrain() {

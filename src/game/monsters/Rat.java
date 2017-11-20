@@ -34,6 +34,7 @@ public class Rat extends Monster {
 		setName("the level " + level + " rat");
 	}
 
+	@Override
 	public String getInfo() {
 		return "null";
 	}

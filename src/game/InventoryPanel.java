@@ -2,8 +2,6 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.ArrayList;
@@ -16,8 +14,8 @@ public class InventoryPanel extends JPanel {
 
 	private int curr = 0;
 
-	InventoryItemPane invItemPane = new InventoryItemPane();
-	InventoryCharacterPane invCharPane = new InventoryCharacterPane();
+	private InventoryItemPane invItemPane = new InventoryItemPane();
+	private InventoryCharacterPane invCharPane = new InventoryCharacterPane();
 
 	public InventoryPanel() {
 		super();
@@ -27,12 +25,12 @@ public class InventoryPanel extends JPanel {
 		add(invCharPane, BorderLayout.EAST);
 	}
 
-	public void setBackpack(List<InventoryItem> newBackpack) {
-		this.backpack = newBackpack;
+	public List<InventoryItem> getBackpack() {
+		return backpack;
 	}
 
-	public List getBackpack() {
-		return this.backpack;
+	public void setBackpack(List<InventoryItem> newBackpack) {
+		this.backpack = newBackpack;
 	}
 
 	public Map<String, InventoryItem> getEquipped() {

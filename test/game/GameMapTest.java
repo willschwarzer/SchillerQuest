@@ -15,6 +15,7 @@ class GameMapTest {
 	 * Tests whether a GameMap can be created properly from a proper input file and then output correctly as a 2D char
 	 * array.
 	 */
+	@Disabled
 	@Test
 	void testCreateMapFromFileAndGetAsCharArray() {
 		// TODO have this check more generally (randomized each time?)
@@ -34,6 +35,7 @@ class GameMapTest {
 		assertArrayEquals(expected, output);
 	}
 
+	@Disabled
 	@Test
 	void testGetSquareAreaAroundLocationAllInWorld() {
 		File file = new File("test/resources/map.txt");
@@ -49,6 +51,7 @@ class GameMapTest {
 		assertArrayEquals(expected, charOutput);
 	}
 
+	@Disabled
 	@Test
 	void testGetSquareAreaAroundLocationAllInWorldAsCharArray() {
 		File file = new File("test/resources/map.txt");
@@ -63,6 +66,7 @@ class GameMapTest {
 		assertArrayEquals(expected, output);
 	}
 
+	@Disabled
 	@Test
 	void testGetSquareAreaAroundLocationIncludingOutsideWorld() {
 		File file = new File("test/resources/map.txt");
@@ -79,6 +83,7 @@ class GameMapTest {
 		assertArrayEquals(expected, charOutput);
 	}
 
+	@Disabled
 	@Test
 	void testGetSquareAreaAroundLocationAsCharArrayIncludingOutsideWorld() {
 		File file = new File("test/resources/map.txt");
@@ -94,6 +99,7 @@ class GameMapTest {
 		assertArrayEquals(expected, output);
 	}
 
+	@Disabled
 	@Test
 	void testGetSquareAreaIncludingOutsideWorld() {
 		File file = new File("test/resources/alphabet.txt");
@@ -111,6 +117,7 @@ class GameMapTest {
 		assertArrayEquals(expected, charOutput);
 	}
 
+	@Disabled
 	@Test
 	void testGetSquareAreaAroundLocationAllInWorldAlphabet() {
 		File file = new File("test/resources/alphabet.txt");

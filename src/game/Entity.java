@@ -1,20 +1,14 @@
 package game;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Interface for entities that will exist in the game
  */
 public abstract class Entity implements MapViewable {
 	private Coordinates coordinates;
-
-	public void setMap(GameMap map) {
-		this.map = map;
-	}
-
 	private GameMap map;
-	private boolean isOccupiable;
-	private ArrayList<InventoryItem> inventory;
+	private List<InventoryItem> inventory;
 
 	/**
 	 * Creates an Entity at given coordinates
@@ -36,6 +30,11 @@ public abstract class Entity implements MapViewable {
 		this.map = map;
 	}
 
+	/**
+	 * Get an informative message about the Entity.
+	 *
+	 * @return An informative message about the Entity.
+	 */
 	abstract public String getInfo();
 
 	/**
@@ -50,26 +49,21 @@ public abstract class Entity implements MapViewable {
 	/**
 	 * Sets the coordinates of the entity given coordinates
 	 *
-	 * @param coor The location the entity will be set to
+	 * @param coordinates The location the entity will be set to
 	 */
-	public void setCoordinates(Coordinates coor) {
-		coordinates = coor;
+	public void setCoordinates(Coordinates coordinates) {
+		this.coordinates = coordinates;
 	}
 
-	public void setItemList(ArrayList<InventoryItem> inventory) {
+	public void setItemList(List<InventoryItem> inventory) {
 		this.inventory = inventory;
-	}
-
-	/**
-	 * Check whether another Entity can occupy the same space as this Entity
-	 *
-	 * @return Returns if this Entity allows another Entity to exist in the same location
-	 */
-	public boolean isOccupiable() {
-		return isOccupiable;
 	}
 
 	public GameMap getGameMap() {
 		return map;
+	}
+
+	public void setGameMap(GameMap map) {
+		this.map = map;
 	}
 }

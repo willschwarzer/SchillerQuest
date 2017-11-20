@@ -28,16 +28,16 @@ public abstract class Monster extends Creature {
 		int[] up = {0, -1};
 		int selfX = selfCoordinates.getX();
 		int selfY = selfCoordinates.getY();
-		if (map.getTileAtLocation(new Coordinates(selfX + -1, selfY + 0)).isOccupiableTerrain()) {
+		if (map.getTileAtLocation(new Coordinates(selfX - 1, selfY)).isOccupiableTerrain()) {
 			validDirections.add(left);
 		}
-		if (map.getTileAtLocation(new Coordinates(selfX + 0, selfY + 1)).isOccupiableTerrain()) {
+		if (map.getTileAtLocation(new Coordinates(selfX, selfY + 1)).isOccupiableTerrain()) {
 			validDirections.add(down);
 		}
-		if (map.getTileAtLocation(new Coordinates(selfX + 1, selfY + 0)).isOccupiableTerrain()) {
+		if (map.getTileAtLocation(new Coordinates(selfX + 1, selfY)).isOccupiableTerrain()) {
 			validDirections.add(right);
 		}
-		if (map.getTileAtLocation(new Coordinates(selfX + 0, selfY - 1)).isOccupiableTerrain()) {
+		if (map.getTileAtLocation(new Coordinates(selfX, selfY - 1)).isOccupiableTerrain()) {
 			validDirections.add(up);
 		}
 

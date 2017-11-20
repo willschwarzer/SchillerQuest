@@ -45,13 +45,13 @@ public class GameMap implements GameMapInterface {
 			for (int col = 0; col < map[0].length; col++) {
 				for (InventoryItem item : map[row][col].getItems()) {
 					item.setCoordinates(new Coordinates(col, row));
-					item.setMap(this);
+					item.setGameMap(this);
 				}
 
 				Creature creature = map[row][col].getCreature();
 				if (creature != null) {
 					creature.setCoordinates(new Coordinates(col, row));
-					creature.setMap(this);
+					creature.setGameMap(this);
 					if (Monster.class.isAssignableFrom(creature.getClass())) {
 						monsters.add((Monster) creature);
 					}
@@ -321,11 +321,6 @@ public class GameMap implements GameMapInterface {
 		return player;
 	}
 
-	public List<Monster> getMonsters() {
-		return monsters;
-	}
-
-
 	public void setPlayer(Player player) {
 		this.player = player;
 
@@ -335,6 +330,10 @@ public class GameMap implements GameMapInterface {
 					"Cannot add a player to a Tile that already has a Creature (location x:" + player.getCoordinates()
 							.getX() + ", y:" + player.getCoordinates().getY() + ")");
 		}
+	}
+
+	public List<Monster> getMonsters() {
+		return monsters;
 	}
 
 	public void setMonster(Monster monster) {
@@ -348,8 +347,8 @@ public class GameMap implements GameMapInterface {
 		}
 	}
 
-	public void removeMonster(Creature monster) {
-		this.monsters.remove(monster);
+	public boolean removeMonster(Monster monster) {
+		return this.monsters.remove(monster);
 	}
 
 	/**

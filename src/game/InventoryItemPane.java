@@ -18,6 +18,7 @@ public class InventoryItemPane extends MutableTextPane {
 		drawPane();
 	}
 
+	@Override
 	public void composeLinesOfText() {
 		addHeaderText();
 		buildInventoryList();
@@ -72,7 +73,7 @@ public class InventoryItemPane extends MutableTextPane {
 		}
 	}
 
-	public void setBackpack(List items) {
+	public void setBackpack(List<InventoryItem> items) {
 		this.backpack = items;
 	}
 

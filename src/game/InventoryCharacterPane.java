@@ -3,6 +3,7 @@ package game;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class InventoryCharacterPane extends MutableTextPane {
 	Map<String, InventoryItem> equippedItems = new HashMap<>();
@@ -54,6 +55,7 @@ public class InventoryCharacterPane extends MutableTextPane {
 		drawPane();
 	}
 
+	@Override
 	public void composeLinesOfText() {
 		String lineBreaks = "\n\n";
 		addLine(lineBreaks);
@@ -76,7 +78,7 @@ public class InventoryCharacterPane extends MutableTextPane {
 			// Shield comes before character
 			if (i >= 1 && i <= 4) {
 				// Draw shield on these lines
-				if (selectedType == "shield") {
+				if (Objects.equals(selectedType, "shield")) {
 					appendStringWithColor(shieldLines[i - 1], Color.green);
 				} else {
 					appendStringWithColor(shieldLines[i - 1], Color.white);
@@ -84,10 +86,10 @@ public class InventoryCharacterPane extends MutableTextPane {
 			}
 
 			// Amulet and armor are an entire line of character
-			if ((i == 4 && selectedType == "amulet") || (i == 5 && selectedType == "armor")) {
+			if ((i == 4 && Objects.equals(selectedType, "amulet")) || (i == 5 && Objects.equals(selectedType, "armor"))) {
 				// Draw amulet and armor on these lines
 				appendStringWithColor(characterLines[i], Color.green);
-			} else if (i == 7 && selectedType == "shoes") {
+			} else if (i == 7 && Objects.equals(selectedType, "shoes")) {
 				// Draw shoes on this line
 				appendStringWithColor(characterLines[i], Color.green);
 			} else {
@@ -97,7 +99,7 @@ public class InventoryCharacterPane extends MutableTextPane {
 
 			// Draw sword on these lines
 			if (i >= 0 && i <= 3) {
-				if (selectedType == "weapon") {
+				if (Objects.equals(selectedType, "weapon")) {
 					appendStringWithColor(swordLines[i], Color.green);
 				} else {
 					appendStringWithColor(swordLines[i], Color.white);
@@ -116,7 +118,7 @@ public class InventoryCharacterPane extends MutableTextPane {
 	}
 
 	private String selectionIndicator(String type) {
-		if (type == selectedType) {
+		if (Objects.equals(type, selectedType)) {
 			return " <<";
 		} else {
 			return "";

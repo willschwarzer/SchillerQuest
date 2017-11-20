@@ -51,7 +51,6 @@ public abstract class MutableTextPane extends JTextPane {
 				return Color.green;
 			case '=':
 				return Color.green;
-
 			case '△':
 				return Color.yellow;
 			case '▯':
