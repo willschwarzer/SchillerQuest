@@ -171,7 +171,6 @@ public class GameModel implements Subject {
 	 * Creates a Player at given coordinate location
 	 */
 	public void spawnPlayer() {
-		//TODO: Fix hard coding in the beginning stats
 		Stats playerStats = new Stats(100, 5, 5, 5, 4);
 		// Spawns player with null coordinates, to be immediately overwritten
 		Player player = new Player(null, playerStats);

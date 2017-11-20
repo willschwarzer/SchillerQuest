@@ -26,8 +26,6 @@ public class TitlePane extends JTextPane {
 		setEditable(true);
 		setText("");
 
-		// Load static menu screen from file
-		//TODO: decide on a standard way of loading files across the application
 		File levelFile = new File(sourceFilePath);
 
 		try (BufferedReader br = new BufferedReader(new FileReader(levelFile))) {
@@ -41,7 +39,6 @@ public class TitlePane extends JTextPane {
 		} catch (IOException e) {
 			System.out.print(e.getMessage());
 		}
-		// end temp implementation
 
 		setEditable(false);
 		setBackground(Color.black);
