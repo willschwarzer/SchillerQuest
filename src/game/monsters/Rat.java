@@ -4,6 +4,7 @@ import game.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Rat extends Monster {
 	/**
@@ -13,25 +14,27 @@ public class Rat extends Monster {
 	 * @param level
 	 */
 	public Rat(int level) {
-		super(new Coordinates(0, 0), level);
+		this(null, null, level);
+	}
+
+	public Rat(Random random) {
+		this(random.nextInt(4) + 1);
 	}
 
 	public Rat(Coordinates coordinates, int level) {
-		super(coordinates, level);
-		Map<String, InventoryItem> equipped = new HashMap<>();
-		equipped.put("weapon", new InventoryItem("weapon", 1, "Rat Teeth"));
-		equipped.put("armor", new InventoryItem("armor", 1, "Rat Skin"));
-		setEquipped(equipped);
+		this(coordinates, null, level);
 	}
 
 	public Rat(Coordinates coordinates, GameMap map, int level) {
 		super(coordinates, map, level);
-		Map<String, InventoryItem> equipped = new HashMap<>();
-		equipped.put("weapon", new InventoryItem("weapon", 1, "Rat Teeth"));
-		equipped.put("armor", new InventoryItem("armor", 1, "Rat Skin"));
+		Map<String, Item> equipped = new HashMap<>();
+		equipped.put("weapon", new Item("weapon", 1, "Rat Teeth"));
+		equipped.put("armor", new Item("armor", 1, "Rat Skin"));
 		setEquipped(equipped);
+		setName("the level " + level + " rat");
 	}
 
+	@Override
 	public String getInfo() {
 		return "null";
 	}

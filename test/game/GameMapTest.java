@@ -8,37 +8,15 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * JUnit 5 test class for GameMap.  NOTE THAT ALL TESTS ARE CURRENTLY BROKEN.
+ * JUnit 5 test class for GameMap.  NOTE THAT SOME TESTS ARE BROKEN since the visibility functionality added for Tiles.
  */
 class GameMapTest {
-	/**
-	 * Tests whether a GameMap can be created properly from a proper input file and then output correctly as a 2D char
-	 * array.
-	 */
-	@Test
-	void testCreateMapFromFileAndGetAsCharArray() {
-		// TODO have this check more generally (randomized each time?)
-		File file = new File("test/resources/map.txt");
-		GameMap gameMap = new GameMap(file);
-		char[][] output = gameMap.getMapAsCharArray();
-
-		char[] row0 = {'#', '#', '1', '#', '#', '#', '#', '#', '#', '#'};
-		char[] row1 = {'#', ' ', '2', ' ', ' ', ' ', '@', ' ', ' ', '#'};
-		char[] row2 = {'#', ' ', '3', '#', '#', '#', '#', '#', ' ', '#'};
-		char[] row3 = {'#', ' ', '4', ' ', ' ', 'x', ' ', '#', ' ', '#'};
-		char[] row4 = {'#', ' ', '5', '#', '#', ' ', '#', '#', ' ', '#'};
-		char[] row5 = {'#', ' ', '6', ' ', ' ', ' ', ' ', ' ', ' ', '#'};
-		char[] row6 = {'#', '#', '7', '#', '#', '#', '#', '#', '#', '#'};
-		char[][] expected = {row0, row1, row2, row3, row4, row5, row6};
-
-		assertArrayEquals(expected, output);
-	}
-
 	@Test
 	void testGetSquareAreaAroundLocationAllInWorld() {
 		File file = new File("test/resources/map.txt");
 		GameMap gameMap = new GameMap(file);
 		Tile[][] output = gameMap.getSquareAreaAroundLocation(new Coordinates(7, 2), 1);
+		Tile.markTileVisiblity(output, true);
 		char[][] charOutput = GameMap.convertTileArrayToCharArray(output);
 
 		char[] row0 = {'@', ' ', ' '};
@@ -50,24 +28,11 @@ class GameMapTest {
 	}
 
 	@Test
-	void testGetSquareAreaAroundLocationAllInWorldAsCharArray() {
-		File file = new File("test/resources/map.txt");
-		GameMap gameMap = new GameMap(file);
-		char[][] output = gameMap.getSquareAreaAroundLocationAsCharArray(new Coordinates(5, 3), 1);
-
-		char[] row0 = {'#', '#', '#'};
-		char[] row1 = {' ', 'x', ' '};
-		char[] row2 = {'#', ' ', '#'};
-		char[][] expected = {row0, row1, row2};
-
-		assertArrayEquals(expected, output);
-	}
-
-	@Test
 	void testGetSquareAreaAroundLocationIncludingOutsideWorld() {
 		File file = new File("test/resources/map.txt");
 		GameMap gameMap = new GameMap(file);
 		Tile[][] output = gameMap.getSquareAreaAroundLocation(new Coordinates(2, 0), 1);
+		Tile.markTileVisiblity(output, true);
 		char[][] charOutput = GameMap.convertTileArrayToCharArray(output);
 		char out = Terrain.getOutOfWorldTerrainGraphic();
 
@@ -80,26 +45,12 @@ class GameMapTest {
 	}
 
 	@Test
-	void testGetSquareAreaAroundLocationAsCharArrayIncludingOutsideWorld() {
-		File file = new File("test/resources/map.txt");
-		GameMap gameMap = new GameMap(file);
-		char[][] output = gameMap.getSquareAreaAroundLocationAsCharArray(new Coordinates(2, -1), 1);
-		char out = Terrain.getOutOfWorldTerrainGraphic();
-
-		char[] row0 = {out, out, out};
-		char[] row1 = {out, out, out};
-		char[] row2 = {'#', '1', '#'};
-		char[][] expected = {row0, row1, row2};
-
-		assertArrayEquals(expected, output);
-	}
-
-	@Test
 	void testGetSquareAreaIncludingOutsideWorld() {
 		File file = new File("test/resources/alphabet.txt");
 
 		GameMap gameMap = new GameMap(file);
 		Tile[][] output = gameMap.getSquareAreaAroundLocation(new Coordinates(3, 0), 1);
+		Tile.markTileVisiblity(output, true);
 		char[][] charOutput = GameMap.convertTileArrayToCharArray(output);
 		char out = Terrain.getOutOfWorldTerrainGraphic();
 
@@ -117,6 +68,7 @@ class GameMapTest {
 
 		GameMap gameMap = new GameMap(file);
 		Tile[][] output = gameMap.getSquareAreaAroundLocation(new Coordinates(3, 1), 1);
+		Tile.markTileVisiblity(output, true);
 		char[][] charOutput = GameMap.convertTileArrayToCharArray(output);
 
 		char[] row0 = {'B', 'b', 'C'};
@@ -133,7 +85,7 @@ class GameMapTest {
 	 *
 	 * @param array Row-major 2D char array
 	 */
-	static void printCharArrayToConsole(char[][] array) {
+	private static void printCharArrayToConsole(char[][] array) {
 		for (int row = 0; row < array.length; row++) {
 			for (int col = 0; col < array[0].length; col++) {
 				System.out.print(array[row][col]);

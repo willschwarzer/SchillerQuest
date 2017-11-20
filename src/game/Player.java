@@ -1,31 +1,31 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Player extends Creature {
 	private Stats stats;
-	private List<InventoryItem> backpack = new ArrayList<>();
 	private int exp;
+	private List<Item> backpack = new ArrayList<>();
+	static final int MAX_BACKPACK_SIZE = 10;
 
 	public Player(Coordinates coordinates) {
 		super(coordinates);
 	}
 
-	//When first spawned
 	public Player(Coordinates coordinates, Stats stats) {
 		super(coordinates, stats);
 		this.stats = stats;
-//		this.backpack.add(new InventoryItem("weapon", 1, "Basic stick"));
-//		this.backpack.add(new InventoryItem("weapon", 1, "better stick"));
-//		this.backpack.add(new InventoryItem("shoes", 1, "nike airmags"));
-//		this.backpack.add(new InventoryItem("weapon", 4, "Sharp Katana"));
-//		this.backpack.add(new InventoryItem("amulet", 5, "screw you f-rum"));
-//		this.backpack.add(new InventoryItem("shield", 6, "pride"));
-//		this.backpack.add(new InventoryItem("shoes", 4, "Crocs"));
-//		this.backpack.add(new InventoryItem("armor", 2, "Rotblatt shirt"));
+    
+		this.backpack.add(new Item("weapon", 1, "Basic stick"));
+		this.backpack.add(new Item("weapon", 1, "better stick"));
+		this.backpack.add(new Item("shoes", 1, "nike airmags"));
+		this.backpack.add(new Item("weapon", 4, "Sharp Katana"));
+		this.backpack.add(new Item("amulet", 5, "screw you f-rum"));
+		this.backpack.add(new Item("shield", 6, "pride"));
+		this.backpack.add(new Item("shoes", 4, "Crocs"));
+		this.backpack.add(new Item("armor", 2, "Rotblatt shirt"));
+
 		setName("Player");
 		this.stats.setLevel(1);
 		this.exp = 0;
@@ -43,7 +43,9 @@ public class Player extends Creature {
 		}
 	}
 
-	public void setBackpack(List<InventoryItem> backpack) {this.backpack = backpack;}
+	public void setBackpack(List<Item> backpack) {
+		this.backpack = backpack;
+	}
 
 	@Override
 	public String getInfo() {
@@ -55,7 +57,7 @@ public class Player extends Creature {
 		return '@';
 	}
 
-	public List<InventoryItem> getBackpack() {
+	public List<Item> getBackpack() {
 		return backpack;
 	}
 }

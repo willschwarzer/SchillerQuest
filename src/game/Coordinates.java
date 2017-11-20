@@ -19,7 +19,7 @@ public class Coordinates {
 
 		if (x < 0) {
 			System.err.println(
-					"Warning, x coordinate is below 0: " + x + ".  This almost certainly  shouldn't happen.  Current "
+					"Warning, x coordinate is below 0: " + x + ".  This almost certainly shouldn't happen.  Current "
 					+ "stack trace:");
 			new Throwable().printStackTrace(System.err);
 		}

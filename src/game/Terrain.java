@@ -1,7 +1,7 @@
 package game;
 
 public class Terrain implements MapViewable {
-	private String id; // TODO replace with enum or something?
+	private String id;
 	private char mapGraphic;
 	private boolean isOccupiable;
 
@@ -11,7 +11,7 @@ public class Terrain implements MapViewable {
 	 * @param ch Both the id & mapGraphic of the Terrain
 	 */
 	public Terrain(char ch) {
-		this.id = Character.toString(ch); // TODO handle better?
+		this.id = Character.toString(ch);
 		this.mapGraphic = ch;
 		this.isOccupiable = checkIfOccupiable(this.id);
 	}
@@ -29,7 +29,6 @@ public class Terrain implements MapViewable {
 			this.isOccupiable = checkIfOccupiable(this.id);
 		} else {
 			throw new IllegalArgumentException("Cannot use empty String for Terrain id value");
-			// TODO handle differently?
 		}
 	}
 
@@ -57,10 +56,10 @@ public class Terrain implements MapViewable {
 	}
 
 	private static boolean checkIfOccupiable(String id) {
-		if (id.equals(" ") || id.equals("•") || id.equals("$") || id.equals("I")) {
-			return true;
-		} else {
+		if (id.equals("#")) {
 			return false;
+		} else {
+			return true;
 		}
 	}
 

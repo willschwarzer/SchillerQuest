@@ -7,25 +7,28 @@ public class MapGenerator {
 	private final long initialRandomSeed;
 	/**
 	 * Currently must be the same as GRID_HEIGHT
+	 *
 	 * @see #GRID_HEIGHT
 	 */
-	private final int GRID_WIDTH = 5;
+	private final int GRID_WIDTH = 4;
 	/**
 	 * Currently must be the same as GRID_WIDTH
+	 *
 	 * @see #GRID_HEIGHT
 	 */
-	private final int GRID_HEIGHT = 5;
+	private final int GRID_HEIGHT = 3;
 	/**
 	 * Currently must be the same as ITEM_HEIGHT
+	 *
 	 * @see #ITEM_HEIGHT
 	 */
 	private final int ITEM_WIDTH = 9;
 	/**
 	 * Currently must be the same as ITEM_WIDTH
+	 *
 	 * @see #ITEM_WIDTH
 	 */
 	private final int ITEM_HEIGHT = 9;
-	private final int NUM_ROOMS = 6;
 	private static final int LEFT_CONNECTION = 0;
 	private static final int DOWN_CONNECTION = 1;
 	private static final int RIGHT_CONNECTION = 2;
@@ -35,28 +38,37 @@ public class MapGenerator {
 
 	/**
 	 * Creates a new MapGenerator with the given Random seed.
+	 *
 	 * @param seed the seed for the internal Random that determines the (reproducible) generation of the MapGenerator.
 	 */
 	public MapGenerator(long seed) {
 		initialRandomSeed = seed;
 		random = new Random(seed);
 		rooms = new ArrayList<>();
-		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
 	}
 
 	/**
 	 * Creates a new MapGenerator with a pseudorandom Random seed (System.currentTimeMillis())
+	 *
 	 * @see #MapGenerator(long)
 	 */
 	public MapGenerator() {
-		initialRandomSeed = System.currentTimeMillis();
-		random = new Random(initialRandomSeed);
-		rooms = new ArrayList<>();
-		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
+		this(System.currentTimeMillis());
+	}
+
+	/**
+	 * Gets Coordinates to spawn at, which are inside the generated structure (does not check if there's already a
+	 * Creature there).  Returned Coordinates are the center of the top left room/corridor.
+	 *
+	 * @return Coordinates Coordinates to spawn at
+	 */
+	public Coordinates getSpawnLocation() {
+		return new Coordinates(ITEM_WIDTH / 2, ITEM_HEIGHT / 2);
 	}
 
 	/**
 	 * Get the seed that was used to start the Random.
+	 *
 	 * @return the seed that was used to start the Random
 	 */
 	public long getInitialRandomSeed() {
@@ -64,11 +76,16 @@ public class MapGenerator {
 	}
 
 	public GameMap generate(int difficulty) {
+		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
+		rooms = new ArrayList();
+
 		Room upStaircaseRoom = new Room(getNewRoomLocation(), difficulty);
+		upStaircaseRoom.addUpStaircase();
 		grid.addItem(upStaircaseRoom);
 		rooms.add(upStaircaseRoom);
 
 		Room downStaircaseRoom = new Room(getNewRoomLocation(), difficulty);
+		downStaircaseRoom.addDownStaircase();
 		grid.addItem(downStaircaseRoom);
 		rooms.add(downStaircaseRoom);
 
@@ -117,9 +134,9 @@ public class MapGenerator {
 		int i = 0;
 		outerLoop:
 		while (i < GRID_HEIGHT * GRID_WIDTH) {
-			int randomX = random.nextInt(GRID_WIDTH);
-			int randomY = random.nextInt(GRID_HEIGHT);
-			location = new int[]{randomX, randomY};
+			int randomRows = random.nextInt(GRID_HEIGHT);
+			int randomCols = random.nextInt(GRID_WIDTH);
+			location = new int[]{randomRows, randomCols};
 
 			for (int[] invalidLoc : invalidLocations) {
 				if (Arrays.equals(location, invalidLoc)) {
@@ -167,9 +184,8 @@ public class MapGenerator {
 					Tile[][] itemTiles = grid[itemRow][itemCol].getTiles();
 
 					for (int tileRow = 0; tileRow < ITEM_HEIGHT; tileRow++) {
-						for (int tileCol = 0; tileCol < ITEM_WIDTH; tileCol++) {
-							mapTiles[tileRow + itemRow * ITEM_HEIGHT][tileCol + itemCol * ITEM_WIDTH] = itemTiles[tileRow][tileCol];
-						}
+						System.arraycopy(itemTiles[tileRow], 0, mapTiles[tileRow + itemRow * ITEM_HEIGHT],
+								itemCol * ITEM_WIDTH, ITEM_WIDTH);
 					}
 				}
 			}
@@ -193,7 +209,7 @@ public class MapGenerator {
 
 			validConnections[LEFT_CONNECTION] = (loc[1] > 0);
 			validConnections[DOWN_CONNECTION] = (loc[0] < GRID_HEIGHT - 1);
-			validConnections[RIGHT_CONNECTION] = (loc[1] < GRID_HEIGHT - 1);
+			validConnections[RIGHT_CONNECTION] = (loc[1] < GRID_WIDTH - 1);
 			validConnections[UP_CONNECTION] = (loc[0] > 0);
 
 			return validConnections;
@@ -211,28 +227,23 @@ public class MapGenerator {
 			return connections;
 		}
 
-		public int getItemWidth() {
-			return ITEM_WIDTH;
-		}
-
-		public int getItemHeight() {
-			return ITEM_HEIGHT;
-		}
-
 		/**
-		 * Gets an occupiable Tile in the GridItem.  Throws a RuntimeException if no occupiable location is found.
+		 * Gets an occupiable Tile in the GridItem.  Prefers to return a completely open spot over a spot that is
+		 * occupiable but having another object.  Throws a RuntimeException if no occupiable location is found.
 		 *
 		 * @return Location of an occupiable Tile
 		 */
 		public Coordinates getOccupiableCoordinates() {
-			for (int i = 0; i < 1000; i++) {
-				int x = random.nextInt(ITEM_WIDTH);
-				int y = random.nextInt(ITEM_HEIGHT);
-				if (tiles[y][x].isOccupiableAndEmpty()) {
+			for (int i = 0; i < ITEM_HEIGHT*ITEM_WIDTH; i++) {
+				// Only place entities INSIDE of rooms, not in doorways
+				int x = random.nextInt(ITEM_WIDTH-2) + 1;
+				int y = random.nextInt(ITEM_HEIGHT-2)+1;
+				if (tiles[y][x].isOccupiableAndEmpty() &&
+						!tiles[y][x].hasUpStaircase()) {
 					return new Coordinates(x, y);
 				}
 			}
-			throw new RuntimeException("No occupiable location found in the GridItem with 1000 tries.");
+			return null;
 		}
 	}
 
@@ -257,17 +268,17 @@ public class MapGenerator {
 
 			for (Monster mob : monsters) {
 				Coordinates spawn = getOccupiableCoordinates();
-				if (!getTiles()[spawn.getY()][spawn.getX()].addEntity(mob)) {
-					throw new RuntimeException(
-							"Could not add a Monster to a tile that was determined to be occupiable previously, huh?");
+				if (spawn != null) {
+					Tile tile = getTiles()[spawn.getX()][spawn.getY()];
+					tile.addEntity(mob);
 				}
 			}
 		}
 
 		private void generateItems() {
-			List<InventoryItem> items = InventoryItem.getAppropriateItems(random, difficulty);
+			List<Item> items = Item.getAppropriateItems(random, difficulty);
 
-			for (InventoryItem item : items) {
+			for (Item item : items) {
 				Coordinates spawn = getOccupiableCoordinates();
 				if (!getTiles()[spawn.getY()][spawn.getX()].addEntity(item)) {
 					throw new RuntimeException(
@@ -277,15 +288,18 @@ public class MapGenerator {
 		}
 
 		private void generateFeatures() {
-
 		}
 
 		public void addUpStaircase() {
-
+			Coordinates coord = getOccupiableCoordinates();
+			getTiles()[coord.getX()][coord.getY()] =
+					new Tile(new Terrain('<'));
 		}
 
 		public void addDownStaircase() {
-
+			Coordinates coord = getOccupiableCoordinates();
+			getTiles()[coord.getX()][coord.getY()] =
+					new Tile(new Terrain('>'));
 		}
 
 		private void generateTerrain() {
@@ -348,13 +362,48 @@ public class MapGenerator {
 		private void generateTerrain() {
 			//temp implementation
 			Tile[][] tiles = getTiles();
+			int horMidLine = ITEM_HEIGHT / 2;
+			int vertMidLine = ITEM_WIDTH / 2;
+
+			boolean[] connections = getConnections();
+
+			if (connections[LEFT_CONNECTION]) {
+				for (int col = 0; col < vertMidLine; col++) {
+					tiles[horMidLine - 1][col] = new Tile(new Terrain('#'));
+					tiles[horMidLine + 1][col] = new Tile(new Terrain('#'));
+				}
+			} else {
+				tiles[horMidLine][vertMidLine - 1] = new Tile(new Terrain('#'));
+			}
+			if (connections[DOWN_CONNECTION]) {
+				for (int row = horMidLine + 1; row < ITEM_HEIGHT; row++) {
+					tiles[row][vertMidLine - 1] = new Tile(new Terrain('#'));
+					tiles[row][vertMidLine + 1] = new Tile(new Terrain('#'));
+				}
+			} else {
+				tiles[horMidLine + 1][vertMidLine] = new Tile(new Terrain('#'));
+			}
+			if (connections[RIGHT_CONNECTION]) {
+				for (int col = vertMidLine + 1; col < ITEM_WIDTH; col++) {
+					tiles[horMidLine - 1][col] = new Tile(new Terrain('#'));
+					tiles[horMidLine + 1][col] = new Tile(new Terrain('#'));
+				}
+			} else {
+				tiles[horMidLine][vertMidLine + 1] = new Tile(new Terrain('#'));
+			}
+			if (connections[UP_CONNECTION]) {
+				for (int row = 0; row < horMidLine; row++) {
+					tiles[row][vertMidLine - 1] = new Tile(new Terrain('#'));
+					tiles[row][vertMidLine + 1] = new Tile(new Terrain('#'));
+				}
+			} else {
+				tiles[horMidLine - 1][vertMidLine] = new Tile(new Terrain('#'));
+			}
 
 			for (int row = 0; row < ITEM_HEIGHT; row++) {
 				for (int col = 0; col < ITEM_WIDTH; col++) {
-					if (row == ITEM_HEIGHT / 2 || col == ITEM_WIDTH / 2) {
+					if (tiles[row][col] == null) {
 						tiles[row][col] = new Tile(new Terrain(' '));
-					} else {
-						tiles[row][col] = new Tile(new Terrain('#'));
 					}
 				}
 			}

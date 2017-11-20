@@ -15,6 +15,8 @@ public class GameMap implements GameMapInterface {
 	private Tile[][] map;
 	private Player player;
 	private List<Monster> monsters;
+	private Coordinates upStaircaseCoordinates;
+	private Coordinates downStaircaseCoordinates;
 
 	/**
 	 * Creates a GameMap from a given File.  The file must have lines of uniform length.
@@ -26,9 +28,9 @@ public class GameMap implements GameMapInterface {
 		this.monsters = new ArrayList<>();
 	}
 
-
 	/**
 	 * Creates a GameMap from a given 2D row-major Tile array.  Tells all Entities in the GameMap their coordinates.
+	 *
 	 * @param map 2D row-major Tile array to set as the GameMap's map
 	 */
 	public GameMap(Tile[][] map) {
@@ -43,18 +45,24 @@ public class GameMap implements GameMapInterface {
 			}
 
 			for (int col = 0; col < map[0].length; col++) {
-				for (InventoryItem item : map[row][col].getItems()) {
+				for (Item item : map[row][col].getItems()) {
 					item.setCoordinates(new Coordinates(col, row));
-					item.setMap(this);
+					item.setGameMap(this);
 				}
 
 				Creature creature = map[row][col].getCreature();
 				if (creature != null) {
 					creature.setCoordinates(new Coordinates(col, row));
-					creature.setMap(this);
+					creature.setGameMap(this);
 					if (Monster.class.isAssignableFrom(creature.getClass())) {
 						monsters.add((Monster) creature);
 					}
+				}
+
+				if (map[row][col].hasUpStaircase()) {
+					upStaircaseCoordinates = new Coordinates(col, row);
+				} else if (map[row][col].hasDownStaircase()) {
+					downStaircaseCoordinates = new Coordinates(col, row);
 				}
 			}
 		}
@@ -321,20 +329,32 @@ public class GameMap implements GameMapInterface {
 		return player;
 	}
 
-	public List<Monster> getMonsters() {
-		return monsters;
-	}
-
-
 	public void setPlayer(Player player) {
 		this.player = player;
 
-		Tile location = map[player.getCoordinates().getY()][player.getCoordinates().getX()];
+		Tile location = map[upStaircaseCoordinates.getY()][upStaircaseCoordinates.getX()];
 		if (!location.addEntity(player)) {
 			throw new IllegalStateException(
 					"Cannot add a player to a Tile that already has a Creature (location x:" + player.getCoordinates()
 							.getX() + ", y:" + player.getCoordinates().getY() + ")");
 		}
+		player.setCoordinates(upStaircaseCoordinates);
+	}
+
+	public void placePlayerAtDownStaircase() {
+		getTileAtLocation(player.getCoordinates()).removeEntity(player);
+		player.setCoordinates(downStaircaseCoordinates);
+		getTileAtLocation(downStaircaseCoordinates).addEntity(player);
+	}
+
+	public void placePlayerAtUpStaircase() {
+		getTileAtLocation(player.getCoordinates()).removeEntity(player);
+		player.setCoordinates(upStaircaseCoordinates);
+		getTileAtLocation(upStaircaseCoordinates).addEntity(player);
+	}
+
+	public List<Monster> getMonsters() {
+		return monsters;
 	}
 
 	public void setMonster(Monster monster) {
@@ -348,8 +368,10 @@ public class GameMap implements GameMapInterface {
 		}
 	}
 
-	public void removeMonster(Creature monster) {this.monsters.remove(monster);
+	public boolean removeMonster(Monster monster) {
+		return this.monsters.remove(monster);
 	}
+
 	/**
 	 * Converts a given 2D Tile array to it's character equivalent.  Replaces null Tiles (out of world) with the value
 	 * of Terrain.getOutOfWorldTerrainGraphic()

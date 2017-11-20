@@ -1,7 +1,6 @@
 package game;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,15 +14,15 @@ import java.util.Map;
  * It is able to handle key input and is the top level of our view.
  */
 public class GameFrame extends JFrame implements Observer, ActionListener {
-	private JPanel levelAndLogPanel = new JPanel();
-	private LevelTextPane lvlTextPane = new LevelTextPane();
-	private InventoryPanel invPanel = new InventoryPanel();
-	private JLabel activityLog = new JLabel();
+	private JPanel levelAndLogPanel;
+	private LevelTextPane lvlTextPane;
+	private InventoryPanel invPanel;
+	private JLabel activityLog;
 
 	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
-	private ControllerInterface controller;
-	private boolean IS_WINDOWS;
+	private Controller controller;
+	private static final boolean IS_WINDOWS = System.getProperty("os.name").contains("Windows");
 
 	/**
 	 * Creates a GameFrame object of fixed size
@@ -31,8 +30,11 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 */
 	public GameFrame(Controller controller) {
 		super();
+		levelAndLogPanel = new JPanel();
+		lvlTextPane = new LevelTextPane();
+		invPanel = new InventoryPanel(controller);
+		activityLog = new JLabel();
 
-		IS_WINDOWS = (System.getProperty("os.name").contains("Windows"));
 		if (IS_WINDOWS) {
 			setSize(930, 520);
 		} else {
@@ -53,6 +55,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 *
 	 * @param newGrid The new map to be displayed
 	 */
+	@Override
 	public void update(char[][] newGrid) {
 		lvlTextPane.updateCharacterGrid(newGrid);
 		repaint();
@@ -71,14 +74,13 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 
 	public void updateInventory(List newInv) {
 		invPanel.setBackpack(newInv);
-
 	}
 
-	public List<InventoryItem> updateBackpack(){
+	public List<Item> updateBackpack() {
 		return invPanel.getBackpack();
 	}
 
-	public Map<String, InventoryItem> updateEquiqqed(){
+	public Map<String, Item> updateEquipped() {
 		return invPanel.getEquipped();
 	}
 
@@ -177,6 +179,9 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		addKeyBinding(lvlTextPane, KeyEvent.VK_DOWN, "down", (action) -> controller.makeMove(new int[]{0, 1}));
 		addKeyBinding(lvlTextPane, KeyEvent.VK_RIGHT, "right", (action) -> controller.makeMove(new int[]{1, 0}));
 		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up", (action) -> controller.makeMove(new int[]{0, -1}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_D, "downStaircase", (action) -> controller.useDownStaircase());
+		addKeyBinding(lvlTextPane, KeyEvent.VK_U, "upStaircase", (action) -> controller.useUpStaircase());
+		addKeyBinding(lvlTextPane, KeyEvent.VK_P, "pickUp", (action) -> controller.pickUp());
 
 		invPanel.addBindingsToChildren();
 	}

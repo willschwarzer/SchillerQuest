@@ -43,10 +43,10 @@ public class Stats {
 	}
 
 	public Stats(int level) {
-		this.health = randomWithRange(level/3, level+2);
-		this.attack = randomWithRange(level/3, level+2);
-		this.speed = randomWithRange(level/3, level+2);
-		this.defense = randomWithRange(level/3, level+2);
+		this.health = randomWithRange(3*level, 10*level);
+		this.attack = randomWithRange(level, 2*level);
+		this.speed = randomWithRange(level, 2*level);
+		this.defense = randomWithRange(level, 2*level);
 		this.vision = 2;
 		this.level = level;
 	}

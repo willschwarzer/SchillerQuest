@@ -3,7 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller implements ControllerInterface, Subject, Observer {
+public class Controller implements Subject, Observer {
 	private List<Observer> observers;
 	private GameFrame view;
 	private GameModel model;
@@ -16,7 +16,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 		view.setVisible(true);
 		// The GameFrame displays the title screen
-		view.displayTitle();
+		openTitleScreen();
 
 		notifyObservers();
 	}
@@ -25,20 +25,24 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	/*
 	 * The next four functions are not yet used (see updateViewGrid()).
 	 */
+	@Override
 	public boolean addObserver(Observer o) {
 		return observers.add(o);
 	}
 
+	@Override
 	public boolean removeObserver(Observer o) {
 		return observers.remove(o);
 	}
 
+	@Override
 	public void notifyObservers() {
 		for (Observer observer : observers) {
 			observer.update(charMap);
 		}
 	}
 
+	@Override
 	public void update(char[][] map) {
 		setCharMap(map);
 		notifyObservers();
@@ -51,7 +55,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		List currentInv = model.getPlayer().getBackpack();
 		view.updateInventory(currentInv);
 		view.displayInventory();
-		model.getPlayer().setEquipped(view.updateEquiqqed());
+		model.getPlayer().setEquipped(view.updateEquipped());
 		model.getPlayer().setBackpack(view.updateBackpack());
 	}
 
@@ -62,7 +66,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		view.displayLevelScreen();
 		List currentInv = model.getPlayer().getBackpack();
 		view.updateInventory(currentInv);
-		model.getPlayer().setEquipped(view.updateEquiqqed());
+		model.getPlayer().setEquipped(view.updateEquipped());
 		model.getPlayer().setBackpack(view.updateBackpack());
 	}
 
@@ -70,8 +74,8 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	 * Opens the view's options pane.
 	 * Not yet implemented.
 	 */
-	public void openOptions() {
-		System.out.println("Not yet implemented.");
+	public void openTitleScreen() {
+		view.displayTitle();
 	}
 
 	/**
@@ -100,15 +104,21 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	}
 
 	public void pickUp() {
+		model.pickUp();
+		model.takeTurn();
 	}
 
-	public void drop(InventoryItem item) {
+	public void drop(Item item) {
+		model.drop(item);
+		model.takeTurn();
 	}
 
-	public void equip(InventoryItem item) {
+	public void useDownStaircase() {
+		model.useDownStaircase();
 	}
 
-	public void unequip(InventoryItem item) {
+	public void useUpStaircase() {
+		model.useUpStaircase();
 	}
 
 	/**

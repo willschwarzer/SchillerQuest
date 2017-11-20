@@ -10,7 +10,7 @@ public class InventoryItemPane extends MutableTextPane {
 
 	private static String LEFT_INDICATOR = ">>  ";
 
-	private List<InventoryItem> backpack = new ArrayList<>();
+	private List<Item> backpack = new ArrayList<>();
 	private int curr = 0;
 
 	public InventoryItemPane() {
@@ -18,6 +18,7 @@ public class InventoryItemPane extends MutableTextPane {
 		drawPane();
 	}
 
+	@Override
 	public void composeLinesOfText() {
 		addHeaderText();
 		buildInventoryList();
@@ -25,16 +26,18 @@ public class InventoryItemPane extends MutableTextPane {
 
 	private void addHeaderText() {
 		String header =
+				// @formatter:off
 				"                      _      ___  _   _           \n" +
 				"         | |\\ | \\  / |_ |\\ |  |  | | |_| \\ /      \n" +
 				"         | | \\|  \\/  |_ | \\|  |  |_| | \\  |       ";
+				// @formatter:off
 		addLine(header);
 		addLine("\n");
 		addLine("         Backpack:");
 		addLine("         =========");
 	}
 
-	private void addItem(InventoryItem backpackItem, boolean selected) {
+	private void addItem(Item backpackItem, boolean selected) {
 		String itemName = backpackItem.getName();
 		String itemType = backpackItem.getType();
 
@@ -70,7 +73,7 @@ public class InventoryItemPane extends MutableTextPane {
 		}
 	}
 
-	public void setBackpack(List items) {
+	public void setBackpack(List<Item> items) {
 		this.backpack = items;
 	}
 
