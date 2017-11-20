@@ -410,21 +410,23 @@ public class MapGenerator {
 		 * Generates an appropriate corridor, based on the corridor's connections
 		 */
 		private void generateTerrain() {
-			//temp implementation
 			Tile[][] tiles = getTiles();
 			int horMidLine = ITEM_HEIGHT / 2;
 			int vertMidLine = ITEM_WIDTH / 2;
 
 			boolean[] connections = getConnections();
 
+			// Make a corridor to the left if it has a left connection
 			if (connections[LEFT_CONNECTION]) {
 				for (int col = 0; col < vertMidLine; col++) {
 					tiles[horMidLine - 1][col] = new Tile(new Terrain('#'));
 					tiles[horMidLine + 1][col] = new Tile(new Terrain('#'));
 				}
 			} else {
+				// Else, just put a wall where the corridor would be
 				tiles[horMidLine][vertMidLine - 1] = new Tile(new Terrain('#'));
 			}
+			// Similarly for the other directions
 			if (connections[DOWN_CONNECTION]) {
 				for (int row = horMidLine + 1; row < ITEM_HEIGHT; row++) {
 					tiles[row][vertMidLine - 1] = new Tile(new Terrain('#'));
@@ -450,6 +452,7 @@ public class MapGenerator {
 				tiles[horMidLine - 1][vertMidLine] = new Tile(new Terrain('#'));
 			}
 
+			// Go through and fill non-wall tiles with spaces
 			for (int row = 0; row < ITEM_HEIGHT; row++) {
 				for (int col = 0; col < ITEM_WIDTH; col++) {
 					if (tiles[row][col] == null) {
