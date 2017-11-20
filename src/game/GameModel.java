@@ -89,18 +89,18 @@ public class GameModel implements Subject {
 	public void attack(Creature attacker, Creature attackee) {
 		int attack = attacker.getStats().getAttack();
 		if (attacker.getEquipped().containsKey("weapon")) {
-			InventoryItem attackerWeapon = attacker.getEquipped().get("weapon");
+			Item attackerWeapon = attacker.getEquipped().get("weapon");
 			attack += attackerWeapon.getBoost();
 		}
 
 		int defense = attackee.getStats().getDefense();
 		if (attackee.getEquipped().containsKey("armor")) {
-			InventoryItem attackeeArmor = attackee.getEquipped().get("armor");
+			Item attackeeArmor = attackee.getEquipped().get("armor");
 			defense += attackeeArmor.getBoost();
 		}
 
 		if (attackee.getEquipped().containsKey("shield")) {
-			InventoryItem shield = attackee.getEquipped().get("shield");
+			Item shield = attackee.getEquipped().get("shield");
 			defense = +shield.getBoost();
 		}
 
@@ -108,11 +108,11 @@ public class GameModel implements Subject {
 		int attackerSpd = attacker.getStats().getSpeed();
 
 		if (attackee.getEquipped().containsKey("shoes")) {
-			InventoryItem attackeeShoes = attackee.getEquipped().get("shoes");
+			Item attackeeShoes = attackee.getEquipped().get("shoes");
 			attackeeSpd += attackeeShoes.getBoost();
 		}
 		if (attacker.getEquipped().containsKey("shoes")) {
-			InventoryItem attackerShoes = attacker.getEquipped().get("shoes");
+			Item attackerShoes = attacker.getEquipped().get("shoes");
 			attackeeSpd += attackerShoes.getBoost();
 		}
 		String eventString = "";
@@ -246,5 +246,21 @@ public class GameModel implements Subject {
 		} else {
 			controller.log("You can only go up an up staircase.");
 		}
+	}
+
+	public void pickUp() {
+		Player player = getPlayer();
+		Coordinates playerCoordinates = player.getCoordinates();
+		Tile tile = currentMap.getTileAtLocation(playerCoordinates);
+		
+	}
+
+	public void drop(Item item) {
+		Player player = getPlayer();
+		Coordinates playerCoordinates = player.getCoordinates();
+		player.getBackpack().remove(item);
+		Tile tile = currentMap.getTileAtLocation(playerCoordinates);
+		tile.addEntity(item);
+		item.setCoordinates(playerCoordinates);
 	}
 }

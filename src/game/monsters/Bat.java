@@ -22,9 +22,9 @@ public class Bat extends Monster {
 
 	public Bat(Coordinates coordinates, GameMap map, int level) {
 		super(coordinates, map, level);
-		Map<String, InventoryItem> equipped = new HashMap<>();
-		equipped.put("weapon", new InventoryItem("weapon", level+3, "Bat Claws"));
-		equipped.put("armor", new InventoryItem("armor", level+3, "Bat Wings "));
+		Map<String, Item> equipped = new HashMap<>();
+		equipped.put("weapon", new Item("weapon", level+3, "Bat Claws"));
+		equipped.put("armor", new Item("armor", level+3, "Bat Wings "));
 		setEquipped(equipped);
 		setName("the level " + level + " bat");
 	}

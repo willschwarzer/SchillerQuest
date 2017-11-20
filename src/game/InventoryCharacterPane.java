@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class InventoryCharacterPane extends MutableTextPane {
-	Map<String, InventoryItem> equippedItems = new HashMap<>();
+	Map<String, Item> equippedItems = new HashMap<>();
 	String[] itemTypes = new String[5];
 	String selectedType;
 
@@ -125,7 +125,7 @@ public class InventoryCharacterPane extends MutableTextPane {
 		}
 	}
 
-	public void setEquippedItems(Map<String, InventoryItem> items) {
+	public void setEquippedItems(Map<String, Item> items) {
 		equippedItems = items;
 	}
 

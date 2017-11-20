@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class InventoryItem extends Entity {
+public class Item extends Entity {
 	private String type;
 	private String name;
 	private int boost;
@@ -15,25 +15,25 @@ public class InventoryItem extends Entity {
 	 *
 	 * @param coordinates Coordinates the item will be created at
 	 */
-	public InventoryItem(Coordinates coordinates) {
+	public Item(Coordinates coordinates) {
 		super(coordinates);
 	}
 
-	public InventoryItem(String type, int level) {
+	public Item(String type, int level) {
 		super(new Coordinates(0, 0));
 		this.type = type;
 		this.boost = randomWithRange(1, level);
 		this.name = makeName(type, boost);
 	}
 
-	public InventoryItem(String type, int level, String name, Coordinates coordinates) {
+	public Item(String type, int level, String name, Coordinates coordinates) {
 		super(coordinates);
 		this.type = type;
 		this.boost = randomWithRange(1, level);
 		this.name = name;
 	}
 
-	public InventoryItem(String type, int level, String name) {
+	public Item(String type, int level, String name) {
 		super(new Coordinates(0, 0));
 		this.type = type;
 		this.boost = randomWithRange(1, level);
@@ -86,9 +86,9 @@ public class InventoryItem extends Entity {
 	}
 
 
-	public static List<InventoryItem> getAppropriateItems(Random random, int difficulty) {
+	public static List<Item> getAppropriateItems(Random random, int difficulty) {
 		// TODO improve this
-		List<InventoryItem> items = new ArrayList<>();
+		List<Item> items = new ArrayList<>();
 
 		for (int i = 0; i < difficulty; i++) {
 			items.add(createItem(random, difficulty));
@@ -97,7 +97,7 @@ public class InventoryItem extends Entity {
 		return items;
 	}
 
-	public static InventoryItem createItem(Random random, int difficulty) {
+	public static Item createItem(Random random, int difficulty) {
 		// TODO make this actually work and return a random Monster
 		List<String> itemTypes = new ArrayList<>();
 		itemTypes.add("weapon");
@@ -108,7 +108,7 @@ public class InventoryItem extends Entity {
 
 		String type = itemTypes.get(random.nextInt(5));
 
-		InventoryItem rand = new InventoryItem(type, difficulty);
+		Item rand = new Item(type, difficulty);
 
 		return rand;
 	}

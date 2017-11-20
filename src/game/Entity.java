@@ -9,7 +9,7 @@ public abstract class Entity implements MapViewable {
 	private Coordinates coordinates;
 	private GameMap map;
 	private boolean isOccupiable;
-	private List<InventoryItem> inventory;
+	private List<Item> inventory;
 
 	/**
 	 * Creates an Entity at given coordinates
@@ -56,7 +56,7 @@ public abstract class Entity implements MapViewable {
 		this.coordinates = coordinates;
 	}
 
-	public void setItemList(List<InventoryItem> inventory) {
+	public void setItemList(List<Item> inventory) {
 		this.inventory = inventory;
 	}
 

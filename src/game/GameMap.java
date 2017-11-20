@@ -45,7 +45,7 @@ public class GameMap implements GameMapInterface {
 			}
 
 			for (int col = 0; col < map[0].length; col++) {
-				for (InventoryItem item : map[row][col].getItems()) {
+				for (Item item : map[row][col].getItems()) {
 					item.setCoordinates(new Coordinates(col, row));
 					item.setGameMap(this);
 				}

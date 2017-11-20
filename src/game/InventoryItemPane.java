@@ -10,7 +10,7 @@ public class InventoryItemPane extends MutableTextPane {
 
 	private static String LEFT_INDICATOR = ">>  ";
 
-	private List<InventoryItem> backpack = new ArrayList<>();
+	private List<Item> backpack = new ArrayList<>();
 	private int curr = 0;
 
 	public InventoryItemPane() {
@@ -37,7 +37,7 @@ public class InventoryItemPane extends MutableTextPane {
 		addLine("         =========");
 	}
 
-	private void addItem(InventoryItem backpackItem, boolean selected) {
+	private void addItem(Item backpackItem, boolean selected) {
 		String itemName = backpackItem.getName();
 		String itemType = backpackItem.getType();
 
@@ -73,7 +73,7 @@ public class InventoryItemPane extends MutableTextPane {
 		}
 	}
 
-	public void setBackpack(List<InventoryItem> items) {
+	public void setBackpack(List<Item> items) {
 		this.backpack = items;
 	}
 

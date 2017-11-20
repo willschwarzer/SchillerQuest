@@ -5,7 +5,7 @@ import java.util.Map;
 
 public abstract class Creature extends Entity {
 	private Stats stats;
-	private Map<String, InventoryItem> equipped = new HashMap<>();
+	private Map<String, Item> equipped = new HashMap<>();
 	private String name;
 	private int level;
 
@@ -81,11 +81,11 @@ public abstract class Creature extends Entity {
 		this.stats = stats;
 	}
 
-	public Map<String, InventoryItem> getEquipped() {
+	public Map<String, Item> getEquipped() {
 		return equipped;
 	}
 
-	public void setEquipped(Map<String, InventoryItem> equipped) {
+	public void setEquipped(Map<String, Item> equipped) {
 		this.equipped = equipped;
 	}
 

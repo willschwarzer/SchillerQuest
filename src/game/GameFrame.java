@@ -1,7 +1,6 @@
 package game;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,10 +14,10 @@ import java.util.Map;
  * It is able to handle key input and is the top level of our view.
  */
 public class GameFrame extends JFrame implements Observer, ActionListener {
-	private JPanel levelAndLogPanel = new JPanel();
-	private LevelTextPane lvlTextPane = new LevelTextPane();
-	private InventoryPanel invPanel = new InventoryPanel();
-	private JLabel activityLog = new JLabel();
+	private JPanel levelAndLogPanel;
+	private LevelTextPane lvlTextPane;
+	private InventoryPanel invPanel;
+	private JLabel activityLog;
 
 	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
@@ -31,6 +30,10 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 */
 	public GameFrame(Controller controller) {
 		super();
+		levelAndLogPanel = new JPanel();
+		lvlTextPane = new LevelTextPane();
+		invPanel = new InventoryPanel(controller);
+		activityLog = new JLabel();
 
 		if (IS_WINDOWS) {
 			setSize(930, 520);
@@ -73,11 +76,11 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		invPanel.setBackpack(newInv);
 	}
 
-	public List<InventoryItem> updateBackpack() {
+	public List<Item> updateBackpack() {
 		return invPanel.getBackpack();
 	}
 
-	public Map<String, InventoryItem> updateEquipped() {
+	public Map<String, Item> updateEquipped() {
 		return invPanel.getEquipped();
 	}
 
@@ -178,6 +181,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up", (action) -> controller.makeMove(new int[]{0, -1}));
 		addKeyBinding(lvlTextPane, KeyEvent.VK_D, "downStaircase", (action) -> controller.useDownStaircase());
 		addKeyBinding(lvlTextPane, KeyEvent.VK_U, "upStaircase", (action) -> controller.useUpStaircase());
+		addKeyBinding(lvlTextPane, KeyEvent.VK_P, "pickUp", (action) -> controller.pickUp());
 
 		invPanel.addBindingsToChildren();
 	}
