@@ -194,19 +194,21 @@ public class GameModel implements Subject {
 		return value;
 	}
 
-	private void creatureDeath(Creature dead, Tile tile){
-		String deathMessage = dead.getName()+ " died";
+	private void creatureDeath(Creature dead, Tile tile) {
+		String deathMessage = dead.getName() + " died";
 		controller.log(deathMessage);
 
-		if(dead == getPlayer()){
+		if (dead == getPlayer()) {
 			String gameOver = dead.getName() + " died";
 			controller.log(deathMessage);
-		}else{
-			currentMap.removeMonster(dead);
+		} else {
+			currentMap.removeMonster((Monster) dead);
 			tile.removeEntity(dead);
 			getPlayer().gainExp(dead.getStats().getLevel());
 			System.out.println(dead.getStats().getLevel());
 			System.out.println(getPlayer().getExp());
+		}
+	}
 
 	public void useDownStaircase() {
 		Player player = getPlayer();
