@@ -314,11 +314,9 @@ public class GameMap implements GameMapInterface {
 	@Override
 	public Tile getTileAtLocation(Coordinates coordinates) {
 		if (coordinates.getX() > map[0].length) {
-			// TODO figure out how to handle
 			throw new IllegalArgumentException("X coordinate too large");
 		}
 		if (coordinates.getY() > map.length) {
-			// TODO figure out how to handle
 			throw new IllegalArgumentException("Y coordinate too large");
 		}
 

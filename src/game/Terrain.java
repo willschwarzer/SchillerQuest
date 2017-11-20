@@ -47,7 +47,7 @@ public class Terrain implements MapViewable {
 	}
 
 	private static boolean checkIfValidID(String id) {
-		// TODO reformat to work with texture pack
+		// allows changes later for texture pack potential, etc.
 		if (id.equals("")) {
 			return false;
 		} else {

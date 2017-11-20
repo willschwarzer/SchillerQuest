@@ -74,7 +74,6 @@ public abstract class Monster extends Creature {
 	 * @return The generated Monsters for the given difficulty.
 	 */
 	public static List<Monster> getAppropriateMonsters(Random random, int difficulty) {
-		// TODO improve this
 		List<Monster> monsters = new ArrayList<>();
 
 		int difficultySum = 0;
@@ -100,7 +99,6 @@ public abstract class Monster extends Creature {
 	 * @return The generated Monster for the given difficulty.
 	 */
 	private static Monster createMonster(Random random, int difficulty) {
-		// TODO make this actually work and return a random Monster
 		List<Monster> possibleMonsters = new ArrayList<>();
 		if (difficulty <= 5) {
 			possibleMonsters.add(new Rat(random));
