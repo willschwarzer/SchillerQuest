@@ -87,6 +87,9 @@ public class InventoryPanel extends JPanel {
 		updatePanes();
 	}
 
+	/**
+	 * Drops the currently selected item from the player's inventory.
+	 */
 	public void drop() {
 		if (backpack.size() > 0) {
 			controller.drop(backpack.get(curr));
@@ -95,6 +98,11 @@ public class InventoryPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Adds key bindings to both of the text panes in the inventory panel.
+	 * It is necessary to add bindings to both for reasons of focus.
+	 * Only to be called from GameFrame during initialization.
+	 */
 	protected void addBindingsToChildren() {
 		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_UP, "up", (action) -> selectUp());
 		GameFrame.addKeyBinding(invItemPane, KeyEvent.VK_DOWN, "down", (action) -> selectDown());
