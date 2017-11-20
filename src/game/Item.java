@@ -87,7 +87,6 @@ public class Item extends Entity {
 
 
 	public static List<Item> getAppropriateItems(Random random, int difficulty) {
-		// TODO improve this
 		List<Item> items = new ArrayList<>();
 
 		for (int i = 0; i < random.nextInt((int) Math.sqrt(difficulty)+1); i++) {
@@ -105,9 +104,9 @@ public class Item extends Entity {
 		itemTypes.add("armor");
 		itemTypes.add("shoes");
 
-		String type = itemTypes.get(random.nextInt(5));
+		String type = itemTypes.get(random.nextInt(itemTypes.size()));
 
-		Item rand = new Item(type, difficulty);
+		Item rand = new Item(type, random.nextInt(difficulty) + 1);
 
 		return rand;
 	}
