@@ -43,7 +43,7 @@ public class GameMap implements GameMapInterface {
 			}
 
 			for (int col = 0; col < map[0].length; col++) {
-				for (GraphicItem item : map[row][col].getItems()) {
+				for (InventoryItem item : map[row][col].getItems()) {
 					item.setCoordinates(new Coordinates(col, row));
 					item.setMap(this);
 				}
@@ -348,6 +348,8 @@ public class GameMap implements GameMapInterface {
 		}
 	}
 
+	public void removeMonster(Creature monster) {this.monsters.remove(monster);
+	}
 	/**
 	 * Converts a given 2D Tile array to it's character equivalent.  Replaces null Tiles (out of world) with the value
 	 * of Terrain.getOutOfWorldTerrainGraphic()

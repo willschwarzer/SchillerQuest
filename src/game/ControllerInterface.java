@@ -13,11 +13,11 @@ public interface ControllerInterface {
 
 	void pickUp();
 
-	void drop(GraphicItem item);
+	void drop(InventoryItem item);
 
-	void equip(GraphicItem item);
+	void equip(InventoryItem item);
 
-	void unequip(GraphicItem item);
+	void unequip(InventoryItem item);
 
 	void setView(GameFrame view);
 

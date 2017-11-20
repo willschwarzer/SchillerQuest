@@ -51,6 +51,8 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		List currentInv = model.getPlayer().getBackpack();
 		view.updateInventory(currentInv);
 		view.displayInventory();
+		model.getPlayer().setEquipped(view.updateEquiqqed());
+		model.getPlayer().setBackpack(view.updateBackpack());
 	}
 
 	/**
@@ -58,6 +60,11 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	 */
 	public void openMainScreen() {
 		view.displayLevelScreen();
+		List currentInv = model.getPlayer().getBackpack();
+		view.updateInventory(currentInv);
+		model.getPlayer().setEquipped(view.updateEquiqqed());
+		model.getPlayer().setBackpack(view.updateBackpack());
+
 	}
 
 	/**
@@ -89,13 +96,13 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void pickUp() {
 	}
 
-	public void drop(GraphicItem item) {
+	public void drop(InventoryItem item) {
 	}
 
-	public void equip(GraphicItem item) {
+	public void equip(InventoryItem item) {
 	}
 
-	public void unequip(GraphicItem item) {
+	public void unequip(InventoryItem item) {
 	}
 
 	/**

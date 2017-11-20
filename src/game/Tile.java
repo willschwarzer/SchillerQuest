@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 public class Tile implements MapViewable {
 	private Terrain terrain;
-	private Deque<GraphicItem> items;
+	private Deque<InventoryItem> items;
 	private Creature creature;
 	private boolean seen;
 	private boolean visible;
@@ -63,7 +63,7 @@ public class Tile implements MapViewable {
 		return (creature == null && (items == null || items.isEmpty()) && terrain.isOccupiable());
 	}
 
-	public Deque<GraphicItem> getItems() {
+	public Deque<InventoryItem> getItems() {
 		return items;
 	}
 
@@ -83,8 +83,8 @@ public class Tile implements MapViewable {
 			} else {
 				throw new IllegalStateException("Error: tile cannot have two entities");
 			}
-		} else if (GraphicItem.class.isAssignableFrom(entity.getClass())) {
-			return items.add((GraphicItem) entity);
+		} else if (InventoryItem.class.isAssignableFrom(entity.getClass())) {
+			return items.add((InventoryItem) entity);
 		} else {
 			System.err.println(
 					"Error, tried adding a " + entity.getClass().toString() + " to a Tile, which extends Entity but "
@@ -108,8 +108,8 @@ public class Tile implements MapViewable {
 			} else {
 				return false;
 			}
-		} else if (GraphicItem.class.isAssignableFrom(entity.getClass())) {
-			return items.remove((GraphicItem) entity);
+		} else if (InventoryItem.class.isAssignableFrom(entity.getClass())) {
+			return items.remove((InventoryItem) entity);
 		} else {
 			System.err.println(
 					"Error, tried removing a " + entity.getClass().toString() + " from a Tile, which extends Entity "

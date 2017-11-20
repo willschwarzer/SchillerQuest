@@ -1,10 +1,12 @@
 package game;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Creature extends Entity {
 	private Stats stats;
-	private Map<String, InventoryItem> equipped;
+	private Map<String, InventoryItem> equipped = new HashMap<>();
+	private String name;
 
 	/**
 	 * Get an informative message about the Creature.
@@ -79,7 +81,11 @@ public abstract class Creature extends Entity {
 		return equipped;
 	}
 
-	public void setEquipped(Map<String, InventoryItem> equipped) {
-		this.equipped = equipped;
-	}
+
+	public void setEquipped(Map<String, InventoryItem> equipped){this.equipped = equipped;}
+
+	public String getName() {return name;}
+
+	public void setName(String name) {this.name = name;}
+
 }

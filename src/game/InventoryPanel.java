@@ -31,6 +31,12 @@ public class InventoryPanel extends JPanel {
 		this.backpack = newBackpack;
 	}
 
+	public List getBackpack(){return this.backpack;}
+
+	public Map<String, InventoryItem> getEquipped() {
+		return equipped;
+	}
+
 	public void setEquipped(Map<String, InventoryItem> equipped) {
 		this.equipped = equipped;
 	}
