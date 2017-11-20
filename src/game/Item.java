@@ -90,7 +90,7 @@ public class Item extends Entity {
 		// TODO improve this
 		List<Item> items = new ArrayList<>();
 
-		for (int i = 0; i < difficulty; i++) {
+		for (int i = 0; i < random.nextInt((int) Math.sqrt(difficulty)+1); i++) {
 			items.add(createItem(random, difficulty));
 		}
 
@@ -98,7 +98,6 @@ public class Item extends Entity {
 	}
 
 	public static Item createItem(Random random, int difficulty) {
-		// TODO make this actually work and return a random Monster
 		List<String> itemTypes = new ArrayList<>();
 		itemTypes.add("weapon");
 		itemTypes.add("shield");
