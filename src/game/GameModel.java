@@ -1,7 +1,5 @@
 package game;
 
-import game.monsters.*;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -157,17 +155,6 @@ public class GameModel implements Subject {
 		// Spawns player with null coordinates, to be immediately overwritten
 		Player player = new Player(null, playerStats);
 		currentMap.setPlayer(player);
-	}
-
-	/**
-	 * Creates a Monster at given coordinate location.
-	 * This will be replaced with automatic generation of monster on each level
-	 *
-	 * @param coordinates The coordinate the player will be spawned at
-	 */
-	public void spawnMonster(Coordinates coordinates, int level) {
-		Rat monster = new Rat(coordinates, currentMap, level);
-		currentMap.setMonster(monster);
 	}
 
 	@Override
