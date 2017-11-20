@@ -24,5 +24,5 @@ Schiller Quest is a turn-based and text-based RPG. The player moves their charac
 ### Important symbols
 * #: represents a wall. You can't move into it!
 * <: represents an up staircase. Press u on this to go to the previous level.
-* >: represents a down staircase. Press d on this to go to the next level.
+* \>: represents a down staircase. Press d on this to go to the next level.
 * All other symbols represent monsters or items. You will discover more and more of these as you go deeper in the dungeon. Have fun!
