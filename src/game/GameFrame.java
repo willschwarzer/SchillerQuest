@@ -1,6 +1,7 @@
 package game;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,8 +14,10 @@ import java.util.List;
  * It is able to handle key input and is the top level of our view.
  */
 public class GameFrame extends JFrame implements Observer, ActionListener {
+	private JPanel levelAndLogPanel = new JPanel();
 	private LevelTextPane lvlTextPane = new LevelTextPane();
 	private InventoryPanel invPanel = new InventoryPanel();
+	private JLabel activityLog = new JLabel();
 
 	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
@@ -36,14 +39,10 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		}
 		setResizable(false);
 		setTitle("Schiller Quest");
-
 		this.controller = controller;
 		controller.addObserver(this);
-
-		setupTextPane();
-		addUIElementsToFrame();
+		setupUIElements();
 		addBindings();
-
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -62,7 +61,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 * This displays the title screen of the game
 	 */
 	public void displayTitle() {
-		remove(lvlTextPane);
+		remove(levelAndLogPanel);
 		add(titlePane);
 		inventoryButton.setText("Start");
 		revalidate();
@@ -77,7 +76,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 * This displays the current inventory of the player
 	 */
 	public void displayInventory() {
-		remove(lvlTextPane);
+		remove(levelAndLogPanel);
 		invPanel.updatePanes();
 		add(invPanel);
 		inventoryButton.setText("Return");
@@ -93,20 +92,30 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		remove(titlePane);
 		// Either inventory or title screen could be present, so we remove both
 
-		add(lvlTextPane);
+		add(levelAndLogPanel);
 		inventoryButton.setText("Inventory");
 		revalidate();
 		repaint();
 	}
 
-	private void addUIElementsToFrame() {
-		setupTextPane();
+	private void setupUIElements() {
+		setupTextPaneAndLog();
 		setupSplitControlPanel();
 	}
 
-	private void setupTextPane() {
-		lvlTextPane = new LevelTextPane();
-		add(lvlTextPane);
+	private void setupTextPaneAndLog() {
+		levelAndLogPanel = new JPanel();
+		levelAndLogPanel.setLayout(new BorderLayout());
+
+		activityLog.setOpaque(true);
+		activityLog.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+		activityLog.setBackground(Color.black);
+		activityLog.setForeground(Color.white);
+		activityLog.setText("The activity log goes here");
+
+		levelAndLogPanel.add(lvlTextPane, BorderLayout.CENTER);
+		levelAndLogPanel.add(activityLog, BorderLayout.PAGE_END);
+		add(levelAndLogPanel);
 	}
 
 	private void setupSplitControlPanel() {
@@ -123,9 +132,8 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.PAGE_AXIS));
 		//TODO: make these accessible and editable
 		statsPanel.add(new JLabel("Health: 100"));
-		statsPanel.add(new JLabel("Magic: 13"));
-		statsPanel.add(new JLabel("Luck: Low"));
-		statsPanel.add(new JLabel("Action Points: 4"));
+		statsPanel.add(new JLabel("Level: 1"));
+		statsPanel.add(new JLabel("XP: 13/100"));
 		return statsPanel;
 	}
 
