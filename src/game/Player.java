@@ -13,20 +13,12 @@ public class Player extends Creature {
 
 	public Player(Coordinates coordinates, Stats stats) {
 		super(coordinates, stats);
-		this.backpack.add(new Item("weapon", 1, "Basic stick"));
-		this.backpack.add(new Item("weapon", 1, "better stick"));
-		this.backpack.add(new Item("shoes", 1, "nike airmags"));
-		this.backpack.add(new Item("weapon", 4, "Sharp Katana"));
-		this.backpack.add(new Item("amulet", 5, "screw you f-rum"));
-		this.backpack.add(new Item("shield", 6, "pride"));
-		this.backpack.add(new Item("shoes", 4, "Crocs"));
-		this.backpack.add(new Item("armor", 2, "Rotblatt shirt"));
-		setName("Player");
 
-//		HashMap<String, InventoryItem> equipped = new HashMap<>();
-//		equipped.put("weapon", new InventoryItem("weapon", 1, "Test Armor"));
-//		equipped.put("armor",new InventoryItem("armor", 1, "Test Armor"));
-//		setEquipped(equipped);
+		// Starting kit
+		this.backpack.add(new Item("weapon", 1, "Sharpened Rock"));
+		this.backpack.add(new Item("shoes", 1, "Crocs"));
+		this.backpack.add(new Item("armor", 1, "Rotblatt shirt"));
+		setName("Player");
 	}
 
 	public void setBackpack(List<Item> backpack) {
