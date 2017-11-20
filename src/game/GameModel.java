@@ -116,13 +116,18 @@ public class GameModel implements Subject {
 		int damage = 0;
 		if(hitChance > 0){
 			damage += randomWithRange(attack/2, attack) - randomWithRange(defense/3, defense);
-		} else {System.out.println(attacker.getName()+ "'s attack missed");}
+		} else {
+			String eventString = attacker.getName() + "'s attack missed";
+			controller.log(eventString);
+		}
 
 		if(damage > 0){
 			attackee.getStats().setHealth(attackee.getStats().getHealth() - damage);
-			System.out.println(attacker.getName() +"'s attack did " + damage + " point(s) of damage to " + attackee.getName());
+			String eventString = attacker.getName() +"'s attack did " + damage + " point(s) of damage to " + attackee.getName();
+			controller.log(eventString);
 		} else if(hitChance > 0) { 
-			System.out.println(attacker.getName()+ "'s attack did no damage to " + attackee.getName());
+			String eventString = "'s attack did no damage to " + attackee.getName();
+			controller.log(eventString);
 		}
 	}
 

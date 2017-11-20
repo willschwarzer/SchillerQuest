@@ -64,7 +64,6 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		view.updateInventory(currentInv);
 		model.getPlayer().setEquipped(view.updateEquiqqed());
 		model.getPlayer().setBackpack(view.updateBackpack());
-
 	}
 
 	/**
@@ -85,6 +84,13 @@ public class Controller implements ControllerInterface, Subject, Observer {
 		Player player = model.getPlayer();
 		model.moveCreature(player, move);
 		model.takeTurn();
+	}
+
+	/**
+	 * Tell the view to update its activity log text
+	 */
+	public void log(String description) {
+		view.setActivityLogText(description);
 	}
 
 	/*
