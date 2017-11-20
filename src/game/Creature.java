@@ -104,4 +104,6 @@ public abstract class Creature extends Entity {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+
+	public int getHealth() { return getStats().getHealth(); }
 }
