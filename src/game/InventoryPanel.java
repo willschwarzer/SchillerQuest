@@ -21,7 +21,7 @@ public class InventoryPanel extends JPanel {
 		super();
 		setLayout(new BorderLayout());
 
-		add(invItemPane, BorderLayout.WEST);
+		add(invItemPane, BorderLayout.CENTER);
 		add(invCharPane, BorderLayout.EAST);
 	}
 
