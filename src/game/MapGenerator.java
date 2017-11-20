@@ -22,16 +22,19 @@ public class MapGenerator {
 	private final int GRID_HEIGHT = 3;
 	/**
 	 * Currently must be the same as ITEM_HEIGHT
+	 * Should be at least 9 for proper functionality
 	 *
 	 * @see #ITEM_HEIGHT
 	 */
 	private final int ITEM_WIDTH = 9;
 	/**
 	 * Currently must be the same as ITEM_WIDTH
+	 * Should be at least 9 for proper functionality
 	 *
 	 * @see #ITEM_WIDTH
 	 */
 	private final int ITEM_HEIGHT = 9;
+	// Constants for the connections array used later
 	private static final int LEFT_CONNECTION = 0;
 	private static final int DOWN_CONNECTION = 1;
 	private static final int RIGHT_CONNECTION = 2;
@@ -78,6 +81,12 @@ public class MapGenerator {
 		return initialRandomSeed;
 	}
 
+	/**
+	 * Returns a new procedurally generated GameMap.
+	 *
+	 * @param difficulty the difficulty of the level (likely just the index of the level)
+	 * @return A procedurally generated GameMap
+	 */
 	public GameMap generate(int difficulty) {
 		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
 		rooms = new ArrayList<>();
@@ -92,7 +101,8 @@ public class MapGenerator {
 		grid.addItem(downStaircaseRoom);
 		rooms.add(downStaircaseRoom);
 
-		for (int i = 0; i < 25; i++) {
+		// Add rooms
+		for (int i = 0; i < GRID_WIDTH*GRID_HEIGHT; i++) {
 			int[] location = getNewRoomLocation();
 			if (location != null) {
 				Room room = new Room(location, difficulty);
@@ -100,7 +110,7 @@ public class MapGenerator {
 				rooms.add(room);
 			}
 		}
-
+		// Add corridors
 		for (int row = 0; row < GRID_HEIGHT; row++) {
 			for (int col = 0; col < GRID_WIDTH; col++) {
 				if (grid.getGridItemAtLocation(new int[]{row, col}) == null) {
@@ -109,23 +119,22 @@ public class MapGenerator {
 				}
 			}
 		}
-
 		Tile[][] tiles = grid.toTileArray();
-
 		GameMap map = new GameMap(tiles);
-
 		return map;
 	}
 
-	protected int[] getNewRoomLocation() {
+	private int[] getNewRoomLocation() {
 		int[] location;
 		List<int[]> locations = new ArrayList<>();
 		List<int[]> invalidLocations = new ArrayList<>();
+		// Inititialize list of possible locations
 		for (int i = 0; i < GRID_WIDTH; i++) {
 			for (int j = 0; j < GRID_HEIGHT; j++) {
 				locations.add(new int[]{i, j});
 			}
 		}
+		// Prevent adjacent rooms
 		for (Room room : rooms) {
 			int[] loc = room.getLocation();
 			invalidLocations.add(new int[]{loc[0], loc[1]});
@@ -134,12 +143,13 @@ public class MapGenerator {
 			invalidLocations.add(new int[]{loc[0] + 1, loc[1]});
 			invalidLocations.add(new int[]{loc[0], loc[1] - 1});
 		}
+		// Randomly get the final location
 		int i = 0;
 		outerLoop:
 		while (i < GRID_HEIGHT * GRID_WIDTH) {
-			int randomRows = random.nextInt(GRID_HEIGHT);
-			int randomCols = random.nextInt(GRID_WIDTH);
-			location = new int[]{randomRows, randomCols};
+			int randomRow = random.nextInt(GRID_HEIGHT);
+			int randomCol = random.nextInt(GRID_WIDTH);
+			location = new int[]{randomRow, randomCol};
 
 			for (int[] invalidLoc : invalidLocations) {
 				if (Arrays.equals(location, invalidLoc)) {
@@ -166,19 +176,33 @@ public class MapGenerator {
 			grid = new GridItem[height][width];
 		}
 
+		/**
+		 * Given a GridItem (room or corridor), adds the item to the grid
+		 * @param item item to be added
+		 */
 		public void addItem(GridItem item) {
 			int[] loc = item.getLocation();
 			if (grid[loc[0]][loc[1]] != null) {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(
+						"Error: item added to non-empty location" );
 			} else {
 				grid[loc[0]][loc[1]] = item;
 			}
 		}
 
+		/**
+		 * Gets the item at a certain grid location.
+		 * @param loc
+		 * @return the GridItem at loc.
+		 */
 		public GridItem getGridItemAtLocation(int[] loc) {
 			return grid[loc[0]][loc[1]];
 		}
 
+		/**
+		 * Converts the grid to a tile array, for turning into a GameMap.
+		 * @return the TileArray corresponding to the grid
+		 */
 		public Tile[][] toTileArray() {
 			Tile[][] mapTiles = new Tile[GRID_HEIGHT * ITEM_HEIGHT][GRID_WIDTH * ITEM_WIDTH];
 
@@ -187,7 +211,10 @@ public class MapGenerator {
 					Tile[][] itemTiles = grid[itemRow][itemCol].getTiles();
 
 					for (int tileRow = 0; tileRow < ITEM_HEIGHT; tileRow++) {
-						System.arraycopy(itemTiles[tileRow], 0, mapTiles[tileRow + itemRow * ITEM_HEIGHT],
+						// Copy each row of the GridItem into the correct position
+						// in the output array
+						System.arraycopy(itemTiles[tileRow], 0,
+								mapTiles[tileRow + itemRow * ITEM_HEIGHT],
 								itemCol * ITEM_WIDTH, ITEM_WIDTH);
 					}
 				}
@@ -207,7 +234,7 @@ public class MapGenerator {
 			this.tiles = new Tile[ITEM_WIDTH][ITEM_HEIGHT];
 		}
 
-		protected boolean[] getValidConnections(int[] loc) {
+		private boolean[] getValidConnections(int[] loc) {
 			boolean[] validConnections = new boolean[4];
 
 			validConnections[LEFT_CONNECTION] = (loc[1] > 0);
@@ -231,8 +258,9 @@ public class MapGenerator {
 		}
 
 		/**
-		 * Gets an occupiable Tile in the GridItem.  Prefers to return a completely open spot over a spot that is
-		 * occupiable but having another object.  Throws a RuntimeException if no occupiable location is found.
+		 * Gets an occupiable Tile in the GridItem.  Prefers to return a
+		 * completely open spot over a spot that is occupiable but having another object.
+		 * Returns null if no occupiable location is found.
 		 *
 		 * @return Location of an occupiable Tile
 		 */
@@ -241,10 +269,12 @@ public class MapGenerator {
 				// Only place entities INSIDE of rooms, not in doorways
 				int x = random.nextInt(ITEM_WIDTH - 2) + 1;
 				int y = random.nextInt(ITEM_HEIGHT - 2) + 1;
+				// Avoid placing entities on up staircase, so player can spawn
 				if (tiles[y][x].isOccupiableAndEmpty() && !tiles[y][x].hasUpStaircase()) {
 					return new Coordinates(x, y);
 				}
 			}
+			// No occupiable tile was found
 			return null;
 		}
 	}
@@ -256,7 +286,6 @@ public class MapGenerator {
 			super(location);
 			this.difficulty = difficulty;
 			generateTerrain();
-			generateFeatures();
 			generateMonsters();
 			generateItems();
 		}
@@ -289,35 +318,52 @@ public class MapGenerator {
 			}
 		}
 
-		private void generateFeatures() {
-		}
-
+		/**
+		 * Adds an up staircase to the room. To be called once at the start of generation.
+		 */
 		public void addUpStaircase() {
 			Coordinates coord = getOccupiableCoordinates();
-			getTiles()[coord.getX()][coord.getY()] = new Tile(new Terrain('<'));
+			if (coord != null) {
+				getTiles()[coord.getX()][coord.getY()] = new Tile(new Terrain('<'));
+			} else {
+				throw new RuntimeException("Error: unable to generate up staircase.");
+			}
 		}
 
+		/**
+		 * Adds a down staircase to the room. To be called once at the start of generation.
+		 */
 		public void addDownStaircase() {
 			Coordinates coord = getOccupiableCoordinates();
-			getTiles()[coord.getX()][coord.getY()] = new Tile(new Terrain('>'));
+			if (coord != null) {
+				getTiles()[coord.getX()][coord.getY()] = new Tile(new Terrain('>'));
+			} else {
+				throw new RuntimeException("Error: unable to generate down staircase.");
+			}
 		}
 
+		/**
+		 * Generates walls of the room, based on its valid connections.
+		 */
 		private void generateTerrain() {
 			Tile[][] tiles = getTiles();
 
+			// Arbitrarily define top and bottom as containing the four corners
+			// (rather than left and right)
 			Tile[] leftWall = new Tile[ITEM_HEIGHT - 2];
 			Tile[] bottomWall = new Tile[ITEM_WIDTH];
 			Tile[] rightWall = new Tile[ITEM_HEIGHT - 2];
 			Tile[] topWall = new Tile[ITEM_WIDTH];
 
 			boolean[] connections = getConnections();
+			// Create left wall, based on whether the room has a connection or not
 			for (int i = 0; i < leftWall.length; i++) {
 				leftWall[i] = new Tile(new Terrain('#'));
 			}
 			if (connections[LEFT_CONNECTION]) {
 				leftWall[leftWall.length / 2] = new Tile(new Terrain(' '));
 			}
-
+			// Create other walls similarly
 			for (int i = 0; i < bottomWall.length; i++) {
 				bottomWall[i] = new Tile(new Terrain('#'));
 			}
@@ -339,6 +385,7 @@ public class MapGenerator {
 				topWall[topWall.length / 2] = new Tile(new Terrain(' '));
 			}
 
+
 			tiles[0] = topWall;
 			tiles[ITEM_HEIGHT - 1] = bottomWall;
 
@@ -359,6 +406,9 @@ public class MapGenerator {
 			generateTerrain();
 		}
 
+		/**
+		 * Generates an appropriate corridor, based on the corridor's connections
+		 */
 		private void generateTerrain() {
 			//temp implementation
 			Tile[][] tiles = getTiles();
