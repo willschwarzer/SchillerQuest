@@ -59,6 +59,15 @@ public abstract class Entity implements MapViewable {
 		this.inventory = inventory;
 	}
 
+	/**
+	 * Check whether another Entity can occupy the same space as this Entity
+	 *
+	 * @return Returns if this Entity allows another Entity to exist in the same location
+	 */
+	public boolean isOccupiable() {
+		return isOccupiable;
+	}
+
 	public GameMap getGameMap() {
 		return map;
 	}

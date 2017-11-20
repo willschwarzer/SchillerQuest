@@ -22,7 +22,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 
 	private TitlePane titlePane = new TitlePane();
 	private JButton inventoryButton;
-	private ControllerInterface controller;
+	private Controller controller;
 	private static final boolean IS_WINDOWS = System.getProperty("os.name").contains("Windows");
 
 	/**
@@ -176,6 +176,8 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		addKeyBinding(lvlTextPane, KeyEvent.VK_DOWN, "down", (action) -> controller.makeMove(new int[]{0, 1}));
 		addKeyBinding(lvlTextPane, KeyEvent.VK_RIGHT, "right", (action) -> controller.makeMove(new int[]{1, 0}));
 		addKeyBinding(lvlTextPane, KeyEvent.VK_UP, "up", (action) -> controller.makeMove(new int[]{0, -1}));
+		addKeyBinding(lvlTextPane, KeyEvent.VK_D, "downStaircase", (action) -> controller.useDownStaircase());
+		addKeyBinding(lvlTextPane, KeyEvent.VK_U, "upStaircase", (action) -> controller.useUpStaircase());
 
 		invPanel.addBindingsToChildren();
 	}

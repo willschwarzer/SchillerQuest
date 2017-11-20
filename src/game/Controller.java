@@ -3,7 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller implements ControllerInterface, Subject, Observer {
+public class Controller implements Subject, Observer {
 	private List<Observer> observers;
 	private GameFrame view;
 	private GameModel model;
@@ -16,7 +16,7 @@ public class Controller implements ControllerInterface, Subject, Observer {
 
 		view.setVisible(true);
 		// The GameFrame displays the title screen
-		view.displayTitle();
+		openTitleScreen();
 
 		notifyObservers();
 	}
@@ -76,9 +76,8 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	 * Opens the view's options pane.
 	 * Not yet implemented.
 	 */
-	@Override
-	public void openOptions() {
-		System.out.println("Not yet implemented.");
+	public void openTitleScreen() {
+		view.displayTitle();
 	}
 
 	/**
@@ -117,12 +116,12 @@ public class Controller implements ControllerInterface, Subject, Observer {
 	public void drop(InventoryItem item) {
 	}
 
-	@Override
-	public void equip(InventoryItem item) {
+	public void useDownStaircase() {
+		model.useDownStaircase();
 	}
 
-	@Override
-	public void unequip(InventoryItem item) {
+	public void useUpStaircase() {
+		model.useUpStaircase();
 	}
 
 	/**

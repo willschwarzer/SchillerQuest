@@ -56,10 +56,10 @@ public class Terrain implements MapViewable {
 	}
 
 	private static boolean checkIfOccupiable(String id) {
-		if (id.equals(" ") || id.equals("•") || id.equals("$") || id.equals("I")) {
-			return true;
-		} else {
+		if (id.equals("#")) {
 			return false;
+		} else {
+			return true;
 		}
 	}
 
