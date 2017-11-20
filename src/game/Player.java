@@ -16,7 +16,7 @@ public class Player extends Creature {
 	public Player(Coordinates coordinates, Stats stats) {
 		super(coordinates, stats);
 		this.stats = stats;
-    
+
 		this.backpack.add(new Item("weapon", 1, "Basic stick"));
 		this.backpack.add(new Item("weapon", 1, "better stick"));
 		this.backpack.add(new Item("shoes", 1, "nike airmags"));
@@ -35,11 +35,11 @@ public class Player extends Creature {
 		return exp;
 	}
 
-	public void gainExp(int level){
-		this.exp += level * 25;
-		if(this.exp >= 100) {
+	public void gainExp(int level) {
+		exp += level * 25;
+		if (exp >= 100) {
 			stats.levelUp();
-			this.exp = exp - 100;
+			exp -= 100;
 		}
 	}
 

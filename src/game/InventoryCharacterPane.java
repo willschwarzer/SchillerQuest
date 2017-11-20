@@ -86,7 +86,8 @@ public class InventoryCharacterPane extends MutableTextPane {
 			}
 
 			// Amulet and armor are an entire line of character
-			if ((i == 4 && Objects.equals(selectedType, "amulet")) || (i == 5 && Objects.equals(selectedType, "armor"))) {
+			if ((i == 4 && Objects.equals(selectedType, "amulet")) || (i == 5 && Objects.equals(selectedType,
+					"armor"))) {
 				// Draw amulet and armor on these lines
 				appendStringWithColor(characterLines[i], Color.green);
 			} else if (i == 7 && Objects.equals(selectedType, "shoes")) {

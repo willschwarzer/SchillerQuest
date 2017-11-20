@@ -43,10 +43,10 @@ public class Stats {
 	}
 
 	public Stats(int level) {
-		this.health = randomWithRange(3*level, 10*level);
-		this.attack = randomWithRange(level, 2*level);
-		this.speed = randomWithRange(level, 2*level);
-		this.defense = randomWithRange(level, 2*level);
+		this.health = randomWithRange(3 * level, 10 * level);
+		this.attack = randomWithRange(level, 2 * level);
+		this.speed = randomWithRange(level, 2 * level);
+		this.defense = randomWithRange(level, 2 * level);
 		this.vision = 2;
 		this.level = level;
 	}
@@ -72,13 +72,17 @@ public class Stats {
 		this.attack = attack;
 	}
 
-	public int getSpeed() { return speed; }
+	public int getSpeed() {
+		return speed;
+	}
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 
-	public int getDefense() { return defense; }
+	public int getDefense() {
+		return defense;
+	}
 
 	public void setDefense(int defense) {
 		this.defense = defense;
@@ -92,9 +96,13 @@ public class Stats {
 		this.vision = vision;
 	}
 
-	public int getLevel() {return level;}
+	public int getLevel() {
+		return level;
+	}
 
-	public void setLevel(int level) { this.level = level; }
+	public void setLevel(int level) {
+		this.level = level;
+	}
 
 	public void levelUp() {
 		this.level += 1;
