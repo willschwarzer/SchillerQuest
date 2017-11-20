@@ -57,6 +57,16 @@ public class MapGenerator {
 	}
 
 	/**
+	 * Gets Coordinates to spawn at, which are inside the generated structure (does not check if there's already a
+	 * Creature there).  Returned Coordinates are the center of the top left room/corridor.
+	 *
+	 * @return Coordinates Coordinates to spawn at
+	 */
+	public Coordinates getSpawnLocation() {
+		return new Coordinates(ITEM_WIDTH / 2, ITEM_HEIGHT / 2);
+	}
+
+	/**
 	 * Get the seed that was used to start the Random.
 	 *
 	 * @return the seed that was used to start the Random
@@ -174,10 +184,8 @@ public class MapGenerator {
 					Tile[][] itemTiles = grid[itemRow][itemCol].getTiles();
 
 					for (int tileRow = 0; tileRow < ITEM_HEIGHT; tileRow++) {
-						for (int tileCol = 0; tileCol < ITEM_WIDTH; tileCol++) {
-							mapTiles[tileRow + itemRow * ITEM_HEIGHT][tileCol + itemCol * ITEM_WIDTH] =
-									itemTiles[tileRow][tileCol];
-						}
+						System.arraycopy(itemTiles[tileRow], 0, mapTiles[tileRow + itemRow * ITEM_HEIGHT],
+								itemCol * ITEM_WIDTH, ITEM_WIDTH);
 					}
 				}
 			}
@@ -220,7 +228,8 @@ public class MapGenerator {
 		}
 
 		/**
-		 * Gets an occupiable Tile in the GridItem.  Throws a RuntimeException if no occupiable location is found.
+		 * Gets an occupiable Tile in the GridItem.  Prefers to return a completely open spot over a spot that is
+		 * occupiable but having another object.  Throws a RuntimeException if no occupiable location is found.
 		 *
 		 * @return Location of an occupiable Tile
 		 */

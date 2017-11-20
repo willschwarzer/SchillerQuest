@@ -14,6 +14,7 @@ public abstract class Creature extends Entity {
 	 *
 	 * @return An informative message about the Creature.
 	 */
+	@Override
 	abstract public String getInfo();
 
 	/**
@@ -84,7 +85,6 @@ public abstract class Creature extends Entity {
 		return equipped;
 	}
 
-
 	public void setEquipped(Map<String, InventoryItem> equipped) {
 		this.equipped = equipped;
 	}
@@ -98,7 +98,7 @@ public abstract class Creature extends Entity {
 	}
 
 	public int getLevel() {
-		return this.level;
+		return level;
 	}
 
 	public void setLevel(int level) {

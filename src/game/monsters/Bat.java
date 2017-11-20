@@ -29,6 +29,7 @@ public class Bat extends Monster {
 		setName("the level " + level + " bat");
 	}
 
+	@Override
 	public String getInfo() {
 		return "null";
 	}

@@ -12,7 +12,6 @@ public class Player extends Creature {
 		super(coordinates);
 	}
 
-	//When first spawned
 	public Player(Coordinates coordinates, Stats stats) {
 		super(coordinates, stats);
 		this.backpack.add(new InventoryItem("weapon", 1, "Basic stick"));

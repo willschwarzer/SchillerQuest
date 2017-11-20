@@ -171,14 +171,17 @@ public class GameModel implements Subject {
 		currentMap.setMonster(monster);
 	}
 
+	@Override
 	public boolean addObserver(Observer observer) {
 		return observers.add(observer);
 	}
 
+	@Override
 	public boolean removeObserver(Observer o) {
 		return observers.remove(o);
 	}
 
+	@Override
 	public void notifyObservers() {
 		for (Observer observer : observers) {
 			observer.update(currentMap.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision
@@ -197,8 +200,13 @@ public class GameModel implements Subject {
 			System.out.println("Game Over");
 			//GameOver
 		} else {
-			currentMap.removeMonster(dead);
-			newTile.removeEntity(dead);
+			if (Monster.class.isAssignableFrom(dead.getClass())) {
+				currentMap.removeMonster((Monster) dead);
+				newTile.removeEntity(dead);
+			} else {
+				throw new IllegalArgumentException(
+						"Currently cannot have a Creature that is not a Player or Monster die.");
+			}
 		}
 	}
 

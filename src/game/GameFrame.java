@@ -52,6 +52,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 	 *
 	 * @param newGrid The new map to be displayed
 	 */
+	@Override
 	public void update(char[][] newGrid) {
 		lvlTextPane.updateCharacterGrid(newGrid);
 		repaint();
@@ -70,7 +71,6 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 
 	public void updateInventory(List newInv) {
 		invPanel.setBackpack(newInv);
-
 	}
 
 	public List<InventoryItem> updateBackpack() {
