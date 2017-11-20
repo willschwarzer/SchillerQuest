@@ -9,6 +9,7 @@ public class Stats {
 	private int speed;
 	private int defense;
 	private int vision;
+	private int level;
 
 	/**
 	 * Default Stats constructor, sets all stats to 5.  Avoid using - only included to make general coding easier and
@@ -42,11 +43,12 @@ public class Stats {
 	}
 
 	public Stats(int level) {
-		this.health = randomWithRange(3*level, 10*level);
-		this.attack = randomWithRange(level, 2*level);
-		this.speed = randomWithRange(level, 2*level);
-		this.defense = randomWithRange(level, 2*level);
+		this.health = randomWithRange(3 * level, 10 * level);
+		this.attack = randomWithRange(level, 2 * level);
+		this.speed = randomWithRange(level, 2 * level);
+		this.defense = randomWithRange(level, 2 * level);
 		this.vision = 2;
+		this.level = level;
 	}
 
 	private int randomWithRange(int min, int max) {
@@ -92,5 +94,22 @@ public class Stats {
 
 	public void setVision(int vision) {
 		this.vision = vision;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public void levelUp() {
+		this.level += 1;
+		this.health += 2;
+		this.attack += 2;
+		this.speed += 2;
+		this.defense += 2;
+		System.out.println("levelUp: " + level);
 	}
 }

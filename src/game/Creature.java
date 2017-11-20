@@ -10,14 +10,6 @@ public abstract class Creature extends Entity {
 	private int level;
 
 	/**
-	 * Get an informative message about the Creature.
-	 *
-	 * @return An informative message about the Creature.
-	 */
-	@Override
-	abstract public String getInfo();
-
-	/**
 	 * Creates a creature at given coordinates with the default Stats.  Using the Creature constructor with Stats is
 	 * preferable.
 	 *
@@ -67,6 +59,15 @@ public abstract class Creature extends Entity {
 	public Creature(Coordinates coordinates, GameMap map) {
 		super(coordinates, map);
 	}
+
+
+	/**
+	 * Get an informative message about the Creature.
+	 *
+	 * @return An informative message about the Creature.
+	 */
+	@Override
+	abstract public String getInfo();
 
 	/**
 	 * Creates a entity at given coordinates

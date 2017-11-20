@@ -1,6 +1,9 @@
 package game;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class MapGenerator {
 	private final Random random;
@@ -77,7 +80,7 @@ public class MapGenerator {
 
 	public GameMap generate(int difficulty) {
 		grid = new Grid(GRID_WIDTH, GRID_HEIGHT);
-		rooms = new ArrayList();
+		rooms = new ArrayList<>();
 
 		Room upStaircaseRoom = new Room(getNewRoomLocation(), difficulty);
 		upStaircaseRoom.addUpStaircase();
@@ -234,12 +237,11 @@ public class MapGenerator {
 		 * @return Location of an occupiable Tile
 		 */
 		public Coordinates getOccupiableCoordinates() {
-			for (int i = 0; i < ITEM_HEIGHT*ITEM_WIDTH; i++) {
+			for (int i = 0; i < ITEM_HEIGHT * ITEM_WIDTH; i++) {
 				// Only place entities INSIDE of rooms, not in doorways
-				int x = random.nextInt(ITEM_WIDTH-2) + 1;
-				int y = random.nextInt(ITEM_HEIGHT-2)+1;
-				if (tiles[y][x].isOccupiableAndEmpty() &&
-						!tiles[y][x].hasUpStaircase()) {
+				int x = random.nextInt(ITEM_WIDTH - 2) + 1;
+				int y = random.nextInt(ITEM_HEIGHT - 2) + 1;
+				if (tiles[y][x].isOccupiableAndEmpty() && !tiles[y][x].hasUpStaircase()) {
 					return new Coordinates(x, y);
 				}
 			}
@@ -292,14 +294,12 @@ public class MapGenerator {
 
 		public void addUpStaircase() {
 			Coordinates coord = getOccupiableCoordinates();
-			getTiles()[coord.getX()][coord.getY()] =
-					new Tile(new Terrain('<'));
+			getTiles()[coord.getX()][coord.getY()] = new Tile(new Terrain('<'));
 		}
 
 		public void addDownStaircase() {
 			Coordinates coord = getOccupiableCoordinates();
-			getTiles()[coord.getX()][coord.getY()] =
-					new Tile(new Terrain('>'));
+			getTiles()[coord.getX()][coord.getY()] = new Tile(new Terrain('>'));
 		}
 
 		private void generateTerrain() {

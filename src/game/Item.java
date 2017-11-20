@@ -89,7 +89,7 @@ public class Item extends Entity {
 	public static List<Item> getAppropriateItems(Random random, int difficulty) {
 		List<Item> items = new ArrayList<>();
 
-		for (int i = 0; i < random.nextInt((int) Math.sqrt(difficulty)+1); i++) {
+		for (int i = 0; i < random.nextInt((int) Math.sqrt(difficulty) + 1); i++) {
 			items.add(createItem(random, difficulty));
 		}
 

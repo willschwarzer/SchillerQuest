@@ -8,7 +8,7 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * JUnit 5 test class for GameMap.  NOTE THAT SOME TESTS ARE BROKEN since the visibility functionality added for Tiles.
+ * JUnit 5 test class for GameMap.
  */
 class GameMapTest {
 	@Test

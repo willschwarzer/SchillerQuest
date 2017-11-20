@@ -3,8 +3,8 @@ package game;
 import game.monsters.*;
 
 import java.io.File;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameModel implements Subject {
 	private GameMap currentMap;
@@ -18,7 +18,7 @@ public class GameModel implements Subject {
 		this.controller = controller;
 		addObserver(controller);
 
-		maps = new ArrayList();
+		maps = new ArrayList<>();
 		generator = new MapGenerator();
 		System.out.println("Seed: " + generator.getInitialRandomSeed() + "L"); // L necessary at the end of the long
 		currentMap = generator.generate(1);
@@ -153,7 +153,7 @@ public class GameModel implements Subject {
 	 */
 	public void spawnPlayer() {
 		//TODO: Fix hard coding in the beginning stats
-		Stats playerStats = new Stats(100, 10, 10, 10, 4);
+		Stats playerStats = new Stats(100, 5, 5, 5, 4);
 		// Spawns player with null coordinates, to be immediately overwritten
 		Player player = new Player(null, playerStats);
 		currentMap.setPlayer(player);
@@ -183,8 +183,8 @@ public class GameModel implements Subject {
 	@Override
 	public void notifyObservers() {
 		for (Observer observer : observers) {
-			observer.update(currentMap.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision
-					()));
+			observer.update(
+					currentMap.getVisionAsCharArray(getPlayer().getCoordinates(), getPlayer().getStats().getVision()));
 		}
 	}
 
@@ -194,17 +194,23 @@ public class GameModel implements Subject {
 		return value;
 	}
 
-	private void creatureDeath(Creature dead, Tile newTile) {
+	private void creatureDeath(Creature dead, Tile tile) {
+		String deathMessage = dead.getName() + " died";
+		controller.log(deathMessage);
+
 		if (dead == getPlayer()) {
-			System.out.println("Game Over");
-			//GameOver
+			String gameOver = dead.getName() + " died";
+			controller.log(deathMessage);
 		} else {
 			if (Monster.class.isAssignableFrom(dead.getClass())) {
 				currentMap.removeMonster((Monster) dead);
-				newTile.removeEntity(dead);
+				tile.removeEntity(dead);
+				getPlayer().gainExp(dead.getStats().getLevel());
+				System.out.println(dead.getStats().getLevel());
+				System.out.println(getPlayer().getExp());
 			} else {
 				throw new IllegalArgumentException(
-						"Currently cannot have a Creature that is not a Player or Monster die.");
+						"Currently cannot have a creature that isn't a Player or a Monster die.");
 			}
 		}
 	}
@@ -215,7 +221,7 @@ public class GameModel implements Subject {
 		if (playerTile.hasDownStaircase()) {
 			int newIndex = maps.indexOf(currentMap) + 1;
 			if (newIndex == maps.size()) {
-				GameMap newMap = generator.generate(newIndex+1);
+				GameMap newMap = generator.generate(newIndex + 1);
 				newMap.setPlayer(player);
 				maps.add(newMap);
 			}

@@ -52,7 +52,7 @@ public class Controller implements Subject, Observer {
 	 * Opens the view's inventory pane.
 	 */
 	public void openInventory() {
-		List currentInv = model.getPlayer().getBackpack();
+		List<Item> currentInv = model.getPlayer().getBackpack();
 		view.updateInventory(currentInv);
 		view.displayInventory();
 		model.getPlayer().setEquipped(view.updateEquipped());
@@ -64,7 +64,7 @@ public class Controller implements Subject, Observer {
 	 */
 	public void openMainScreen() {
 		view.displayLevelScreen();
-		List currentInv = model.getPlayer().getBackpack();
+		List<Item> currentInv = model.getPlayer().getBackpack();
 		view.updateInventory(currentInv);
 		model.getPlayer().setEquipped(view.updateEquipped());
 		model.getPlayer().setBackpack(view.updateBackpack());
