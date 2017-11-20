@@ -21,6 +21,8 @@ public interface ControllerInterface {
 
 	void setView(GameFrame view);
 
+	void log(String description);
+
 	void setGameModel(GameModel model);
 
 	void setCharMap(char[][] map);

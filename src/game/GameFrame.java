@@ -108,6 +108,13 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		repaint();
 	}
 
+	/**
+	 * Update the text in the activity log
+	 */
+	public void setActivityLogText(String text) {
+		activityLog.setText(text);
+	}
+
 	private void setupUIElements() {
 		setupTextPaneAndLog();
 		setupSplitControlPanel();
@@ -121,7 +128,7 @@ public class GameFrame extends JFrame implements Observer, ActionListener {
 		activityLog.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
 		activityLog.setBackground(Color.black);
 		activityLog.setForeground(Color.white);
-		activityLog.setText("The activity log goes here");
+		activityLog.setText("");
 
 		levelAndLogPanel.add(lvlTextPane, BorderLayout.CENTER);
 		levelAndLogPanel.add(activityLog, BorderLayout.PAGE_END);
