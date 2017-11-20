@@ -1,5 +1,7 @@
 package game;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +34,28 @@ public class Player extends Creature {
 		return exp;
 	}
 
-	public void gainExp(int level) {
-		exp += level * 25;
+	/**
+	 * Adds experience to the player once they have killed something. If they have enough expericne they will level up.
+	 *
+	 * @param level The difficulty of the cuurent level which dictates the strength of the items
+	 * @return Give the list of items created
+	 */
+	public boolean gainExp(int level) {
+		boolean levelUp = false;
+		exp += level * 10;
 		if (exp >= 100) {
 			stats.levelUp();
 			exp -= 100;
+			levelUp = true;
 		}
+		return levelUp;
 	}
 
+	/**
+	 * Set the Backpack of the Player
+	 *
+	 * @param backpack The new backpack for the Entity
+	 */
 	public void setBackpack(List<Item> backpack) {
 		this.backpack = backpack;
 	}
@@ -49,11 +65,21 @@ public class Player extends Creature {
 		throw new UnsupportedOperationException("getInfo() not yet supported for Player");
 	}
 
+	/**
+	 * Returns the char value for the Knight.
+	 *
+	 * @return It returns hard coded char value
+	 */
 	@Override
 	public char getMapGraphic() {
 		return '@';
 	}
 
+	/**
+	 * Gets the backpack of the player
+	 *
+	 * @return The backpack of the player
+	 */
 	public List<Item> getBackpack() {
 		return backpack;
 	}

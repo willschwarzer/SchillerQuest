@@ -55,10 +55,21 @@ public abstract class Entity implements MapViewable {
 		this.coordinates = coordinates;
 	}
 
+
+	/**
+	 * Set the Inventory of the Entity
+	 *
+	 * @param inventory The new Inventory for the Entity
+	 */
 	public void setItemList(List<Item> inventory) {
 		this.inventory = inventory;
 	}
 
+	/**
+	 * Gets the GameMap of the Entity
+	 *
+	 * @return The GameMap of the Entity
+	 */
 	public GameMap getGameMap() {
 		return map;
 	}

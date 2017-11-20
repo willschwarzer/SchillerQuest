@@ -129,7 +129,7 @@ public class GameModel implements Subject {
 			eventString = attacker.getName() + "'s attack did " + damage + " point(s) of damage to " + attackee
 					.getName();
 		} else if (hitChance > 0) {
-			eventString = "'s attack did no damage to " + attackee.getName();
+			eventString = attacker.getName() + "'s attack did no damage to " + attackee.getName();
 		}
 		controller.log(eventString);
 	}
@@ -187,14 +187,17 @@ public class GameModel implements Subject {
 
 		if (dead == getPlayer()) {
 			String gameOver = dead.getName() + " died";
+			dead.getStats().setVision(100);
 			controller.log(deathMessage);
 		} else {
 			if (Monster.class.isAssignableFrom(dead.getClass())) {
 				currentMap.removeMonster((Monster) dead);
 				tile.removeEntity(dead);
-				getPlayer().gainExp(dead.getStats().getLevel());
-				System.out.println(dead.getStats().getLevel());
-				System.out.println(getPlayer().getExp());
+				if(getPlayer().gainExp(dead.getStats().getLevel())){
+					String levelUp = "Player level up! you are now" + getPlayer().getStats().getLevel();
+					controller.log(levelUp);
+				}
+
 			} else {
 				throw new IllegalArgumentException(
 						"Currently cannot have a creature that isn't a Player or a Monster die.");
