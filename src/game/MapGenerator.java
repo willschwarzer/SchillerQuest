@@ -226,8 +226,9 @@ public class MapGenerator {
 		 */
 		public Coordinates getOccupiableCoordinates() {
 			for (int i = 0; i < ITEM_HEIGHT*ITEM_WIDTH; i++) {
-				int x = random.nextInt(ITEM_WIDTH);
-				int y = random.nextInt(ITEM_HEIGHT);
+				// Only place entities INSIDE of rooms, not in doorways
+				int x = random.nextInt(ITEM_WIDTH-2) + 1;
+				int y = random.nextInt(ITEM_HEIGHT-2)+1;
 				if (tiles[y][x].isOccupiableAndEmpty() &&
 						!tiles[y][x].hasUpStaircase()) {
 					return new Coordinates(x, y);

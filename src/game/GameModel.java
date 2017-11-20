@@ -20,6 +20,7 @@ public class GameModel implements Subject {
 
 		maps = new ArrayList();
 		generator = new MapGenerator();
+		System.out.println("Seed: " + generator.getInitialRandomSeed() + "L"); // L necessary at the end of the long
 		currentMap = generator.generate(1);
 		maps.add(currentMap);
 		spawnPlayer();
